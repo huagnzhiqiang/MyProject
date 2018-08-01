@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.hzq.baselibs.Bean.MessageEvent;
 import com.hzq.baselibs.R;
 import com.hzq.baselibs.app.BaseApplication;
@@ -43,6 +44,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     private BaseActivity mActivity;
     protected MultipleStatusView mLayoutStatusView;
 
+    protected ImmersionBar mImmersionBar;//沉浸式状态栏和沉浸式
+
     /**
      * 缓存Fragment view
      */
@@ -54,6 +57,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         if (mRootView == null) {
             mRootView = inflater.inflate(getLayoutId(), null);
             unBinder = ButterKnife.bind(this, mRootView);
+
 
             //无网络/请求出现了问题布局
             mLayoutStatusView = ButterKnife.findById(mRootView, R.id.multipleStatusView);
@@ -79,6 +83,11 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
             mPresenter.attachView(this);
         }
 
+        //初始化沉浸式
+        if (isImmersionBarEnabled())
+            initImmersionBar();
+
+
         if (useEventBus()) {
             EventBus.getDefault().register(this);//注册eventBus
         }
@@ -101,9 +110,31 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         initData();
     }
 
+
+    /**
+     * 初始化沉浸式状态栏和沉浸式
+     */
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.fitsSystemWindows(true);
+        mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
+    }
+
+    /**
+     * 是否可以使用沉浸式
+     *
+     * @return  ture-->使用 false-->不使用
+     */
+    protected boolean isImmersionBarEnabled() {
+        return true;
+    }
+
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
     }
 
     @Override
@@ -115,6 +146,12 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         if (unBinder != null) {
             unBinder.unbind();
         }
+
+        //销毁沉浸式
+        if (mImmersionBar != null)
+            mImmersionBar.destroy();
+
+
         if (useEventBus()) {
             if (EventBus.getDefault().isRegistered(this)) {
                 EventBus.getDefault().unregister(this);//注销eventBus
@@ -122,6 +159,15 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         }
         initLeakCanary();
     }
+
+    /**==================Fragment中使用沉浸式设置属性=====================*/
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden && mImmersionBar != null)
+            mImmersionBar.init();
+    }
+
 
 
     public BaseActivity getBaseActivity() {

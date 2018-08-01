@@ -44,6 +44,17 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //初始化沉浸式
+        if (isImmersionBarEnabled())
+            initImmersionBar();
+
+        //初始化EventBus
+        if (useEventBus()) {
+            EventBus.getDefault().register(this);//注册eventBus
+        }
+
+
         setContentView(getLayoutId());
         Intent intent = getIntent();
         if (intent != null)
@@ -56,14 +67,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             mLayoutStatusView.setOnRetryClickListener(layoutStatusViewOnclick);
         }
 
-        //初始化沉浸式
-        if (isImmersionBarEnabled())
-            initImmersionBar();
-
-        //初始化EventBus
-        if (useEventBus()) {
-            EventBus.getDefault().register(this);//注册eventBus
-        }
 
         initView();
         initData();
@@ -74,7 +77,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     /**
      * 初始化沉浸式状态栏和沉浸式
      */
-    private void initImmersionBar() {
+    protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.fitsSystemWindows(true);
         mImmersionBar.init();
@@ -86,7 +89,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
      * @return  ture-->使用 false-->不使用
      */
     protected boolean isImmersionBarEnabled() {
-        return false;
+        return true;
     }
 
 

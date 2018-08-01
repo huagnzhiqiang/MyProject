@@ -65,8 +65,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     protected void initData() {
         Logger.d("initData--->:"  );
+        mImmersionBar.statusBarColor(R.color.color_61bef4).init();
 
     }
+    @Override
+    protected void initImmersionBar() {
+        super.initImmersionBar();
+    }
+
 
     @Override
     protected boolean useEventBus() {
@@ -93,4 +99,5 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void onLazyLoad() {
 
     }
+
 }

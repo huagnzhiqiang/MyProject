@@ -16,7 +16,8 @@ import com.hzq.example.data.entity.TabEntity;
 import com.hzq.example.data.entity.TestNews;
 import com.hzq.example.ui.main.home.HomeFragment;
 import com.hzq.example.ui.main.mine.MineFragment;
-import com.hzq.example.ui.main.video.VideoFragment;
+import com.hzq.example.ui.main.myWork.MyWorkFragment;
+import com.hzq.example.ui.main.video.MarketFragment;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -28,7 +29,8 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
 
     private HomeFragment mHomeFragment;
-    private VideoFragment mVideoFragment;
+    private MarketFragment mMarketFragment;
+    private MyWorkFragment mMyWorkFragment;
     private MineFragment mMineFragment;
 
     // 顶部滑动的标签栏
@@ -73,6 +75,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     @Override
     protected void initView() {
         initTab();
+
     }
 
     @Override
@@ -83,6 +86,11 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     @Override
     protected void initData() {
 
+    }
+
+    @Override
+    public boolean isInMultiWindowMode() {
+        return true;
     }
 
     /**
@@ -133,9 +141,9 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
 
         //设备红点
-//        tabLayout.showDot(0);
-//        tabLayout.showMsg(1, 100);
-//        tabLayout.showDot(2);
+        //        tabLayout.showDot(0);
+        //        tabLayout.showMsg(1, 100);
+        //        tabLayout.showDot(2);
 
     }
 
@@ -150,7 +158,9 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         hideFragments(transaction);
         Logger.d("current position tab" + position);
         switch (position) {
-            case 0: //首页
+            //首页
+            case 0:
+
                 if (mHomeFragment == null) {
                     mHomeFragment = HomeFragment.getInstance(mTitles[0]);
                     transaction.add(R.id.fl_container, mHomeFragment, "home");
@@ -158,18 +168,31 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
                     transaction.show(mHomeFragment);
                 }
                 break;
-            case 1: //视频
-                if (mVideoFragment == null) {
-                    mVideoFragment = VideoFragment.getInstance(mTitles[1]);
-                    transaction.add(R.id.fl_container, mVideoFragment, "video");
+            //自营销人
+            case 1:
+
+                if (mMarketFragment == null) {
+                    mMarketFragment = MarketFragment.getInstance(mTitles[1]);
+                    transaction.add(R.id.fl_container, mMarketFragment, "video");
                 } else {
-                    transaction.show(mVideoFragment);
+                    transaction.show(mMarketFragment);
                 }
                 break;
 
-            case 2: //更多
+            case 2:
+
+                if (mMyWorkFragment == null) {
+                    mMyWorkFragment = MyWorkFragment.getInstance(mTitles[2]);
+                    transaction.add(R.id.fl_container, mMyWorkFragment, "myWork");
+                } else {
+                    transaction.show(mMyWorkFragment);
+                }
+                break;
+
+            //我的
+            case 3:
                 if (mMineFragment == null) {
-                    mMineFragment = MineFragment.getInstance(mTitles[2]);
+                    mMineFragment = MineFragment.getInstance(mTitles[3]);
                     transaction.add(R.id.fl_container, mMineFragment, "mine");
                 } else {
                     transaction.show(mMineFragment);
@@ -199,8 +222,11 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         if (null != mHomeFragment) {
             transaction.hide(mHomeFragment);
         }
-        if (null != mVideoFragment) {
-            transaction.hide(mVideoFragment);
+        if (null != mMarketFragment) {
+            transaction.hide(mMarketFragment);
+        }
+        if (null != mMyWorkFragment) {
+            transaction.hide(mMyWorkFragment);
         }
         if (null != mMineFragment) {
             transaction.hide(mMineFragment);
@@ -241,4 +267,11 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void initImmersionBar() {
+        super.initImmersionBar();
+        mImmersionBar.init();
+    }
+
 }
+

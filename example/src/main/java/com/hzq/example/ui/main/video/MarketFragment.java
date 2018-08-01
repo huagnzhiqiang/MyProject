@@ -14,18 +14,17 @@ import io.reactivex.functions.Consumer;
 
 /**
  * @author 小强
- * @time  2018/6/12 22:57
- * @desc 我的
+ * @time 2018/6/12 22:57
+ * @desc 自营销
  */
-public class VideoFragment extends BaseFragment<VideoPresenter> {
+public class MarketFragment extends BaseFragment<VideoPresenter> {
 
-    @BindView(R.id.textView)
-    TextView textView;
+    @BindView(R.id.textView) TextView textView;
 
     private String mTitle;
 
-    public static VideoFragment getInstance(String title) {
-        VideoFragment fragment = new VideoFragment();
+    public static MarketFragment getInstance(String title) {
+        MarketFragment fragment = new MarketFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
         fragment.mTitle = title;
@@ -34,7 +33,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter> {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_second;
+        return R.layout.fragment_market;
     }
 
     @Override
@@ -54,22 +53,21 @@ public class VideoFragment extends BaseFragment<VideoPresenter> {
 
     @Override
     protected void initData() {
-        mPresenter.addDispose(RxBus.getDefault().toObservable(MessageEvent.class)
-                .subscribe(new Consumer<MessageEvent>() {
-                    @Override
-                    public void accept(MessageEvent testEvent) throws Exception {
-                        if(testEvent!=null){
-                            Logger.d("accept--->:" + testEvent.getResult());
-                            textView.setText((String)testEvent.getResult());
+        mPresenter.addDispose(RxBus.getDefault().toObservable(MessageEvent.class).subscribe(new Consumer<MessageEvent>() {
+            @Override
+            public void accept(MessageEvent testEvent) throws Exception {
+                if (testEvent != null) {
+                    Logger.d("accept--->:" + testEvent.getResult());
+                    textView.setText((String) testEvent.getResult());
 
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
 
-                    }
-                }));
+            }
+        }));
     }
 
 
