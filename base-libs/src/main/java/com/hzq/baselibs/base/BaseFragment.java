@@ -116,7 +116,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
      */
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
-        mImmersionBar.fitsSystemWindows(true);
+//        mImmersionBar.fitsSystemWindows(true);
+        mImmersionBar.statusBarColor(R.color.color_61bef4).init();
         mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
     }
 
