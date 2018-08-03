@@ -41,7 +41,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
 
     private Unbinder unBinder;
 
-    private BaseActivity mActivity;
+    protected BaseActivity mActivity;
     protected MultipleStatusView mLayoutStatusView;
 
     protected ImmersionBar mImmersionBar;//沉浸式状态栏和沉浸式
@@ -91,6 +91,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         if (useEventBus()) {
             EventBus.getDefault().register(this);//注册eventBus
         }
+        initData();
         initView();
         initListener();
     }
@@ -107,7 +108,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initData();
     }
 
 

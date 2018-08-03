@@ -71,6 +71,11 @@ dependencies {
     //沉浸式
     api 'com.gyf.barlibrary:barlibrary:2.3.0'
 
+    //RecyclerView依赖
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    //RecyclerView 分割线
+    api 'com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0'
+
 //    //打印日志
 //    implementation 'com.orhanobut:logger:2.1.1'
 }

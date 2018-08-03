@@ -3,10 +3,8 @@ package com.hzq.example.ui.main.home;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hzq.baselibs.base.BaseFragment;
@@ -37,21 +35,19 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @BindView(R.id.tv_location) TextView mTvLocation;
     @BindView(R.id.icon_address) ImageView mIconAddress;
     @BindView(R.id.ll_location) LinearLayout mLlLocation;
+
     //案例
     @BindView(R.id.view_case) View mViewCase;
-    @BindView(R.id.ll_case) LinearLayout mLlCase;
+
     //模板
     @BindView(R.id.view_template) View mViewTemplate;
-    @BindView(R.id.ll_template) LinearLayout mLlTemplate;
 
+    //定制
     @BindView(R.id.view_customized) View mViewCustomized;
-    @BindView(R.id.ll_customized) LinearLayout mLlCustomized;
+
     //设计师
     @BindView(R.id.view_designer) View mViewDesigner;
-    @BindView(R.id.ll_designer) LinearLayout mLlDesigner;
 
-    @BindView(R.id.fl_search) FrameLayout mFlSearch;
-    @BindView(R.id.rl_head) RelativeLayout mRlHead;
     @BindView(R.id.viewpager) ViewPager mViewpager;
     private String mTitle;
 
@@ -75,7 +71,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     protected void initView() {
+
+        mImmersionBar.fitsSystemWindows(true).init();
+
         setupViewPager(mViewpager);
+        mViewpager.setOffscreenPageLimit(4);
+
+        if (mViewpager != null) {
+        }
     }
 
     @Override
@@ -87,7 +90,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         //            RxBus.getDefault().postSticky(new MessageEvent("1","我爱你"));
         //    });
     }
-
 
 
     @Override
@@ -189,7 +191,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     }
 
 
-    /**==================viwePager滑动监听=====================*/
+    /** ==================viwePager滑动监听===================== */
     private void viewPagerListener() {
         mViewpager.setOnPageChangeListener(new SetMyOnPageChangeListener() {
             @Override

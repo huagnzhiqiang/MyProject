@@ -1,9 +1,10 @@
 package com.hzq.example.data.api;
 
+import com.hzq.baselibs.net.BaseHttpResult;
 import com.hzq.example.data.entity.LoginEntity;
 import com.hzq.example.data.entity.MineEntity;
+import com.hzq.example.data.entity.TemplateReadesignEntity;
 import com.hzq.example.data.entity.TestNews;
-import com.hzq.baselibs.net.BaseHttpResult;
 
 import java.util.List;
 import java.util.Map;
@@ -31,5 +32,10 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/api/user/login")
     Observable<BaseHttpResult<LoginEntity>> getLoginData(@FieldMap Map<String,String> map);
+
+    //获取案例分页
+    @FormUrlEncoded
+    @POST("/api/demandcase/getpagelist")
+    Observable<BaseHttpResult<TemplateReadesignEntity>> getDemandcaseData(@FieldMap Map<String,String> map);
 
 }

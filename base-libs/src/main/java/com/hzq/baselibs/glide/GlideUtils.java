@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -23,13 +24,15 @@ public class GlideUtils {
      * @param url      图片地址
      * @param emptyImg 默认展位图
      */
-    public static void loadImage(Context context, ImageView iv, String url, int emptyImg) {
+    public static void loadImage(Context context,String url, ImageView iv,  int emptyImg) {
         if (!TextUtils.isEmpty(url)) {
+
             GlideApp.with(context)
                     .load(url)
                     .error(emptyImg)
-                    .placeholder(iv.getDrawable())
+                    .placeholder(emptyImg)
                     .transition(new DrawableTransitionOptions().crossFade())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)//图片缓存模式
                     .into(iv);
         } else {
             loadImage(context, iv, emptyImg, emptyImg);
@@ -49,7 +52,7 @@ public class GlideUtils {
             GlideApp.with(context)
                     .load(url)
                     .error(emptyImg)
-                    .placeholder(iv.getDrawable())
+                    .placeholder(emptyImg)
                     .transition(new DrawableTransitionOptions().crossFade())
                     .transform(new RoundedCorners(20)).into(iv);
         } else {
@@ -70,7 +73,7 @@ public class GlideUtils {
             GlideApp.with(context)
                     .load(url)
                     .error(emptyImg)
-                    .placeholder(iv.getDrawable())
+                    .placeholder(emptyImg)
                     .transition(new DrawableTransitionOptions().crossFade())
                     .transform(new CircleCrop()).into(iv);
         } else {

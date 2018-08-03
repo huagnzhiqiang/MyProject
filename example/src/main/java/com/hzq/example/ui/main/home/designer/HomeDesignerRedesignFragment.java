@@ -47,6 +47,7 @@ public class HomeDesignerRedesignFragment extends BaseFragment {
      */
     @Override
     protected void initData() {
+        Logger.d("首页设计师页面initData--->:");
 
     }
 

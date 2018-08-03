@@ -47,6 +47,7 @@ public class HomeCustomizedRedesignFragment extends BaseFragment {
      */
     @Override
     protected void initData() {
+        Logger.d("首页定制页面initData--->:");
 
     }
 
