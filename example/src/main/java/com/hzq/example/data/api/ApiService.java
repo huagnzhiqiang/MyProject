@@ -38,4 +38,9 @@ public interface ApiService {
     @POST("/api/demandcase/getpagelist")
     Observable<BaseHttpResult<TemplateReadesignEntity>> getDemandcaseData(@FieldMap Map<String,String> map);
 
+    //获取作品分页
+    @FormUrlEncoded
+    @POST("/api/product/getpagelist")
+    Observable<BaseHttpResult<TemplateReadesignEntity>> getProductData(@FieldMap Map<String,String> map);
+
 }

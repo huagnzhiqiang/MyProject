@@ -24,3 +24,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+##  底部菜单   https://github.com/H07000223/FlycoTabLayout
+implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
+## 沉浸式 https://github.com/gyf-dev/ImmersionBar
+api 'com.gyf.barlibrary:barlibrary:2.3.0'
+
+## RecyclerView 分割线 https://github.com/yanyusong/Y_DividerItemDecoration
+api 'com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0'

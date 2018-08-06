@@ -51,4 +51,92 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
                     }
                 });
     }
+
+    /**
+     * 请求首页案例加载更多数据
+     */
+    public void requestCaseLoadMoreData(Map<String, String> map) {
+
+        getModel().getCaseLoadMoreData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+                subscribe(new BaseObserver<TemplateReadesignEntity>(getView()) {
+                    /**
+                     * 请求成功返回
+                     *
+                     * @param result 服务器返回数据
+                     */
+                    @Override
+                    public void onSuccess(BaseHttpResult<TemplateReadesignEntity> result) {
+                        getView().showCaseDataLoadMore(result.getData());
+                    }
+
+                    /**
+                     * 请求失败返回
+                     *
+                     * @param errMsg     失败信息
+                     * @param isNetError 是否是网络异常
+                     */
+                    @Override
+                    public void onFailure(String errMsg, boolean isNetError) {
+                        getView().showLoadMoreError(errMsg);
+                    }
+                });
+    }
+
+    /**
+     * 请求首页模板数据
+     */
+    public void requestProductData(Map<String, String> map) {
+        getModel().getProductData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+                subscribe(new BaseObserver<TemplateReadesignEntity>(getView()) {
+                    /**
+                     * 请求成功返回
+                     *
+                     * @param result 服务器返回数据
+                     */
+                    @Override
+                    public void onSuccess(BaseHttpResult<TemplateReadesignEntity> result) {
+                        getView().showProductData(result.getData());
+                    }
+
+                    /**
+                     * 请求失败返回
+                     *
+                     * @param errMsg     失败信息
+                     * @param isNetError 是否是网络异常
+                     */
+                    @Override
+                    public void onFailure(String errMsg, boolean isNetError) {
+                        getView().showError(errMsg);
+                    }
+                });
+    }
+
+    /**
+     * 请求首页模板更多数据
+     */
+    public void requestProductLoadMoreData(Map<String, String> map) {
+        getModel().getProductData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+                subscribe(new BaseObserver<TemplateReadesignEntity>(getView()) {
+                    /**
+                     * 请求成功返回
+                     *
+                     * @param result 服务器返回数据
+                     */
+                    @Override
+                    public void onSuccess(BaseHttpResult<TemplateReadesignEntity> result) {
+                        getView().showProductLoadMoreData(result.getData());
+                    }
+
+                    /**
+                     * 请求失败返回
+                     *
+                     * @param errMsg     失败信息
+                     * @param isNetError 是否是网络异常
+                     */
+                    @Override
+                    public void onFailure(String errMsg, boolean isNetError) {
+                        getView().showLoadMoreError(errMsg);
+                    }
+                });
+    }
 }

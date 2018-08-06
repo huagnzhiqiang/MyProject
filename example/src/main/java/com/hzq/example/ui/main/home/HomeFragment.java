@@ -72,19 +72,17 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     protected void initView() {
 
-        mImmersionBar.fitsSystemWindows(true).init();
-
-        setupViewPager(mViewpager);
-        mViewpager.setOffscreenPageLimit(4);
-
         if (mViewpager != null) {
+            setupViewPager(mViewpager);
+            mViewpager.setOffscreenPageLimit(4);
+            viewPagerListener();
+
         }
     }
 
     @Override
     protected void initListener() {
 
-        viewPagerListener();
         //        button.setOnClickListener(v -> mPresenter.requestData());
         //        button2.setOnClickListener(v -> {
         //            RxBus.getDefault().postSticky(new MessageEvent("1","我爱你"));

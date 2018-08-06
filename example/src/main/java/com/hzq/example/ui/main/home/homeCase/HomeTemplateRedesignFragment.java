@@ -17,6 +17,7 @@ import com.hzq.example.adapter.HomeTemplateRedesignAdapter;
 import com.hzq.example.constants.Constant;
 import com.hzq.example.data.entity.TemplateReadesignEntity;
 import com.hzq.example.view.recycleView.MyDividerItemDecoration;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,9 +49,6 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
 
     private HomeTemplateRedesignAdapter mAdapter;
 
-    //true表示刷新 false表示加载更多
-    private boolean isRefresh;
-
     /**
      * 返回一个用于显示界面的布局id
      */
@@ -71,6 +69,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
      */
     @Override
     protected void initView() {
+
     }
 
     /**
@@ -79,12 +78,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @Override
     protected void initListener() {
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mAdapter.setOnLoadMoreListener(this);
-
     }
-
-
-
 
 
     /**
@@ -115,6 +109,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
         mAdapter.setLoadMoreView(new SimpleLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(this);
     }
 
     /**
@@ -123,31 +118,32 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @Override
     public void onLazyLoad() {
 
-        isRefresh = true;
         mCurrentPage = 1;
 
         Bundle arguments = getArguments();
         mType = arguments.getInt(HomeTemplateRedesignFragment.FRAGMENT_TYPE);
-        if (mType == 1) {
-            mAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
-            loadMore();
-            ToastUtils.showShort("案例");
-        } else {
-            ToastUtils.showShort("模板");
-        }
+        mAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
+        requestNetwork();
     }
 
-    /** ==================加载更多===================== */
-    private void loadMore() {
+    /** ==================第一次请求网络===================== */
+    private void requestNetwork() {
+
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(mCurrentPage));
         map.put("PageCount", Constant.PAGE_COUNT);
         map.put("OrderByValue", "create_datetime");
         map.put("OrderBy", "desc");
-        mPresenter.requestCaseData(map);
+
+        if (mType == HOME_CASE) {
+            //案例
+            mPresenter.requestCaseData(map);
+        } else {
+            //模板
+            mPresenter.requestProductData(map);
+        }
+
     }
-
-
 
 
     /**
@@ -158,23 +154,78 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @Override
     public void showCaseData(TemplateReadesignEntity data) {
 
-        mLayoutStatusView.showContent();//显示内容
         mAdapter.setEnableLoadMore(true); //允许加载更多
         mSwipeRefreshLayout.setRefreshing(false); //禁止刷新
 
-        List<TemplateReadesignEntity.RowsBean> list = new ArrayList<>();
-        for (int i = 0; i < data.getRows().size(); i++) {
-            list.add(data.getRows().get(i));
-        }
-        setData(list);
+        setData(true, data);
+    }
+
+    /**
+     * 案例数据
+     *
+     * @param data 案例加载更多数据
+     */
+    @Override
+    public void showCaseDataLoadMore(TemplateReadesignEntity data) {
+        setData(false, data);
+    }
+
+    /**
+     * 模板数据
+     *
+     * @param data 模板数据
+     */
+
+    @Override
+    public void showProductData(TemplateReadesignEntity data) {
+
+        Logger.d("showProductData--->:" + data);
+        mAdapter.setEnableLoadMore(true); //允许加载更多
+        mSwipeRefreshLayout.setRefreshing(false); //禁止刷新
+        setData(true, data);
+
+    }
+
+    /**
+     * 模板数据
+     *
+     * @param data 模板加载更多数据
+     */
+    @Override
+    public void showProductLoadMoreData(TemplateReadesignEntity data) {
+
+        setData(false, data);
+    }
+
+
+
+
+    /**
+     * 加载更多
+     *
+     * @param msg 加载更多错误信息
+     */
+    @Override
+    public void showLoadMoreError(String msg) {
+        mAdapter.loadMoreFail();
     }
 
 
     /** ==================设置数据===================== */
 
-    private void setData(List<TemplateReadesignEntity.RowsBean> data) {
+    private void setData(boolean isRefresh, TemplateReadesignEntity data) {
+
+        mLayoutStatusView.showContent();//显示内容
         mCurrentPage++;
-        final int size = data == null ? 0 : data.size();
+
+        List<TemplateReadesignEntity.RowsBean> beanList = new ArrayList<>();
+
+        for (int i = 0; i < data.getRows().size(); i++) {
+            beanList.add(data.getRows().get(i));
+        }
+
+        final int size = beanList == null ? 0 : beanList.size();
+
         if (isRefresh) {
 
             //第一次加载数据,发现没有就显示空布局
@@ -184,13 +235,13 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
             }
 
             //有就设置新的数据
-            mAdapter.setNewData(data);
+            mAdapter.setNewData(beanList);
 
         } else {
 
             //加载更多
             if (size > 0) {
-                mAdapter.addData(data);
+                mAdapter.addData(beanList);
             }
         }
 
@@ -201,9 +252,6 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
             mAdapter.loadMoreComplete();
         }
 
-        //表示加载更多标识
-        isRefresh = false;
-
     }
 
 
@@ -213,9 +261,6 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
         ToastUtils.showShort(msg);
         mLayoutStatusView.showError();
     }
-
-
-
 
 
     /**
@@ -231,8 +276,26 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
      */
     @Override
     public void onLoadMoreRequested() {
-        loadMore();
+        requestLoadMoreNetwork();
     }
 
+    /** ==================加载更多请求网络===================== */
+    private void requestLoadMoreNetwork() {
+        Map<String, String> map = new HashMap<>();
+        map.put("PageIndex", String.valueOf(mCurrentPage));
+        map.put("PageCount", Constant.PAGE_COUNT);
+        map.put("OrderByValue", "create_datetime");
+        map.put("OrderBy", "desc");
+
+        if (mType == HOME_CASE) {
+            //案例
+            mPresenter.requestCaseLoadMoreData(map);
+            Logger.d("requestLoadMoreNetwork--->:" + mType);
+        } else {
+            //模板
+            mPresenter.requestProductLoadMoreData(map);
+        }
+
+    }
 
 }

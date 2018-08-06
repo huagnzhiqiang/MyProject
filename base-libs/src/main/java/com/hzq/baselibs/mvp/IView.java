@@ -16,4 +16,5 @@ public interface IView {
 
     //显示吐司
     void showError(String msg);
+
 }

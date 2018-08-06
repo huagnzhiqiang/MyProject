@@ -111,6 +111,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
     }
 
+
     @Override
     public void showData(List<TestNews> testNews) {
 
