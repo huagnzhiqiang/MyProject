@@ -258,18 +258,25 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     protected abstract void initData();
 
     /**
+     * 请求网络
+     */
+    protected abstract void networkRequest();
+
+
+    /**
      * 错误信息页面点击事件(无网络/获取数据出错...)
      */
     private View.OnClickListener layoutStatusViewOnclick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+            //加载数据的布局
+            if (mLayoutStatusView != null) {
+                mLayoutStatusView.showLoading();
+            }
+
             networkRequest();
         }
     };
-
-    /**
-     * 请求网络
-     */
-    protected abstract void networkRequest();
 
 }

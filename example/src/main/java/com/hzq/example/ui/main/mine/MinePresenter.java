@@ -14,17 +14,16 @@ import java.util.Map;
  * @time 2018/6/12 22:57
  * @desc
  */
-public class MinePresenter extends BasePresenter<MineContract.Model,MineContract.View> {
+public class MinePresenter extends BasePresenter<MineContract.Model, MineContract.View> {
     @Override
     protected MineContract.Model createModel() {
         return new MineModel();
     }
 
 
-    public void requestLoginData(Map<String,String> map) {
-        getModel().getLoginData(map)
-                .compose(RxSchedulers.applySchedulers(getLifecycleProvider()))
-                .subscribe(new BaseObserver<LoginEntity>(getView()) {
+    public void requestLoginData(Map<String, String> map) {
+        getModel().getLoginData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+                subscribe(new BaseObserver<LoginEntity>(getView()) {
                     /**
                      * 请求成功返回
                      *
@@ -42,9 +41,17 @@ public class MinePresenter extends BasePresenter<MineContract.Model,MineContract
                      * @param isNetError 是否是网络异常
                      */
                     @Override
-                    public void onFailure(String errMsg, boolean isNetError) {
+                    public void onFailure(String errMsg, int errCode, boolean isNetError) {
                         Logger.d("onFailure--->:" + errMsg.toString());
-                        getView().showError(errMsg);
+
+                        if (isNetError) {
+                            //无网络
+                            getView().showNetworkError(errMsg, errCode);
+                        } else {
+                            //有网络
+                            getView().showError(errMsg, errCode);
+                        }
+
                     }
                 });
 

@@ -21,9 +21,9 @@ import retrofit2.HttpException;
  * @desc 请求重连
  */
 public class RetryWithDelay implements Function<Observable<? extends Throwable>, Observable<?>> {
-    private int maxRetries = 3;
-    private long retryDelayMillis = 5000;
-    private long increaseDelay = 5000;
+    private int maxRetries = 2;
+    private long retryDelayMillis = 500;
+    private long increaseDelay = 500;
 
     public RetryWithDelay() {
     }
@@ -55,7 +55,7 @@ public class RetryWithDelay implements Function<Observable<? extends Throwable>,
                                 || wrapper.throwable instanceof TimeoutException
                                 || wrapper.throwable instanceof HttpException)
                                 && wrapper.index < maxRetries + 1) { //如果超出重试次数也抛出错误，否则默认是会进入onCompleted
-                            Logger.d("request retry at " + wrapper.index);
+                            Logger.d("request retry at--->:" + wrapper.index);
                             return Observable.timer(retryDelayMillis + (wrapper.index - 1) * increaseDelay, TimeUnit.MILLISECONDS);
                         }
                         return Observable.error(wrapper.throwable);

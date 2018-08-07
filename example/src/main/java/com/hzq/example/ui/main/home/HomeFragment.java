@@ -16,7 +16,6 @@ import com.hzq.example.listener.SetMyOnPageChangeListener;
 import com.hzq.example.ui.main.home.customized.HomeCustomizedRedesignFragment;
 import com.hzq.example.ui.main.home.designer.HomeDesignerRedesignFragment;
 import com.hzq.example.ui.main.home.homeCase.HomeTemplateRedesignFragment;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -92,7 +91,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     protected void initData() {
-        Logger.d("initData--->:");
 
 
     }
@@ -101,11 +99,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     protected boolean useEventBus() {
         return false;
-    }
-
-    @Override
-    public void showError(String msg) {
-        ToastUtils.showShort(msg);
     }
 
 
@@ -214,4 +207,26 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         });
     }
 
+    /**
+     * 显示错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showError(String msg, int code) {
+        ToastUtils.showShort(msg);
+
+    }
+
+    /**
+     * 显示网络错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showNetworkError(String msg, int code) {
+
+    }
 }

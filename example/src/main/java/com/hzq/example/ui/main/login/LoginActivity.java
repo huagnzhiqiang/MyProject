@@ -113,16 +113,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     }
 
 
-    /**
-     * 返回错误信息
-     *
-     * @param msg 错误信息
-     */
-    @Override
-    public void showError(String msg) {
-        ToastUtils.showShort(msg);
-        Logger.d("showError--->:" + msg);
-    }
+
 
 
     @OnClick(R.id.tvbtn_login)
@@ -180,4 +171,25 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
 
     }
 
+    /**
+     * 显示错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showError(String msg, int code) {
+        ToastUtils.showShort(msg);
+    }
+
+    /**
+     * 显示网络错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showNetworkError(String msg, int code) {
+
+    }
 }

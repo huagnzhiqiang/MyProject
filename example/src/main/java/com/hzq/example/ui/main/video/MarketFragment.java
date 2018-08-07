@@ -71,17 +71,34 @@ public class MarketFragment extends BaseFragment<VideoPresenter> {
     }
 
 
-    @Override
-    public void showError(String msg) {
-
-    }
-
 
     /**
      * 请求网络
      */
     @Override
     public void onLazyLoad() {
+
+    }
+
+    /**
+     * 显示错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showError(String msg, int code) {
+
+    }
+
+    /**
+     * 显示网络错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showNetworkError(String msg, int code) {
 
     }
 }

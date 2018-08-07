@@ -27,8 +27,9 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
      * 请求首页案例数据
      */
     public void requestCaseData(Map<String, String> map) {
+
         getModel().getCaseData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
-                subscribe(new BaseObserver<TemplateReadesignEntity>(getView()) {
+                subscribe(new BaseObserver<TemplateReadesignEntity>(getView(), false) {
                     /**
                      * 请求成功返回
                      *
@@ -46,8 +47,14 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
                      * @param isNetError 是否是网络异常
                      */
                     @Override
-                    public void onFailure(String errMsg, boolean isNetError) {
-                        getView().showError(errMsg);
+                    public void onFailure(String errMsg, int errCode, boolean isNetError) {
+                        if (isNetError) {
+                            //无网络
+                            getView().showNetworkError(errMsg, errCode);
+                        } else {
+                            //有网络
+                            getView().showError(errMsg, errCode);
+                        }
                     }
                 });
     }
@@ -58,7 +65,7 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
     public void requestCaseLoadMoreData(Map<String, String> map) {
 
         getModel().getCaseLoadMoreData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
-                subscribe(new BaseObserver<TemplateReadesignEntity>(getView()) {
+                subscribe(new BaseObserver<TemplateReadesignEntity>(getView(), false) {
                     /**
                      * 请求成功返回
                      *
@@ -76,7 +83,7 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
                      * @param isNetError 是否是网络异常
                      */
                     @Override
-                    public void onFailure(String errMsg, boolean isNetError) {
+                    public void onFailure(String errMsg, int errCode, boolean isNetError) {
                         getView().showLoadMoreError(errMsg);
                     }
                 });
@@ -87,7 +94,7 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
      */
     public void requestProductData(Map<String, String> map) {
         getModel().getProductData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
-                subscribe(new BaseObserver<TemplateReadesignEntity>(getView()) {
+                subscribe(new BaseObserver<TemplateReadesignEntity>(getView(), false) {
                     /**
                      * 请求成功返回
                      *
@@ -105,8 +112,14 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
                      * @param isNetError 是否是网络异常
                      */
                     @Override
-                    public void onFailure(String errMsg, boolean isNetError) {
-                        getView().showError(errMsg);
+                    public void onFailure(String errMsg, int errCode, boolean isNetError) {
+                        if (isNetError) {
+                            //无网络
+                            getView().showNetworkError(errMsg, errCode);
+                        } else {
+                            //有网络
+                            getView().showError(errMsg, errCode);
+                        }
                     }
                 });
     }
@@ -116,7 +129,7 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
      */
     public void requestProductLoadMoreData(Map<String, String> map) {
         getModel().getProductData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
-                subscribe(new BaseObserver<TemplateReadesignEntity>(getView()) {
+                subscribe(new BaseObserver<TemplateReadesignEntity>(getView(), false) {
                     /**
                      * 请求成功返回
                      *
@@ -134,7 +147,7 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
                      * @param isNetError 是否是网络异常
                      */
                     @Override
-                    public void onFailure(String errMsg, boolean isNetError) {
+                    public void onFailure(String errMsg, int errCode, boolean isNetError) {
                         getView().showLoadMoreError(errMsg);
                     }
                 });

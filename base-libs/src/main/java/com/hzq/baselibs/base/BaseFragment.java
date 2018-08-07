@@ -17,7 +17,6 @@ import com.hzq.baselibs.app.BaseApplication;
 import com.hzq.baselibs.mvp.BasePresenter;
 import com.hzq.baselibs.mvp.IView;
 import com.hzq.baselibs.view.MultipleStatusView;
-import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.RefWatcher;
 
 import org.greenrobot.eventbus.EventBus;
@@ -116,7 +115,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
      */
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
-//        mImmersionBar.fitsSystemWindows(true);
+        //        mImmersionBar.fitsSystemWindows(true);
         mImmersionBar.statusBarColor(R.color.color_61bef4).init();
         mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
     }
@@ -124,12 +123,11 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     /**
      * 是否可以使用沉浸式
      *
-     * @return  ture-->使用 false-->不使用
+     * @return ture-->使用 false-->不使用
      */
     protected boolean isImmersionBarEnabled() {
         return true;
     }
-
 
 
     @Override
@@ -161,14 +159,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         initLeakCanary();
     }
 
-    /**==================Fragment中使用沉浸式设置属性=====================*/
+    /** ==================Fragment中使用沉浸式设置属性===================== */
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden && mImmersionBar != null)
             mImmersionBar.init();
     }
-
 
 
     public BaseActivity getBaseActivity() {
@@ -276,8 +273,12 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     private View.OnClickListener layoutStatusViewOnclick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+            //加载数据的布局
+            if (mLayoutStatusView != null) {
+                mLayoutStatusView.showLoading();
+            }
             onLazyLoad();
-            Logger.d("错误信息页面点击事件(无网络/获取数据出错...)--->:" );
         }
     };
 

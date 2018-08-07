@@ -1,7 +1,6 @@
 package com.hzq.example.ui.main.mine;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.hzq.baselibs.base.BaseFragment;
 import com.hzq.baselibs.utils.ToastUtils;
@@ -63,14 +62,6 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
         return false;
     }
 
-    @Override
-    public void showError(String msg) {
-        ToastUtils.showShort(msg);
-        Log.d("hzq", "showData: " + msg);
-        Logger.d("showError--->:" + msg.toString());
-        mLayoutStatusView.showNoNetwork();
-
-    }
 
 
     @Override
@@ -110,5 +101,29 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
         map.put("password", "abc12345678");
         Logger.d("onClick--->:" + map.toString());
         mPresenter.requestLoginData(map);
+    }
+
+    /**
+     * 显示错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showError(String msg, int code) {
+        ToastUtils.showShort(msg);
+        mLayoutStatusView.showError();
+    }
+
+    /**
+     * 显示网络错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showNetworkError(String msg, int code) {
+        mLayoutStatusView.showNoNetwork();
+
     }
 }

@@ -60,13 +60,32 @@ public class HomeCustomizedRedesignFragment extends BaseFragment {
         Logger.d("首页定制页面--->:");
     }
 
-    @Override
-    public void showError(String msg) {
 
-    }
 
     /** ==================初始化fragment===================== */
     public static Fragment newInstance() {
         return new HomeCustomizedRedesignFragment();
+    }
+
+    /**
+     * 显示错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showError(String msg, int code) {
+
+    }
+
+    /**
+     * 显示网络错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showNetworkError(String msg, int code) {
+
     }
 }

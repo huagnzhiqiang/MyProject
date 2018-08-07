@@ -44,32 +44,32 @@ public abstract class BaseObserver<T> implements Observer<BaseHttpResult<T>> {
     @Override
     public void onNext(BaseHttpResult<T> result) {
         hideLoadingDialog();
-        if (result.isSuccessFul()) {
-            if(result.getCode() == 200) {
-                onSuccess(result);
-                Logger.d("onNext--->:" + result.getData().toString());
-            }else {
-                onFailure(result.getMessage(), false);
-
-            }
+        if (result.isOk()) {
+            onSuccess(result);
+            Logger.e("请求成功返回数据--->:" + result.getData().toString());
         } else {
             //TODO API异常处理
-            onFailure(result.getMessage(), false);
-
+            onFailure(result.getMessage(), result.getCode(),false);
+            Logger.d("onNext--->:" );
         }
     }
 
     @Override
     public void onError(Throwable e) {
         hideLoadingDialog();
+
+        Logger.e("onError--->:" + e);
+        ServerException serverException = ServerException.handleException(e);
         if (e instanceof ConnectException
                 || e instanceof TimeoutException
                 || e instanceof HttpException
                 || e instanceof NetworkErrorException
                 || e instanceof UnknownHostException) {
-            onFailure(ServerException.handleException(e).getMessage(), true);
+
+            onFailure(serverException.getMessage(),serverException.getCode(), true);
         } else {
-            onFailure(ServerException.handleException(e).getMessage(), false);
+
+            onFailure(serverException.getMessage(), serverException.getCode(),false);
         }
     }
 
@@ -99,7 +99,7 @@ public abstract class BaseObserver<T> implements Observer<BaseHttpResult<T>> {
      * @param errMsg     失败信息
      * @param isNetError 是否是网络异常
      */
-    public abstract void onFailure(String errMsg, boolean isNetError);
+    public abstract void onFailure(String errMsg, int errCode,boolean isNetError);
 
 
     /**

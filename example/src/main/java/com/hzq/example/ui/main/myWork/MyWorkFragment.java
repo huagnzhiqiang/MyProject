@@ -55,13 +55,31 @@ public class MyWorkFragment extends BaseFragment{
 
     }
 
-    @Override
-    public void showError(String msg) {
-
-    }
 
     public static MyWorkFragment getInstance(String title) {
 
         return new MyWorkFragment();
+    }
+
+    /**
+     * 显示错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showError(String msg, int code) {
+
+    }
+
+    /**
+     * 显示网络错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showNetworkError(String msg, int code) {
+
     }
 }

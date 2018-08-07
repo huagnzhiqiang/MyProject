@@ -9,58 +9,7 @@ import java.io.Serializable;
  */
 public class BaseHttpResult<T> implements Serializable {
     private static final long serialVersionUID = 2690553609250007325L;
-    public static final int SUCCESS_CODE = 0;
-
-//    private int status;
-//    private String message;
-//    private T data;
-//
-//    public int getStatus() {
-//        return status;
-//    }
-//
-//    public void setStatus(int status) {
-//        this.status = status;
-//    }
-//
-//    public String getMessage() {
-//        return message;
-//    }
-//
-//    public void setMessage(String message) {
-//        this.message = message;
-//    }
-//
-//    public T getData() {
-//        return data;
-//    }
-//
-//    public void setData(T data) {
-//        this.data = data;
-//    }
-//
-//
-//    /**
-//     * 正常返回
-//     *
-//     * @return
-//     */
-//    public boolean isSuccessFul() {
-//        return getStatus() == SUCCESS_CODE;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "BaseHttpResult{" +
-//                "status=" + status +
-//                ", message='" + message + '\'' +
-//                ", data=" + data +
-//                '}';
-//    }
-
-
-    /** test**/
-    private boolean error;
+    public static final int SUCCESS_CODE = 200;
 
     private T data;
 
@@ -68,13 +17,6 @@ public class BaseHttpResult<T> implements Serializable {
     private String message;//成功
     private String remark;//成功
 
-    public boolean isError() {
-        return error;
-    }
-
-    public void setError(boolean error) {
-        this.error = error;
-    }
 
     public T getData() {
         return data;
@@ -86,7 +28,7 @@ public class BaseHttpResult<T> implements Serializable {
 
     @Override
     public String toString() {
-        return "BaseHttpResult{" + "error=" + error + ", data=" + data + ", code=" + code + ", message='" + message + '\'' + ", remark='" + remark + '\'' + '}';
+        return "BaseHttpResult{" + "data=" + data + ", code=" + code + ", message='" + message + '\'' + ", remark='" + remark + '\'' + '}';
     }
 
     public int getCode() {
@@ -115,10 +57,11 @@ public class BaseHttpResult<T> implements Serializable {
 
     /**
      * 正常返回
-     *
-     * @return
      */
-    public boolean isSuccessFul() {
-        return !isError();
+    public boolean isOk() {
+        if (code == SUCCESS_CODE)
+            return true;
+        return false;
     }
+
 }

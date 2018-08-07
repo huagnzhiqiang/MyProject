@@ -50,7 +50,6 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.d("onCreate...........");
 
 
         if (savedInstanceState != null) {
@@ -104,11 +103,6 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     @Override
     protected MainPresenter createPresenter() {
         return new MainPresenter();
-    }
-
-    @Override
-    public void showError(String msg) {
-
     }
 
 
@@ -274,5 +268,26 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         mImmersionBar.init();
     }
 
+    /**
+     * 显示错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showError(String msg, int code) {
+
+    }
+
+    /**
+     * 显示网络错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    @Override
+    public void showNetworkError(String msg, int code) {
+
+    }
 }
 

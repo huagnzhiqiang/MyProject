@@ -1,9 +1,5 @@
 package com.hzq.baselibs.net.interceptor;
 
-import android.app.Activity;
-import android.content.Context;
-import android.widget.Toast;
-
 import com.hzq.baselibs.utils.NetworkUtils;
 
 import java.io.IOException;
@@ -15,16 +11,11 @@ import okhttp3.Response;
 
 public class CaheInterceptor implements Interceptor {
 
-    private Context context;
-
-    public CaheInterceptor(Context context) {
-        this.context = context;
-    }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        if (NetworkUtils.isNetworkAvailable(context)) {
+        if (NetworkUtils.isNetworkAvailable()) {
             Response response = chain.proceed(request);
             // read from cache for 60 s
             int maxAge = 60;
@@ -34,12 +25,8 @@ public class CaheInterceptor implements Interceptor {
                     .header("Cache-Control", "public, max-age=" + maxAge)
                     .build();
         } else {
-            ((Activity) context).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(context, "当前无网络! 为你智能加载缓存", Toast.LENGTH_SHORT).show();
-                }
-            });
+
+//            ToastUtils.showShort("当前无网络! 为你智能加载缓存");
             request = request.newBuilder()
                     .cacheControl(CacheControl.FORCE_CACHE)
                     .build();

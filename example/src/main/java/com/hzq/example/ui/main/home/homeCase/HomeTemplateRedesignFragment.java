@@ -131,7 +131,8 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
 
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(mCurrentPage));
-        map.put("PageCount", Constant.PAGE_COUNT);
+//        map.put("PageCount", Constant.PAGE_COUNT);
+        map.put("PageCount", "0");
         map.put("OrderByValue", "create_datetime");
         map.put("OrderBy", "desc");
 
@@ -257,7 +258,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
 
     //请求错误
     @Override
-    public void showError(String msg) {
+    public void showError(String msg, int code) {
         ToastUtils.showShort(msg);
         mLayoutStatusView.showError();
     }
@@ -298,4 +299,10 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
 
     }
 
+
+    @Override
+    public void showNetworkError(String msg, int code) {
+        ToastUtils.showShort(msg);
+        mLayoutStatusView.showNoNetwork();
+    }
 }

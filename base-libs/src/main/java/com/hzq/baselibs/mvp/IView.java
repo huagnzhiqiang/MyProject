@@ -14,7 +14,21 @@ public interface IView {
     //隐藏loading
     void hideLoading();
 
-    //显示吐司
-    void showError(String msg);
+    /**
+     * 显示错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+
+    void showError(String msg, int code);
+
+    /**
+     * 显示网络错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
+    void showNetworkError(String msg, int code);
 
 }
