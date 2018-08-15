@@ -64,13 +64,6 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     }
 
 
-    /**
-     * 初始化View的代码写在这个方法中
-     */
-    @Override
-    protected void initView() {
-
-    }
 
     /**
      * 初始化监听器的代码写在这个方法中
@@ -131,8 +124,8 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
 
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(mCurrentPage));
-//        map.put("PageCount", Constant.PAGE_COUNT);
-        map.put("PageCount", "0");
+        map.put("PageCount", Constant.PAGE_COUNT);
+//        map.put("PageCount", "0");
         map.put("OrderByValue", "create_datetime");
         map.put("OrderBy", "desc");
 
@@ -157,7 +150,6 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
 
         mAdapter.setEnableLoadMore(true); //允许加载更多
         mSwipeRefreshLayout.setRefreshing(false); //禁止刷新
-
         setData(true, data);
     }
 
@@ -194,7 +186,6 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
      */
     @Override
     public void showProductLoadMoreData(TemplateReadesignEntity data) {
-
         setData(false, data);
     }
 

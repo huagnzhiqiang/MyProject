@@ -55,7 +55,7 @@ public class TemplateReadesignEntity {
         private String title;
         private String cover_img;
         private String url;
-        private int price;
+        private double price;
         private String designer_head_img;
         private int designer_user_id;
         private int check_status;
@@ -88,9 +88,9 @@ public class TemplateReadesignEntity {
 
         public void setUrl(String url) { this.url = url;}
 
-        public int getPrice() { return price;}
+        public double getPrice() { return price;}
 
-        public void setPrice(int price) { this.price = price;}
+        public void setPrice(double price) { this.price = price;}
 
         public String getDesigner_head_img() { return designer_head_img;}
 

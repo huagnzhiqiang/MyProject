@@ -23,7 +23,7 @@ public class MinePresenter extends BasePresenter<MineContract.Model, MineContrac
 
     public void requestLoginData(Map<String, String> map) {
         getModel().getLoginData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
-                subscribe(new BaseObserver<LoginEntity>(getView()) {
+                subscribe(new BaseObserver<LoginEntity>(getView(),false) {
                     /**
                      * 请求成功返回
                      *
@@ -43,7 +43,6 @@ public class MinePresenter extends BasePresenter<MineContract.Model, MineContrac
                     @Override
                     public void onFailure(String errMsg, int errCode, boolean isNetError) {
                         Logger.d("onFailure--->:" + errMsg.toString());
-
                         if (isNetError) {
                             //无网络
                             getView().showNetworkError(errMsg, errCode);

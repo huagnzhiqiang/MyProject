@@ -43,30 +43,12 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
         return new MinePresenter();
     }
 
-    @Override
-    protected void initView() {
-    }
 
-    @Override
-    protected void initListener() {
-        //        mGetBtn.setOnClickListener(v -> mPresenter.requestData());
-
-    }
-
-    @Override
-    protected void initData() {
-    }
-
-    @Override
-    protected boolean useEventBus() {
-        return false;
-    }
 
 
 
     @Override
     public void showData(MineEntity testNews) {
-
         mLayoutStatusView.showContent();
         Logger.d("showData--->:" + testNews.toString());
 
@@ -76,7 +58,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
     public void showLoginData(LoginEntity data) {
         if (data != null) {
             mLayoutStatusView.showContent();
-            ToastUtils.showShort(data.toString());
+//            ToastUtils.showShort(data.toString());
+            Logger.d("showLoginData--->:" + data);
         }
     }
 
@@ -88,6 +71,18 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
         map.put("username", "18822223335");
         map.put("password", "abc12345678");
         Logger.d("onClick--->:" + map.toString());
+        showLoading("我爱你");
+        mPresenter.requestLoginData(map);
+    }
+
+    @OnClick(R.id.get_btn)
+    public void onClick1() {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("username", "18822223335");
+        map.put("password", "abc12345678");
+        Logger.d("onClick--->:" + map.toString());
+        showLoading("哈哈");
         mPresenter.requestLoginData(map);
     }
 
@@ -123,6 +118,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
      */
     @Override
     public void showNetworkError(String msg, int code) {
+        ToastUtils.showShort(msg);
         mLayoutStatusView.showNoNetwork();
 
     }

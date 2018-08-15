@@ -18,6 +18,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.hzq.baselibs.Bean.MessageEvent;
 import com.hzq.baselibs.R;
 import com.hzq.baselibs.view.MultipleStatusView;
+import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -59,6 +60,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         Intent intent = getIntent();
         if (intent != null)
             getIntent(intent);
+
         unBinder = ButterKnife.bind(this);
 
         //无网络/请求出现了问题布局
@@ -67,9 +69,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             mLayoutStatusView.setOnRetryClickListener(layoutStatusViewOnclick);
         }
 
-
-        initView();
         initData();
+        initView();
         initListener();
         networkRequest();
     }
@@ -86,12 +87,11 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     /**
      * 是否可以使用沉浸式
      *
-     * @return  ture-->使用 false-->不使用
+     * @return ture-->使用 false-->不使用
      */
     protected boolean isImmersionBarEnabled() {
         return true;
     }
-
 
 
     /**
@@ -152,6 +152,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
      * @param msg 提示
      */
     protected void showLoadingDialog(String msg) {
+        Logger.d("showLoadingDialog--->:" + msg);
         createLoadingDialog(msg);
         if (!mLoadingDialog.isShowing())
             mLoadingDialog.show();
@@ -198,6 +199,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         final Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);
         loadingDialog.setCancelable(true);
         loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        loadingDialog.show();
         return loadingDialog;
     }
 
@@ -207,6 +209,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     protected void hideLoadingDialog() {
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
+            mLoadingDialog = null;
         }
     }
 
@@ -240,22 +243,24 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     /**
      * 获取 Intent 数据
      */
-    protected abstract void getIntent(Intent intent);
-
-    /**
-     * 初始化View的代码写在这个方法中
-     */
-    protected abstract void initView();
-
-    /**
-     * 初始化监听器的代码写在这个方法中
-     */
-    protected abstract void initListener();
+    protected void getIntent(Intent intent) {}
 
     /**
      * 初始数据的代码写在这个方法中，用于从服务器获取数据
      */
-    protected abstract void initData();
+    protected void initData() {}
+
+
+    /**
+     * 初始化View的代码写在这个方法中
+     */
+    protected void initView() {}
+
+    /**
+     * 初始化监听器的代码写在这个方法中
+     */
+    protected void initListener() {}
+
 
     /**
      * 请求网络

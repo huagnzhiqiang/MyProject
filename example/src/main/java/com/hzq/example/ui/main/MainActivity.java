@@ -1,6 +1,5 @@
 package com.hzq.example.ui.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -66,10 +65,6 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         return R.layout.activity_main;
     }
 
-    @Override
-    protected void getIntent(Intent intent) {
-
-    }
 
     @Override
     protected void initView() {
@@ -77,15 +72,6 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
     }
 
-    @Override
-    protected void initListener() {
-
-    }
-
-    @Override
-    protected void initData() {
-
-    }
 
     @Override
     public boolean isInMultiWindowMode() {

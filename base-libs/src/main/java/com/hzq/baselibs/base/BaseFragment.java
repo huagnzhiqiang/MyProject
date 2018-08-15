@@ -45,6 +45,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
 
     protected ImmersionBar mImmersionBar;//沉浸式状态栏和沉浸式
 
+
     /**
      * 缓存Fragment view
      */
@@ -182,6 +183,14 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         mActivity.hideLoadingDialog();
     }
 
+    /**
+     * 显示带消息的进度框
+     *
+     * @param msg 提示
+     */
+    protected void showLoading(String msg) {
+        mActivity.showLoadingDialog(msg);
+    }
 
     /**
      * 含有Bundle通过Class跳转界面
@@ -227,17 +236,17 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     /**
      * 初始化View的代码写在这个方法中
      */
-    protected abstract void initView();
+    protected void initView() {}
 
     /**
      * 初始化监听器的代码写在这个方法中
      */
-    protected abstract void initListener();
+    protected void initListener() {}
 
     /**
      * 初始数据的代码写在这个方法中，用于从服务器获取数据
      */
-    protected abstract void initData();
+    protected void initData() {}
 
     /**
      * 是否使用eventBus
@@ -275,10 +284,12 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         public void onClick(View v) {
 
             //加载数据的布局
-            if (mLayoutStatusView != null) {
-                mLayoutStatusView.showLoading();
-            }
+            //            if (mLayoutStatusView != null) {
+            //                mLayoutStatusView.showLoading();
+            //            }
+            mActivity.showLoadingDialog();
             onLazyLoad();
+
         }
     };
 

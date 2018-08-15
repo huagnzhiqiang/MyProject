@@ -27,8 +27,15 @@ public abstract class BaseObserver<T> implements Observer<BaseHttpResult<T>> {
 
     private boolean isShowDialog = true;
 
+    public BaseObserver() {
+    }
+
     public BaseObserver(IView mView) {
         this.mView = mView;
+    }
+
+    public void setShowDialog(boolean showDialog) {
+        isShowDialog = showDialog;
     }
 
     public BaseObserver(IView mView, boolean isShowDialog) {
@@ -49,8 +56,8 @@ public abstract class BaseObserver<T> implements Observer<BaseHttpResult<T>> {
             Logger.e("请求成功返回数据--->:" + result.getData().toString());
         } else {
             //TODO API异常处理
-            onFailure(result.getMessage(), result.getCode(),false);
-            Logger.d("onNext--->:" );
+            onFailure(result.getMessage(), result.getCode(), false);
+            Logger.d("异常处理--->:");
         }
     }
 
@@ -60,16 +67,12 @@ public abstract class BaseObserver<T> implements Observer<BaseHttpResult<T>> {
 
         Logger.e("onError--->:" + e);
         ServerException serverException = ServerException.handleException(e);
-        if (e instanceof ConnectException
-                || e instanceof TimeoutException
-                || e instanceof HttpException
-                || e instanceof NetworkErrorException
-                || e instanceof UnknownHostException) {
+        if (e instanceof ConnectException || e instanceof TimeoutException || e instanceof HttpException || e instanceof NetworkErrorException || e instanceof UnknownHostException) {
 
-            onFailure(serverException.getMessage(),serverException.getCode(), true);
+            onFailure(serverException.getMessage(), serverException.getCode(), true);
         } else {
 
-            onFailure(serverException.getMessage(), serverException.getCode(),false);
+            onFailure(serverException.getMessage(), serverException.getCode(), false);
         }
     }
 
@@ -99,7 +102,7 @@ public abstract class BaseObserver<T> implements Observer<BaseHttpResult<T>> {
      * @param errMsg     失败信息
      * @param isNetError 是否是网络异常
      */
-    public abstract void onFailure(String errMsg, int errCode,boolean isNetError);
+    public abstract void onFailure(String errMsg, int errCode, boolean isNetError);
 
 
     /**
@@ -115,7 +118,7 @@ public abstract class BaseObserver<T> implements Observer<BaseHttpResult<T>> {
      * 隐藏 Loading
      */
     private void hideLoadingDialog() {
-        if (isShowDialog && mView != null) {
+        if (mView != null) {
             mView.hideLoading();
         }
     }
