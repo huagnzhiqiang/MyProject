@@ -282,11 +282,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     private View.OnClickListener layoutStatusViewOnclick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
-            //加载数据的布局
-            //            if (mLayoutStatusView != null) {
-            //                mLayoutStatusView.showLoading();
-            //            }
             mActivity.showLoadingDialog();
             onLazyLoad();
 

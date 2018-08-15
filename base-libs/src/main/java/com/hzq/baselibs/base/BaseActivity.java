@@ -162,7 +162,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
      * 显示进度框
      */
     protected void showLoadingDialog() {
-        createLoadingDialog("正在加载");
+        createLoadingDialog("正在加载...");
         if (!mLoadingDialog.isShowing())
             mLoadingDialog.show();
     }
@@ -274,12 +274,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     private View.OnClickListener layoutStatusViewOnclick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
-            //加载数据的布局
-            if (mLayoutStatusView != null) {
-                mLayoutStatusView.showLoading();
-            }
-
+            showLoadingDialog();
             networkRequest();
         }
     };
