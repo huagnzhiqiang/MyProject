@@ -3,7 +3,9 @@ package com.hzq.baselibs.base;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.hzq.baselibs.Bean.MessageEvent;
 import com.hzq.baselibs.R;
+import com.hzq.baselibs.receiver.NetWorkChangeBroadcastReceiver;
 import com.hzq.baselibs.view.MultipleStatusView;
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -41,6 +44,9 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     private Dialog mLoadingDialog = null;
 
     public ImmersionBar mImmersionBar;//沉浸式状态栏和沉浸式
+
+    private NetWorkChangeBroadcastReceiver receiver;//无网络广播
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +79,17 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         initView();
         initListener();
         networkRequest();
+//        registerNetChangeReceiver();
+    }
+
+    /**
+     * 无网络广播
+     */
+    private void registerNetChangeReceiver() {
+        receiver = new NetWorkChangeBroadcastReceiver(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(receiver, intentFilter);
     }
 
     /**
@@ -231,6 +248,12 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             }
         }
 
+        //销毁广播(无网络通知广播)
+        if (null != receiver) {
+            receiver.onDestroy();
+            unregisterReceiver(receiver);
+            receiver = null;
+        }
     }
 
 

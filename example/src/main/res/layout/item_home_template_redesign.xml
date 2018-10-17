@@ -55,6 +55,7 @@
             android:textSize="12sp"/>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_product_price"
             android:layout_width="100dp"
             android:layout_height="wrap_content"

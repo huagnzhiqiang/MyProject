@@ -1,7 +1,7 @@
 package com.hzq.example.data.repository;
 
-import com.hzq.example.data.api.ApiService;
 import com.hzq.baselibs.net.BaseRetrofit;
+import com.hzq.example.data.api.ApiService;
 
 /**
  * @author 小强
@@ -9,6 +9,7 @@ import com.hzq.baselibs.net.BaseRetrofit;
  * @desc 网络请求管理类
  */
 public class RetrofitUtils extends BaseRetrofit {
+
     private static ApiService httpService;
 
     /**
@@ -20,6 +21,5 @@ public class RetrofitUtils extends BaseRetrofit {
         }
         return httpService;
     }
-
 
 }

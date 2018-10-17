@@ -46,9 +46,12 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     @BindView(R.id.fl_container) FrameLayout flContainer;
     @BindView(R.id.tab_layout) CommonTabLayout tabLayout;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
 
         if (savedInstanceState != null) {

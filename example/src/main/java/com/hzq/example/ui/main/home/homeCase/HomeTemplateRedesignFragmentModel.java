@@ -22,6 +22,7 @@ public class HomeTemplateRedesignFragmentModel extends BaseModel implements Home
     @Override
     public Observable<BaseHttpResult<TemplateReadesignEntity>> getCaseData(Map<String, String> map) {
         return RetrofitUtils.getHttpService().getDemandcaseData(map);
+//        return RetrofitUtils.getHttpService().getDemandcaseData(map,new DynamicKey("getpagelist"), new EvictDynamicKey(true));
     }
 
     /**
@@ -29,6 +30,7 @@ public class HomeTemplateRedesignFragmentModel extends BaseModel implements Home
      */
     @Override
     public Observable<BaseHttpResult<TemplateReadesignEntity>> getCaseLoadMoreData(Map<String, String> map) {
+//        return RetrofitUtils.getHttpService().getDemandcaseData(map,new DynamicKey("getpagelist"), new EvictDynamicKey(true));
         return RetrofitUtils.getHttpService().getDemandcaseData(map);
     }
 

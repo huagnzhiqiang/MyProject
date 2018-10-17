@@ -1,8 +1,6 @@
 package com.hzq.baselibs.utils;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -461,25 +459,4 @@ public class StringUtils {
         return false;
     }
 
-
-    /**
-     * 数字转换
-     * 1000 = 1K
-     * 10000 = 10K
-     *
-     * @param data 输入数字
-     * @return 输出数字
-     */
-    public static String ReadSize(int data) {
-        String size = "";
-        BigDecimal fileSize = new BigDecimal(data);
-        if (data < 1000) {
-            return data + "";
-        } else if (data < 10000) {
-            size = fileSize.divide(new BigDecimal(1000), 1, RoundingMode.HALF_UP) + "k";
-        } else {
-            size = fileSize.divide(new BigDecimal(10000), 1, RoundingMode.HALF_UP) + "w";
-        }
-        return size;
-    }
 }

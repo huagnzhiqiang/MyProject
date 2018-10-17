@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hzq.baselibs.glide.GlideUtils;
-import com.hzq.baselibs.utils.StringUtils;
+import com.hzq.baselibs.utils.HzqUtils;
 import com.hzq.example.R;
 import com.hzq.example.data.entity.TemplateReadesignEntity;
 
@@ -29,7 +29,7 @@ public class HomeTemplateRedesignAdapter extends BaseQuickAdapter<TemplateReades
         helper.setText(R.id.tv_product_price, "¥" + item.getPrice());
         //浏览量
         helper.getView(R.id.tv_customized_count).setVisibility(View.VISIBLE);
-        helper.setText(R.id.tv_customized_count, StringUtils.ReadSize(item.getBrowse_count()) + " 浏览");
+        helper.setText(R.id.tv_customized_count, HzqUtils.ReadSize(item.getBrowse_count()) + " 浏览");
         ImageView ivProduct = helper.getView(R.id.iv_product_img);//图片
         GlideUtils.loadImage(mContext, item.getCover_img(), ivProduct, R.drawable.load);
 

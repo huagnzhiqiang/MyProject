@@ -1,11 +1,16 @@
 package com.hzq.baselibs.net;
 
+import android.os.Environment;
+
 import com.hzq.baselibs.app.AppConfig;
 import com.hzq.baselibs.app.BaseApplication;
+import com.hzq.baselibs.net.converter.GsonConverterBodyFactory;
+import com.hzq.baselibs.utils.NetworkUtils;
 import com.hzq.baselibs.utils.cache.CacheManager;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -20,7 +25,9 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Cache;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -52,22 +59,26 @@ public class BaseRetrofit {
     public static HashMap<String, Object> getRequestParams() {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("_appversion", "");
-        parameters.put("_systemtype", "" );
-        parameters.put("_systemversion", "" );
-        parameters.put("_deviceid", "" );
-        parameters.put("_memberid", "" );
+        parameters.put("_systemtype", "");
+        parameters.put("_systemversion", "");
+        parameters.put("_deviceid", "");
+        parameters.put("_memberid", "");
         return parameters;
     }
+
     public static Retrofit getRetrofit() {
+
         if (retrofit == null) {
             synchronized (BaseRetrofit.class) {
                 if (retrofit == null) {
+
 
                     //添加一个log拦截器,打印所有的log
                     HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                         @Override
                         public void log(String message) {
-                            Logger.d("log--->:" + message);
+                            Logger.e("log--->:" + message);
+                            Logger.json(message);
 
                         }
                     });
@@ -76,36 +87,44 @@ public class BaseRetrofit {
 
 
                     //设置 请求的缓存的大小跟位置
-                    File cacheFile = new File(BaseApplication.getContext().getCacheDir(), "cache");
+                    //                    File cacheFile = new File(BaseApplication.getContext().getCacheDir(), "hzq_cache");
+                    File cacheFile = Environment.getExternalStorageDirectory();
                     Cache cache = new Cache(cacheFile, 1024 * 1024 * 50); //50Mb 缓存的大小
 
-                    client = new OkHttpClient
-                            .Builder()
-//                          .cookieJar(new CookieJarImpl(new PersistentCookieStore(App.getContext()))); //cookie 相关
+                    Logger.w("getRetrofit--->:" + cacheFile.getAbsolutePath());
+                    Logger.w("getRetrofit--->:" + cache);
+                    client = new OkHttpClient.Builder()
+                            //                          .cookieJar(new CookieJarImpl(new PersistentCookieStore(App.getContext()))); //cookie 相关
                             .addInterceptor(httpLoggingInterceptor) //日志,所有的请求响应
-//                            .addInterceptor(new HeaderInterceptor(getRequestHeader())) // token过滤
-//                            .addInterceptor(new ParameterInterceptor(getRequestParams()))  //公共参数添加
-//                            .addInterceptor(new CaheInterceptor())
+                            //                            .addInterceptor(new HeaderInterceptor(getRequestHeader())) // token过滤
+                            //                            .addInterceptor(new ParameterInterceptor(getRequestParams()))  //公共参数添加
                             //不加以下两行代码,https请求不到自签名的服务器
                             .sslSocketFactory(createSSLSocketFactory())//创建一个证书对象
                             .hostnameVerifier(new TrustAllHostnameVerifier())//校验名称,这个对象就是信任所有的主机,也就是信任所有https的请求
+                            //                            //有网络时的拦截器
+                            //                            .addNetworkInterceptor(BaseRetrofit.REWRITE_RESPONSE_INTERCEPTOR)
+                            //                            //没网络时的拦截器
+                            //                            .addInterceptor(BaseRetrofit.REWRITE_RESPONSE_INTERCEPTOR_OFFLINE).
+
                             .cache(cache)  //添加缓存
                             .connectTimeout(60L, TimeUnit.SECONDS)//连接超时时间
                             .readTimeout(60L, TimeUnit.SECONDS)//读取超时时间
                             .writeTimeout(60L, TimeUnit.SECONDS)//写入超时时间
                             .retryOnConnectionFailure(true)//连接不上是否重连,false不重连
-
                             .build();
+
 
                     // 获取retrofit的实例
-                    retrofit = new Retrofit
-                            .Builder()
-                            .baseUrl(AppConfig.BASE_URL)  //baseUrl配置
-                            .client(client)
-                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//                            .addConverterFactory(GsonConverterBodyFactory.create())
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
+                    retrofit = new Retrofit.Builder().baseUrl(AppConfig.BASE_URL)  //baseUrl配置
+                            .client(client).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).
+                                    addConverterFactory(GsonConverterBodyFactory.create()).
+                                    addConverterFactory(GsonConverterFactory.create()).build();
+                    //
+                    //
+                    //                    Retrofit build1 = new Retrofit.Builder().client(client).baseUrl(AppConfig.BASE_URL).addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    //                            .addConverterFactory(GsonConverterFactory.create()).build();
+                    //                    LoginEntity rJiekou = build1.create(LoginEntity.class);
+                    //                    Observable<Bens> strig = rJiekou.getChannelList();//Rxjava链式调用并把我们的Okhttp的拦截器和build的对象放进去
                 }
             }
         }
@@ -156,4 +175,41 @@ public class BaseRetrofit {
             return true;
         }
     }
+
+
+    private static final int TIMEOUT_CONNECT = 5; //5秒
+    private static final int TIMEOUT_DISCONNECT = 60 * 60 * 24 * 7; //7天
+
+    public static final Interceptor REWRITE_RESPONSE_INTERCEPTOR = new Interceptor() {
+        @Override
+        public okhttp3.Response intercept(Chain chain) throws IOException {
+            //获取retrofit @headers里面的参数，参数可以自己定义，在本例我自己定义的是cache，跟@headers里面对应就可以了
+            String cache = chain.request().header("cache");
+            okhttp3.Response originalResponse = chain.proceed(chain.request());
+            String cacheControl = originalResponse.header("Cache-Control");
+            //如果cacheControl为空，就让他TIMEOUT_CONNECT秒的缓存，本例是5秒，方便观察。注意这里的cacheControl是服务器返回的
+            if (cacheControl == null) {
+                //如果cache没值，缓存时间为TIMEOUT_CONNECT，有的话就为cache的值
+                if (cache == null || "".equals(cache)) {
+                    cache = TIMEOUT_CONNECT + "";
+                }
+                originalResponse = originalResponse.newBuilder().header("Cache-Control", "public, max-age=" + cache).build();
+                return originalResponse;
+            } else {
+                return originalResponse;
+            }
+        }
+    };
+
+    public static final Interceptor REWRITE_RESPONSE_INTERCEPTOR_OFFLINE = new Interceptor() {
+        @Override
+        public okhttp3.Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            //离线的时候为7天的缓存。
+            if (!NetworkUtils.isNetworkAvailable(BaseApplication.getContext())) {
+                request = request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + TIMEOUT_DISCONNECT).build();
+            }
+            return chain.proceed(request);
+        }
+    };
 }

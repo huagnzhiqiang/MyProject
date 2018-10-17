@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tool="http://schemas.android.com/tools"
+              android:id="@+id/ll_product_item"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingBottom="13dp"
+              android:paddingTop="13dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp">
+
+        <ImageView
+            android:id="@+id/iv_home_customized_redesign_head"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/user_moren"/>
+
+        <TextView
+            android:id="@+id/iv_home_customized_redesign_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:maxLines="1"
+            android:textColor="@color/color_ff333333"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:id="@+id/iv_home_customized_redesign_cover"
+                android:layout_width="102dp"
+                android:layout_height="158dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/load"/>
+
+            <TextView
+                android:id="@+id/tv_home_customized_redesign_tag"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_alignRight="@id/iv_home_customized_redesign_cover"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tv_home_customized_redesign_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColor="@color/color_ff333333"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/tv_home_customized_redesign_describe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:text=""
+                android:textColor="@color/color_ff999999"
+                android:textSize="12sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:gravity="end|bottom">
+
+                    <TextView
+                        android:id="@+id/yushua"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="预算"
+                        android:textColor="@color/color_ff666666"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="9dp"
+                        android:text="¥"
+                        android:textColor="@color/color_eb6ea5"
+                        android:textSize="9sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_home_customized_redesign_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignRight="@id/yushua"
+                        android:layout_marginLeft="2dp"
+                        android:textColor="@color/color_ffeb6ea5"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        tool:text="10.000"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="end|bottom">
+
+                    <TextView
+                        android:id="@+id/tv_home_customized_redesign_tender"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/theme_radio_bg3"
+                        android:gravity="center"
+                        android:text="投标"
+                        android:textColor="@color/color_ffffff"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="29dp"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_home_customized_redesign_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="15dp"
+                android:textColor="@color/color_ff666666"
+                android:textSize="12sp"
+                tool:text="广州"/>
+
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="4dp"
+                android:src="@drawable/icon_time"/>
+
+            <TextView
+                android:id="@+id/tv_home_customized_redesign_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_ff666666"
+                android:textSize="12sp"
+                tool:text="2018-7-5"/>
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:src="@drawable/icon_liulan"/>
+
+            <TextView
+                android:id="@+id/tv_home_customized_redesign_browse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="0浏览"
+                android:textColor="@color/color_ff666666"
+                android:textSize="12sp"/>
+
+
+            <TextView
+                android:id="@+id/tv_home_customized_redesign_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:text="0人投标"
+                android:textColor="@color/color_ff333333"
+                android:textSize="12sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rl_home_CustomRequirements"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_home_customized_redesign_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="去抢个沙发"
+            android:textColor="@color/color_ff999999"
+            android:textSize="14sp"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_view"/>
+</LinearLayout>

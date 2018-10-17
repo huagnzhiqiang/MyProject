@@ -1,8 +1,8 @@
 package com.hzq.example.ui.main.home.homeCase;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -10,14 +10,20 @@ import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.SimpleLoadMoreView;
+import com.hzq.baselibs.app.BaseApplication;
 import com.hzq.baselibs.base.BaseFragment;
+import com.hzq.baselibs.utils.DisplayUtils;
+import com.hzq.baselibs.utils.NetworkUtils;
 import com.hzq.baselibs.utils.ToastUtils;
 import com.hzq.example.R;
 import com.hzq.example.adapter.HomeTemplateRedesignAdapter;
 import com.hzq.example.constants.Constant;
 import com.hzq.example.data.entity.TemplateReadesignEntity;
-import com.hzq.example.view.recycleView.MyDividerItemDecoration;
+import com.hzq.example.view.recycleView.SpaceItemDecoration;
 import com.orhanobut.logger.Logger;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,8 +37,8 @@ import butterknife.BindView;
  * @time 2018/8/2  15:22
  * @desc 首页案例/模板页面
  */
-public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedesignFragmentPresenter> implements HomeTemplateRedesignFragmentContract.View, SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.RequestLoadMoreListener {
+public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedesignFragmentPresenter> implements HomeTemplateRedesignFragmentContract.View, BaseQuickAdapter.RequestLoadMoreListener,
+        OnRefreshListener {
 
     private static final String FRAGMENT_TYPE = "fragment_type";//跳转页面Key
     public static final int HOME_CASE = 1;//案例type
@@ -42,12 +48,15 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @BindView(R.id.home_iv_viewScreening) LinearLayout mHomeIvViewScreening;
     @BindView(R.id.ll_head) LinearLayout mLlHead;
     @BindView(R.id.rl_home_CustomRequirements) RecyclerView mRecyclerView;
-    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.refreshLayout) SmartRefreshLayout mSwipeRefreshLayout;
 
     private int mType;//页面跳转类型判断
     private int mCurrentPage = 1;//获取数据当前页数
 
     private HomeTemplateRedesignAdapter mAdapter;
+
+    //数据
+    private List<TemplateReadesignEntity.RowsBean> mDataList = new ArrayList<>();
 
     /**
      * 返回一个用于显示界面的布局id
@@ -62,7 +71,6 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     protected HomeTemplateRedesignFragmentPresenter createPresenter() {
         return new HomeTemplateRedesignFragmentPresenter();
     }
-
 
 
     /**
@@ -98,7 +106,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     private void initAdapter() {
         mAdapter = new HomeTemplateRedesignAdapter();
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        mRecyclerView.addItemDecoration(new MyDividerItemDecoration(getContext()));
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(DisplayUtils.dip2px(getContext(), 20), SpaceItemDecoration.GRIDLAYOUT));
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
         mAdapter.setLoadMoreView(new SimpleLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
@@ -110,6 +118,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
      */
     @Override
     public void onLazyLoad() {
+        mSwipeRefreshLayout.autoRefresh();
 
         mCurrentPage = 1;
 
@@ -117,6 +126,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
         mType = arguments.getInt(HomeTemplateRedesignFragment.FRAGMENT_TYPE);
         mAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
         requestNetwork();
+
     }
 
     /** ==================第一次请求网络===================== */
@@ -125,7 +135,6 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(mCurrentPage));
         map.put("PageCount", Constant.PAGE_COUNT);
-//        map.put("PageCount", "0");
         map.put("OrderByValue", "create_datetime");
         map.put("OrderBy", "desc");
 
@@ -149,7 +158,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     public void showCaseData(TemplateReadesignEntity data) {
 
         mAdapter.setEnableLoadMore(true); //允许加载更多
-        mSwipeRefreshLayout.setRefreshing(false); //禁止刷新
+        mSwipeRefreshLayout.finishRefresh();
         setData(true, data);
     }
 
@@ -174,7 +183,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
 
         Logger.d("showProductData--->:" + data);
         mAdapter.setEnableLoadMore(true); //允许加载更多
-        mSwipeRefreshLayout.setRefreshing(false); //禁止刷新
+        mSwipeRefreshLayout.finishRefresh();//关闭刷新
         setData(true, data);
 
     }
@@ -188,8 +197,6 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     public void showProductLoadMoreData(TemplateReadesignEntity data) {
         setData(false, data);
     }
-
-
 
 
     /**
@@ -210,30 +217,31 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
         mLayoutStatusView.showContent();//显示内容
         mCurrentPage++;
 
-        List<TemplateReadesignEntity.RowsBean> beanList = new ArrayList<>();
-
-        for (int i = 0; i < data.getRows().size(); i++) {
-            beanList.add(data.getRows().get(i));
+        mDataList = new ArrayList<>();
+        final int dataSize = data.getRows().size();
+        for (int i = 0; i < dataSize; i++) {
+            mDataList.add(data.getRows().get(i));
         }
 
-        final int size = beanList == null ? 0 : beanList.size();
+        final int size = mDataList == null ? 0 : mDataList.size();
 
         if (isRefresh) {
 
             //第一次加载数据,发现没有就显示空布局
             if (size == 0) {
                 mLayoutStatusView.showEmpty();
+
                 return;
             }
 
             //有就设置新的数据
-            mAdapter.setNewData(beanList);
+            mAdapter.setNewData(mDataList);
 
         } else {
 
             //加载更多
             if (size > 0) {
-                mAdapter.addData(beanList);
+                mAdapter.addData(mDataList);
             }
         }
 
@@ -243,7 +251,9 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
         } else {
             mAdapter.loadMoreComplete();
         }
-
+        if (size == 0) {
+            mAdapter.loadMoreEnd(true);
+        }
     }
 
 
@@ -251,16 +261,11 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @Override
     public void showError(String msg, int code) {
         ToastUtils.showShort(msg);
-        mLayoutStatusView.showError();
-    }
-
-
-    /**
-     * 刷新
-     */
-    @Override
-    public void onRefresh() {
-        onLazyLoad();
+        mAdapter.setEnableLoadMore(true); //允许加载更多
+        mSwipeRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
+        if (mDataList.size() <= 0) {
+            mLayoutStatusView.showError();
+        }
     }
 
     /**
@@ -294,6 +299,23 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @Override
     public void showNetworkError(String msg, int code) {
         ToastUtils.showShort(msg);
-        mLayoutStatusView.showNoNetwork();
+        mAdapter.setEnableLoadMore(true); //允许加载更多
+        mSwipeRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
+        if (mDataList.size() <= 0) {
+            mLayoutStatusView.showNoNetwork();
+        }
+    }
+
+    //刷新
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+
+        if (NetworkUtils.isNetworkAvailable(BaseApplication.getContext())) {
+            onLazyLoad();
+        } else {
+            ToastUtils.showShort("网络不可用");
+            mSwipeRefreshLayout.finishRefresh();
+
+        }
     }
 }

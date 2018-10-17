@@ -14,63 +14,60 @@
         app:loadingView="@layout/layout_loading_view"
         app:noNetworkView="@layout/layout_network_view">
 
-
-        <RelativeLayout
-            android:id="@+id/rl"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/ll_head"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:background="@color/color_fff6f6f6"
-                android:gravity="center_vertical|right"
-                android:orientation="horizontal"
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:id="@+id/home_iv_viewSwitches"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/home_is_view_switches"/>
-
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="14dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:background="#ff999999"/>
-
-
-                <LinearLayout
-                    android:id="@+id/home_iv_viewScreening"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="筛选"
-                        android:textColor="#ff333333"
-                        android:textSize="14sp"/>
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginLeft="5dp"
-                        android:src="@drawable/home_is_view_screening"/>
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/ll_head"
-                android:visibility="visible">
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_head"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@color/color_fff6f6f6"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal"
+                    android:paddingRight="16dp">
+
+                    <ImageView
+                        android:id="@+id/home_iv_viewSwitches"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/home_is_view_switches"/>
+
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="14dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="#ff999999"/>
+
+
+                    <LinearLayout
+                        android:id="@+id/home_iv_viewScreening"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="筛选"
+                            android:textColor="#ff333333"
+                            android:textSize="14sp"/>
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginLeft="5dp"
+                            android:src="@drawable/home_is_view_screening"/>
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rl_home_CustomRequirements"
@@ -80,9 +77,11 @@
                     android:overScrollMode="never"
                     android:paddingTop="10dp"
                     android:scrollbars="none"/>
-            </android.support.v4.widget.SwipeRefreshLayout>
 
-        </RelativeLayout>
+            </LinearLayout>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
     </com.hzq.baselibs.view.MultipleStatusView>
 
 </RelativeLayout>

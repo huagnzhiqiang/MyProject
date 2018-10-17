@@ -1,15 +1,26 @@
 package com.hzq.example.ui.main.myWork;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+
 import com.hzq.baselibs.base.BaseFragment;
 import com.hzq.baselibs.mvp.BasePresenter;
 import com.hzq.example.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * @author 小强
  * @time 2018/8/1  16:45
  * @desc 我的作品页面
  */
-public class MyWorkFragment extends BaseFragment{
+public class MyWorkFragment extends BaseFragment {
+    @BindView(R.id.tv) EditText mTv;
+
     /**
      * 返回一个用于显示界面的布局id
      */
@@ -28,7 +39,7 @@ public class MyWorkFragment extends BaseFragment{
      */
     @Override
     protected void initView() {
-
+        mTv.setSelection(100);
     }
 
     /**
@@ -81,5 +92,13 @@ public class MyWorkFragment extends BaseFragment{
     @Override
     public void showNetworkError(String msg, int code) {
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 }

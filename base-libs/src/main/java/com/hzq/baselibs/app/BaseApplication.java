@@ -4,16 +4,26 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatDelegate;
 
+import com.hzq.baselibs.utils.DynamicTimeFormat;
 import com.hzq.baselibs.utils.cache.CacheManager;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshInitializer;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 public class BaseApplication extends Application {
+
     private RefWatcher mRefWatcher;
     private static Context mContext;
 
@@ -30,12 +40,48 @@ public class BaseApplication extends Application {
 
         //创建日志
         initLogger();
+
+        //初始化下来刷新布局
+        initSmartRefreshLayout();
+
+    }
+
+    /**
+     * 初始化下来刷新布局
+     */
+    private void initSmartRefreshLayout() {
+        //启用矢量图兼容
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        //设置全局默认配置（优先级最低，会被其他设置覆盖）
+        SmartRefreshLayout.setDefaultRefreshInitializer(new DefaultRefreshInitializer() {
+            @Override
+            public void initialize(@NonNull Context context, @NonNull RefreshLayout layout) {
+                //全局设置（优先级最低）
+                layout.setEnableLoadMore(false);
+                layout.setEnableAutoLoadMore(true);
+                layout.setEnableOverScrollDrag(true);
+                layout.setEnableOverScrollBounce(true);
+                layout.setEnableLoadMoreWhenContentNotFull(true);
+                layout.setEnableScrollContentWhenRefreshed(true);
+
+            }
+        });
+
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
+            @NonNull
+            @Override
+            public RefreshHeader createRefreshHeader(@NonNull Context context, @NonNull RefreshLayout layout) {
+                //全局设置主题颜色（优先级第二低，可以覆盖 DefaultRefreshInitializer 的配置，与下面的ClassicsHeader绑定）
+                layout.setPrimaryColorsId(android.R.color.white, android.R.color.primary_text_light);
+
+                return new ClassicsHeader(context).setTimeFormat(new DynamicTimeFormat("更新于 %s"));
+            }
+        });
     }
 
     public static Context getContext() {
         return mContext;
     }
-
 
 
     private void initLeakCanary() {
@@ -103,4 +149,6 @@ public class BaseApplication extends Application {
             }
         });
     }
+
+
 }

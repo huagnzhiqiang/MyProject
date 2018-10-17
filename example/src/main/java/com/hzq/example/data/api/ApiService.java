@@ -1,6 +1,7 @@
 package com.hzq.example.data.api;
 
 import com.hzq.baselibs.net.BaseHttpResult;
+import com.hzq.example.data.entity.HomeCustomizeEntity;
 import com.hzq.example.data.entity.LoginEntity;
 import com.hzq.example.data.entity.MineEntity;
 import com.hzq.example.data.entity.TemplateReadesignEntity;
@@ -8,8 +9,10 @@ import com.hzq.example.data.entity.TestNews;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.rx_cache2.LifeCache;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -23,6 +26,7 @@ import retrofit2.http.POST;
 public interface ApiService {
 
     @GET("api/data/Android/10/1")
+    @LifeCache(duration = 20, timeUnit = TimeUnit.MINUTES)
     Observable<BaseHttpResult<List<TestNews>>> getGankData();
 
     @POST("/api/order/getuserlist")
@@ -31,16 +35,26 @@ public interface ApiService {
     //登录
     @FormUrlEncoded
     @POST("/api/user/login")
-    Observable<BaseHttpResult<LoginEntity>> getLoginData(@FieldMap Map<String,String> map);
+    @LifeCache(duration = 20, timeUnit = TimeUnit.MINUTES)
+    Observable<BaseHttpResult<LoginEntity>> getLoginData(@FieldMap Map<String, String> map);
 
     //获取案例分页
     @FormUrlEncoded
+    @LifeCache(duration = 20, timeUnit = TimeUnit.MINUTES)
     @POST("/api/demandcase/getpagelist")
-    Observable<BaseHttpResult<TemplateReadesignEntity>> getDemandcaseData(@FieldMap Map<String,String> map);
+    Observable<BaseHttpResult<TemplateReadesignEntity>> getDemandcaseData(@FieldMap Map<String, String> map);
 
     //获取作品分页
     @FormUrlEncoded
+    @LifeCache(duration = 20, timeUnit = TimeUnit.MINUTES)
+
+    //获取作品分页
     @POST("/api/product/getpagelist")
-    Observable<BaseHttpResult<TemplateReadesignEntity>> getProductData(@FieldMap Map<String,String> map);
+    Observable<BaseHttpResult<TemplateReadesignEntity>> getProductData(@FieldMap Map<String, String> map);
+
+    //获取定制分页
+    @POST("/api/demand/getpagelist")
+    @FormUrlEncoded
+    Observable<BaseHttpResult<HomeCustomizeEntity>> getCustomizedData(@FieldMap Map<String, String> map);
 
 }
