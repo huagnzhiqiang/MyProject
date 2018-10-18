@@ -48,7 +48,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @BindView(R.id.home_iv_viewScreening) LinearLayout mHomeIvViewScreening;
     @BindView(R.id.ll_head) LinearLayout mLlHead;
     @BindView(R.id.rl_home_CustomRequirements) RecyclerView mRecyclerView;
-    @BindView(R.id.refreshLayout) SmartRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.refreshLayout) SmartRefreshLayout mRefreshLayout;
 
     private int mType;//页面跳转类型判断
     private int mCurrentPage = 1;//获取数据当前页数
@@ -78,7 +78,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
      */
     @Override
     protected void initListener() {
-        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mRefreshLayout.setOnRefreshListener(this);
     }
 
 
@@ -118,7 +118,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
      */
     @Override
     public void onLazyLoad() {
-        mSwipeRefreshLayout.autoRefresh();
+        mRefreshLayout.autoRefresh();
 
         mCurrentPage = 1;
 
@@ -158,7 +158,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     public void showCaseData(TemplateReadesignEntity data) {
 
         mAdapter.setEnableLoadMore(true); //允许加载更多
-        mSwipeRefreshLayout.finishRefresh();
+        mRefreshLayout.finishRefresh();
         setData(true, data);
     }
 
@@ -183,7 +183,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
 
         Logger.d("showProductData--->:" + data);
         mAdapter.setEnableLoadMore(true); //允许加载更多
-        mSwipeRefreshLayout.finishRefresh();//关闭刷新
+        mRefreshLayout.finishRefresh();//关闭刷新
         setData(true, data);
 
     }
@@ -261,8 +261,8 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @Override
     public void showError(String msg, int code) {
         ToastUtils.showShort(msg);
-        mAdapter.setEnableLoadMore(true); //允许加载更多
-        mSwipeRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
+//        mAdapter.setEnableLoadMore(true); //允许加载更多
+        mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
         if (mDataList.size() <= 0) {
             mLayoutStatusView.showError();
         }
@@ -302,8 +302,8 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @Override
     public void showNetworkError(String msg, int code) {
         ToastUtils.showShort(msg);
-        mAdapter.setEnableLoadMore(true); //允许加载更多
-        mSwipeRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
+//        mAdapter.setEnableLoadMore(true); //允许加载更多
+        mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
         if (mDataList.size() <= 0) {
             mLayoutStatusView.showNoNetwork();
         }
@@ -317,7 +317,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
             onLazyLoad();
         } else {
             ToastUtils.showShort("网络不可用");
-            mSwipeRefreshLayout.finishRefresh();
+            mRefreshLayout.finishRefresh();
 
         }
     }

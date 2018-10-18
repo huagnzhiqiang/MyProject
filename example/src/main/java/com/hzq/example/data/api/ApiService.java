@@ -2,6 +2,7 @@ package com.hzq.example.data.api;
 
 import com.hzq.baselibs.net.BaseHttpResult;
 import com.hzq.example.data.entity.HomeCustomizeEntity;
+import com.hzq.example.data.entity.HomeDesignerEntity;
 import com.hzq.example.data.entity.LoginEntity;
 import com.hzq.example.data.entity.MineEntity;
 import com.hzq.example.data.entity.TemplateReadesignEntity;
@@ -46,15 +47,16 @@ public interface ApiService {
 
     //获取作品分页
     @FormUrlEncoded
-    @LifeCache(duration = 20, timeUnit = TimeUnit.MINUTES)
-
-    //获取作品分页
     @POST("/api/product/getpagelist")
     Observable<BaseHttpResult<TemplateReadesignEntity>> getProductData(@FieldMap Map<String, String> map);
 
     //获取定制分页
-    @POST("/api/demand/getpagelist")
     @FormUrlEncoded
+    @POST("/api/demand/getpagelist")
     Observable<BaseHttpResult<HomeCustomizeEntity>> getCustomizedData(@FieldMap Map<String, String> map);
 
+    //获取设计师分页
+    @FormUrlEncoded
+    @POST("/api/userdesigner/getpagelist")
+    Observable<BaseHttpResult<HomeDesignerEntity>> getHomeDesignerData(@FieldMap Map<String, String> map);
 }

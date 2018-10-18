@@ -88,7 +88,6 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
         mAdapter = new HomeCustomizedRedesignAdapter();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
-        mAdapter.isFirstOnly(false);
         mAdapter.setLoadMoreView(new SimpleLoadMoreView());
         //        mAdapter.setLoadMoreView(new CustomLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
@@ -143,7 +142,7 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
     @Override
     public void showCustomizedData(HomeCustomizeEntity data) {
         mAdapter.setEnableLoadMore(true); //允许加载更多
-        mRefreshLayout.finishRefresh();
+        mRefreshLayout.finishRefresh();//关闭刷新
         setData(true, data);
     }
 
@@ -172,7 +171,6 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
      */
     @Override
     public void showCustomizedLoadMore(HomeCustomizeEntity data) {
-        Logger.d("showCustomizedData--->:" + data);
         setData(false, data);
     }
 
@@ -236,7 +234,6 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
     @Override
     public void showError(String msg, int code) {
         ToastUtils.showShort(msg);
-        mAdapter.setEnableLoadMore(true); //允许加载更多
         mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
         if (mDataList.size() <= 0) {
             mLayoutStatusView.showError();
@@ -252,7 +249,6 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
     @Override
     public void showNetworkError(String msg, int code) {
         ToastUtils.showShort(msg);
-        mAdapter.setEnableLoadMore(true); //允许加载更多
         mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
         if (mDataList.size() <= 0) {
             mLayoutStatusView.showNoNetwork();
