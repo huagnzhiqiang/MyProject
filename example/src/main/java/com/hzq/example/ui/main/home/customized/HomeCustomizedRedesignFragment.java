@@ -1,12 +1,16 @@
 package com.hzq.example.ui.main.home.customized;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.SimpleLoadMoreView;
+import com.hzq.baselibs.app.BaseApplication;
 import com.hzq.baselibs.base.BaseFragment;
+import com.hzq.baselibs.utils.NetworkUtils;
+import com.hzq.baselibs.utils.ToastUtils;
 import com.hzq.baselibs.view.MultipleStatusView;
 import com.hzq.example.R;
 import com.hzq.example.adapter.HomeCustomizedRedesignAdapter;
@@ -14,6 +18,8 @@ import com.hzq.example.constants.Constant;
 import com.hzq.example.data.entity.HomeCustomizeEntity;
 import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +32,7 @@ import butterknife.BindView;
  * @time 2018/8/2  15:28
  * @desc 首页定制页面
  */
-public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedRedesignPersenter> implements HomeCustomizedRedesignContract.View, BaseQuickAdapter.RequestLoadMoreListener {
+public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedRedesignPersenter> implements HomeCustomizedRedesignContract.View, BaseQuickAdapter.RequestLoadMoreListener, OnRefreshListener {
 
     @BindView(R.id.refreshLayout) SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.multipleStatusView) MultipleStatusView mMultipleStatusView;
@@ -46,25 +52,24 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
         return R.layout.home_template_redesign_fragment;
     }
 
+    /** ==================初始化fragment===================== */
+    public static Fragment newInstance() {
+        return new HomeCustomizedRedesignFragment();
+    }
+
+
     @Override
     protected HomeCustomizedRedesignPersenter createPresenter() {
         return new HomeCustomizedRedesignPersenter();
     }
 
-    /**
-     * 初始化View的代码写在这个方法中
-     */
-    @Override
-    protected void initView() {
-
-    }
 
     /**
      * 初始化监听器的代码写在这个方法中
      */
     @Override
     protected void initListener() {
-
+        mRefreshLayout.setOnRefreshListener(this);
     }
 
     /**
@@ -76,6 +81,20 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
         initAdapter();
 
     }
+
+
+    /** ==================初始化adapter===================== */
+    private void initAdapter() {
+        mAdapter = new HomeCustomizedRedesignAdapter();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
+        mAdapter.isFirstOnly(false);
+        mAdapter.setLoadMoreView(new SimpleLoadMoreView());
+        //        mAdapter.setLoadMoreView(new CustomLoadMoreView());
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(this);
+    }
+
 
     /**
      * 请求网络
@@ -95,48 +114,26 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
         map.put("demand_type", "1");
         map.put("orderByValue", "create_datetime");
         map.put("orderBy", "desc");
-        map.put("PageIndex", mCurrentPage + "");
+        map.put("PageIndex", String.valueOf(mCurrentPage));
         map.put("PageCount", Constant.PAGE_COUNT);
         mPresenter.requestCustomizedData(map);
     }
 
 
-    /** ==================初始化fragment===================== */
-    public static Fragment newInstance() {
-        return new HomeCustomizedRedesignFragment();
-    }
-
     /**
-     * 显示错误
-     *
-     * @param msg  错误信息
-     * @param code 错误code
+     * 刷新数据请求
      */
     @Override
-    public void showError(String msg, int code) {
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        if (NetworkUtils.isNetworkAvailable(BaseApplication.getContext())) {
+            onLazyLoad();
+        } else {
+            ToastUtils.showShort("网络不可用");
+            mRefreshLayout.finishRefresh();
 
+        }
     }
 
-    /**
-     * 显示网络错误
-     *
-     * @param msg  错误信息
-     * @param code 错误code
-     */
-    @Override
-    public void showNetworkError(String msg, int code) {
-
-    }
-
-    /** ==================初始化adapter===================== */
-    private void initAdapter() {
-        mAdapter = new HomeCustomizedRedesignAdapter();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
-        mAdapter.setLoadMoreView(new SimpleLoadMoreView());
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnLoadMoreListener(this);
-    }
 
     /**
      * 首页定制数据
@@ -149,6 +146,36 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
         mRefreshLayout.finishRefresh();
         setData(true, data);
     }
+
+
+    /**
+     * 加载更多请求
+     */
+    @Override
+    public void onLoadMoreRequested() {
+        Logger.d("加载更多请求--->:");
+        Map<String, String> map = new HashMap<>();
+        //        map.put("city_code", mAdCode);//城市
+        map.put("demand_type", "1");
+        map.put("orderByValue", "create_datetime");
+        map.put("orderBy", "desc");
+        map.put("PageIndex", mCurrentPage + "");
+        map.put("PageCount", Constant.PAGE_COUNT);
+        mPresenter.requestCustomizedloadMoerData(map);
+    }
+
+
+    /**
+     * 首页定制数据
+     *
+     * @param data 定制加载更多数据
+     */
+    @Override
+    public void showCustomizedLoadMore(HomeCustomizeEntity data) {
+        Logger.d("showCustomizedData--->:" + data);
+        setData(false, data);
+    }
+
 
     /** ==================设置数据===================== */
 
@@ -165,12 +192,12 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
 
         final int size = mDataList == null ? 0 : mDataList.size();
 
+        Logger.d("setData--->:" + size);
         if (isRefresh) {
 
             //第一次加载数据,发现没有就显示空布局
             if (size == 0) {
                 mLayoutStatusView.showEmpty();
-
                 return;
             }
 
@@ -182,6 +209,9 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
             //加载更多
             if (size > 0) {
                 mAdapter.addData(mDataList);
+
+            } else {
+                ToastUtils.showShort("没有更多数据了");
             }
         }
 
@@ -198,18 +228,47 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
 
 
     /**
-     * 首页定制数据
+     * 显示错误
      *
-     * @param data 定制加载更多数据
+     * @param msg  错误信息
+     * @param code 错误code
      */
     @Override
-    public void showCustomizedLoadMore(HomeCustomizeEntity data) {
-        Logger.d("showCustomizedData--->:" + data);
-
+    public void showError(String msg, int code) {
+        ToastUtils.showShort(msg);
+        mAdapter.setEnableLoadMore(true); //允许加载更多
+        mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
+        if (mDataList.size() <= 0) {
+            mLayoutStatusView.showError();
+        }
     }
 
+    /**
+     * 显示网络错误
+     *
+     * @param msg  错误信息
+     * @param code 错误code
+     */
     @Override
-    public void onLoadMoreRequested() {
+    public void showNetworkError(String msg, int code) {
+        ToastUtils.showShort(msg);
+        mAdapter.setEnableLoadMore(true); //允许加载更多
+        mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
+        if (mDataList.size() <= 0) {
+            mLayoutStatusView.showNoNetwork();
+        }
 
     }
+
+    /**
+     * 首页定制加载更多错误
+     *
+     * @param msg 加载更多错误信息
+     */
+    @Override
+    public void showLoadMoreError(String msg) {
+        mAdapter.loadMoreFail();
+    }
+
+
 }

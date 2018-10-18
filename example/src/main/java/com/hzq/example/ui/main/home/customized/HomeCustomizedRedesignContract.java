@@ -32,6 +32,13 @@ public interface HomeCustomizedRedesignContract {
          */
         void showCustomizedLoadMore(HomeCustomizeEntity data);
 
+
+        /**
+         * 首页定制加载更多错误
+         *
+         * @param msg 加载更多错误信息
+         */
+        void showLoadMoreError(String msg);
     }
 
     interface Model extends IModel {

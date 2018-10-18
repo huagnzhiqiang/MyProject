@@ -91,14 +91,7 @@ public class HomeCustomizedRedesignPersenter extends BasePresenter<HomeCustomize
                     @Override
                     public void onFailure(String errMsg, int errCode, boolean isNetError) {
 
-                        if (isNetError) {
-                            //无网络
-                            getView().showNetworkError(errMsg, errCode);
-                        } else {
-                            //有网络
-                            getView().showError(errMsg, errCode);
-                        }
-
+                        getView().showLoadMoreError(errMsg);
                     }
                 });
     }

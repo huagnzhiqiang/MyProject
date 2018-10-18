@@ -278,6 +278,9 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
 
     /** ==================加载更多请求网络===================== */
     private void requestLoadMoreNetwork() {
+
+        Logger.d("加载更多请求--->:"  );
+
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(mCurrentPage));
         map.put("PageCount", Constant.PAGE_COUNT);
