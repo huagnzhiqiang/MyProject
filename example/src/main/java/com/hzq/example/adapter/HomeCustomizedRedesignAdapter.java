@@ -1,16 +1,22 @@
 package com.hzq.example.adapter;
 
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hzq.baselibs.glide.GlideUtils;
 import com.hzq.baselibs.utils.HzqUtils;
+import com.hzq.baselibs.utils.ToastUtils;
 import com.hzq.example.R;
 import com.hzq.example.data.entity.HomeCustomizeEntity;
+import com.orhanobut.logger.Logger;
 
 import static com.hzq.example.constants.Constant.CustomOrderStatus.COMPLETION;
 
@@ -30,7 +36,7 @@ public class HomeCustomizedRedesignAdapter extends BaseQuickAdapter<HomeCustomiz
     protected void convert(BaseViewHolder helper, HomeCustomizeEntity.RowsBean item) {
 
         //头像
-        GlideUtils.loadImage(mContext, item.getHead_img(), (ImageView) helper.getView(R.id.iv_home_customized_redesign_head), R.drawable.load);
+        GlideUtils.loadCircleImage(mContext, item.getHead_img(), (ImageView) helper.getView(R.id.iv_home_customized_redesign_head), R.drawable.load);
 
         //标题
         helper.setText(R.id.tv_home_customized_redesign_title, item.getTitle());
@@ -48,9 +54,9 @@ public class HomeCustomizedRedesignAdapter extends BaseQuickAdapter<HomeCustomiz
 
         //地址
         String cityName = item.getCity_name();
-        if(TextUtils.isEmpty(cityName)) {
+        if (TextUtils.isEmpty(cityName)) {
             helper.getView(R.id.tv_home_customized_redesign_address).setVisibility(View.GONE);
-        }else {
+        } else {
             helper.getView(R.id.tv_home_customized_redesign_address).setVisibility(View.VISIBLE);
             helper.setText(R.id.tv_home_customized_redesign_address, item.getCity_name());
         }
@@ -63,7 +69,6 @@ public class HomeCustomizedRedesignAdapter extends BaseQuickAdapter<HomeCustomiz
 
         //投标人数
         helper.setText(R.id.tv_home_customized_redesign_count, item.getDesigner_count() + "人投标");
-
 
 
         //显示该定制案例是否在进行中或者完成
@@ -82,6 +87,40 @@ public class HomeCustomizedRedesignAdapter extends BaseQuickAdapter<HomeCustomiz
                 break;
         }
 
+        TextView tvRedesign = helper.getView(R.id.tv_home_customized_redesign_btn);//去抢个沙发
+        RecyclerView recyclerView = helper.getView(R.id.recyclerView);//投标头像集合
+
+
+        //加载设计师头像的RecyclerView
+        if (item.getDemand_designer_list().size() <= 0) {
+
+            recyclerView.setVisibility(View.GONE);
+            tvRedesign.setVisibility(View.VISIBLE);
+
+            tvRedesign.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //去抢个沙发 跳转到需求详细页面
+                    Bundle bundle = new Bundle();
+                    bundle.putString("demand_id", String.valueOf(item.getId()));
+                    //                    CommonUtils.goActivity(mContext, DemandDetilActivity.class, bundle);
+                    ToastUtils.showShort("设计师id-->" + item.getId());
+                }
+            });
+
+
+        } else {
+            //表示已有人投标
+            recyclerView.setVisibility(View.VISIBLE);
+            tvRedesign.setVisibility(View.GONE);
+
+            Logger.d("表示已有人投标--->:" + item.getDemand_designer_list());
+            HomeCoustomizedRedesignListAdapter adapter = new HomeCoustomizedRedesignListAdapter(item.getDemand_designer_list());
+            adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
+            recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayout.HORIZONTAL,false));
+            recyclerView.setAdapter(adapter);
+
+        }
 
     }
 }

@@ -18,20 +18,18 @@ import java.lang.reflect.Method;
 public class DisplayUtils {
 
     //获取屏幕原始尺寸高度，包括虚拟功能键高度
-    public static int getOriginalHeight(Context context){
+    public static int getOriginalHeight(Context context) {
         int height = 0;
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        @SuppressWarnings("rawtypes")
-        Class c;
+        @SuppressWarnings("rawtypes") Class c;
         try {
             c = Class.forName("android.view.Display");
-            @SuppressWarnings("unchecked")
-            Method method = c.getMethod("getRealMetrics",DisplayMetrics.class);
+            @SuppressWarnings("unchecked") Method method = c.getMethod("getRealMetrics", DisplayMetrics.class);
             method.invoke(display, displayMetrics);
-            height=displayMetrics.heightPixels;
-        }catch(Exception e){
+            height = displayMetrics.heightPixels;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return height;
@@ -39,44 +37,34 @@ public class DisplayUtils {
 
     /**
      * 获取 虚拟按键的高度
-     * @param context
-     * @return
      */
-    public static  int getBottomStatusHeight(Context context){
+    public static int getBottomStatusHeight(Context context) {
         int totalHeight = getOriginalHeight(context);
 
         int contentHeight = getScreenHeight(context);
 
-        return totalHeight  - contentHeight;
+        return totalHeight - contentHeight;
     }
 
     /**
      * 标题栏高度
-     * @return
      */
-    public static int getTitleHeight(Activity activity){
-        return  activity.getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();
+    public static int getTitleHeight(Activity activity) {
+        return activity.getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();
     }
 
     /**
      * 获得状态栏的高度
-     *
-     * @param context
-     * @return
      */
-    public static int getStatusHeight(Context context)
-    {
+    public static int getStatusHeight(Context context) {
 
         int statusHeight = -1;
-        try
-        {
+        try {
             Class<?> clazz = Class.forName("com.android.internal.R$dimen");
             Object object = clazz.newInstance();
-            int height = Integer.parseInt(clazz.getField("status_bar_height")
-                    .get(object).toString());
+            int height = Integer.parseInt(clazz.getField("status_bar_height").get(object).toString());
             statusHeight = context.getResources().getDimensionPixelSize(height);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return statusHeight;
@@ -85,31 +73,30 @@ public class DisplayUtils {
 
     /**
      * 获得屏幕高度
-     *
-     * @param context
-     * @return
      */
-    public static int getScreenHeight(Context context)
-    {
+    public static int getScreenHeight(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.heightPixels;
     }
 
-    public static int getScreenWidth(Context context)
-    {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(outMetrics);
+    /**
+     * 获取屏幕的宽度px
+     *
+     * @param context 上下文
+     * @return 屏幕宽px
+     */
+    public static int getScreenWidth(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();// 创建了一张白纸
+        windowManager.getDefaultDisplay().getMetrics(outMetrics);// 给白纸设置宽高
         return outMetrics.widthPixels;
     }
 
+
     /**
      * 将px值转换为dip或dp值，保证尺寸大小不变
-     * @param context
-     * @param pxValue
-     * @return
      */
     public static int px2dip(Context context, float pxValue) {
         float density = context.getResources().getDisplayMetrics().density;
@@ -118,9 +105,6 @@ public class DisplayUtils {
 
     /**
      * 将dip或dp值转换为px值，保证尺寸大小不变
-     * @param context
-     * @param dipValue
-     * @return
      */
     public static int dip2px(Context context, float dipValue) {
         float density = context.getResources().getDisplayMetrics().density;
@@ -129,9 +113,6 @@ public class DisplayUtils {
 
     /**
      * 将px值转换为sp值，保证文字大小不变
-     * @param context
-     * @param pxValue
-     * @return
      */
     public static int px2sp(Context context, float pxValue) {
         float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
@@ -140,9 +121,6 @@ public class DisplayUtils {
 
     /**
      * 将sp值转换为px值，保证文字大小不变
-     * @param context
-     * @param spValue
-     * @return
      */
     public static int sp2px(Context context, float spValue) {
         float fontScale = context.getResources().getDisplayMetrics().scaledDensity;

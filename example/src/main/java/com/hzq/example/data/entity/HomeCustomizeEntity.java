@@ -1,5 +1,7 @@
 package com.hzq.example.data.entity;
 
+import com.chad.library.adapter.base.entity.SectionEntity;
+
 import java.util.List;
 
 /**
@@ -7,7 +9,7 @@ import java.util.List;
  * @time 2018/10/16  14:08
  * @desc 首页案例实体类
  */
-public class HomeCustomizeEntity {
+public class HomeCustomizeEntity extends SectionEntity<HomeCustomizeEntity.RowsBean>{
 
     /**
      * total : 10
@@ -52,6 +54,14 @@ public class HomeCustomizeEntity {
 
     private List<RowsBean> rows;
 
+    public HomeCustomizeEntity(boolean isHeader, String header) {
+        super(isHeader, header);
+    }
+
+    public HomeCustomizeEntity(RowsBean rowsBean) {
+        super(rowsBean);
+    }
+
     public int getTotal() {
         return total;
     }
@@ -68,7 +78,7 @@ public class HomeCustomizeEntity {
         this.rows = rows;
     }
 
-    public static class RowsBean {
+    public static class RowsBean  {
         private int id;
         private String title;
         private String pay_order_no;
@@ -106,6 +116,7 @@ public class HomeCustomizeEntity {
          */
 
         private List<DemandDesignerListBean> demand_designer_list;
+
 
         public int getId() {
             return id;
