@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -17,7 +18,9 @@ import com.hzq.baselibs.view.MultipleStatusView;
 import com.hzq.example.R;
 import com.hzq.example.adapter.HomeDesignerRedesignAdapter;
 import com.hzq.example.constants.Constant;
+import com.hzq.example.data.Login.LoginMsgHelper;
 import com.hzq.example.data.entity.HomeDesignerEntity;
+import com.hzq.example.data.entity.LoginEntity;
 import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -34,7 +37,7 @@ import butterknife.BindView;
  * @time 2018/8/2  15:31
  * @desc 首页设计师页面
  */
-public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedesignPresenter> implements HomeDesignerRedesignContract.View, OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedesignPresenter> implements HomeDesignerRedesignContract.View, OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemChildClickListener {
 
     @BindView(R.id.home_iv_viewSwitches) ImageView mIvViewSwitches;
     @BindView(R.id.home_iv_viewScreening) LinearLayout mIvViewScreening;
@@ -97,6 +100,7 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
         mAdapter.setLoadMoreView(new SimpleLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(this);
+        mAdapter.setOnItemChildClickListener(this);
     }
 
 
@@ -165,7 +169,7 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
      * @param data 设计师加载更多数据
      */
     @Override
-    public void showHomeDesignerLoadMore(HomeDesignerEntity data) {
+    public void showHomeDesignerLoadMoreData(HomeDesignerEntity data) {
         setData(false, data);
     }
 
@@ -233,15 +237,16 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
         mPresenter.requestHomeDesignerLoadMoreData(map);
     }
 
-        /**
-         * 首页设计师加载更多错误
-         *
-         * @param msg 加载更多错误信息
-         */
+    /**
+     * 首页设计师加载更多错误
+     *
+     * @param msg 加载更多错误信息
+     */
     @Override
     public void showLoadMoreError(String msg) {
         mAdapter.loadMoreFail();
     }
+
 
     /**
      * 显示错误
@@ -260,8 +265,6 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
     }
 
 
-
-
     /**
      * 显示网络错误
      *
@@ -277,5 +280,54 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
         }
     }
 
+
+    //适配器点击事件
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+        HomeDesignerEntity.RowsBean data = (HomeDesignerEntity.RowsBean) adapter.getData().get(position);
+
+        switch (data.getIsfollow()) {
+            //未关注
+            case 0:
+
+                boolean login = LoginMsgHelper.isLogin(getActivity());
+                if (login) {
+                    LoginEntity result = LoginMsgHelper.getResult();
+
+                    int userId = result.getUser_info().getUser_id();
+                    if (userId == data.getId()) {
+                        ToastUtils.showShort("自己不能关注自己");
+                    } else {
+                        mPresenter.requestFollowDesignersDataData(data.getId());
+                    }
+                }
+                break;
+
+            //已关注
+            case 1:
+                mPresenter.requestUnFollowDesignersDataData(data.getId());
+
+                break;
+        }
+
+    }
+
+
+    /**
+     * 首页关注设计师
+     */
+    @Override
+    public void showFollowDesignersData(String msg) {
+        ToastUtils.showShort(msg);
+    }
+
+    /**
+     * 首页取消关注设计师
+     */
+    @Override
+    public void showUnFollowDesignersData(String msg) {
+        ToastUtils.showShort(msg);
+    }
 
 }

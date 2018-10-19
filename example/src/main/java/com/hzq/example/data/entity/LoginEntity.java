@@ -1,5 +1,6 @@
 package com.hzq.example.data.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * @time 2018/7/13  15:18
  * @desc 登录实体类
  */
-public class LoginEntity {
+public class LoginEntity  implements Serializable {
 
 
     /**
@@ -168,7 +169,7 @@ public class LoginEntity {
 
     public void setRole(List<RoleBean> role) { this.role = role;}
 
-    public static class UserInfoBean {
+    public static class UserInfoBean  implements Serializable{
         private int id;
         private int user_id;
         private String head_img;
@@ -243,7 +244,7 @@ public class LoginEntity {
         }
     }
 
-    public static class UserOperationBean {
+    public static class UserOperationBean  implements Serializable{
         private int message_count;
         private int comment_count;
         private int follow_count;
@@ -266,7 +267,7 @@ public class LoginEntity {
         }
     }
 
-    public static class OtherInfoBean {
+    public static class OtherInfoBean  implements Serializable{
         private int id;
         private int user_id;
         private int check_status;
@@ -378,7 +379,7 @@ public class LoginEntity {
         }
     }
 
-    public static class RoleBean {
+    public static class RoleBean  implements Serializable{
         private int id;
         private int roleId;
         private String actionType;

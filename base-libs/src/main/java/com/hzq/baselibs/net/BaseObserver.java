@@ -53,7 +53,10 @@ public abstract class BaseObserver<T> implements Observer<BaseHttpResult<T>> {
         hideLoadingDialog();
         if (result.isOk()) {
             onSuccess(result);
-            Logger.e("请求成功返回数据--->:" + result.getData().toString());
+            if (result.getData() != null) {
+                Logger.e("请求成功返回数据:" + result.getData().toString());
+
+            }
         } else {
             //TODO API异常处理
             onFailure(result.getMessage(), result.getCode(), false);

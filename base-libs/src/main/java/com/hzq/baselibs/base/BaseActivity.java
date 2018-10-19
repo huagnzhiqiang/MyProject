@@ -98,6 +98,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.fitsSystemWindows(true);
+        mImmersionBar.statusBarColor(R.color.color_61bef4).init();
         mImmersionBar.init();
     }
 
@@ -149,6 +150,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             intent.putExtras(bundle);
         }
         startActivityForResult(intent, requestCode);
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
 
     /**
@@ -161,7 +163,17 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             intent.putExtras(bundle);
         }
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
+
+    /**
+     * 覆写finish方法，覆盖默认方法，加入切换动画
+     */
+    public void finishActivity() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+    }
+
 
     /**
      * 显示带消息的进度框

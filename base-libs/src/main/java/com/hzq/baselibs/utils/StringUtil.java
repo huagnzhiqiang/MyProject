@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * @date 2018/7/12 13:15
  * @desc 字符串工具类
  */
-public class StringUtils {
+public class StringUtil {
 
     /**
      * is null or its length is 0 or it is made by space
@@ -200,7 +200,7 @@ public class StringUtils {
      * @return String
      */
     public static String htmlEscapeCharsToString(String source) {
-        return StringUtils.isEmpty(source) ? source : source.replaceAll("&lt;", "<").replaceAll("&gt;", ">")
+        return StringUtil.isEmpty(source) ? source : source.replaceAll("&lt;", "<").replaceAll("&gt;", ">")
                 .replaceAll("&amp;", "&").replaceAll("&quot;", "\"");
     }
 

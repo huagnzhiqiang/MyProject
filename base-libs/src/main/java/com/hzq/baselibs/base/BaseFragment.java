@@ -192,6 +192,30 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         mActivity.showLoadingDialog(msg);
     }
 
+
+    /**
+     * 通过Class跳转界面
+     **/
+    public void startActivity(Class<?> cls) {
+        mActivity.startActivity(cls, null);
+    }
+
+    /**
+     * 通过Class跳转界面
+     **/
+    public void startActivityForResult(Class<?> cls, int requestCode) {
+        mActivity.startActivityForResult(cls, null, requestCode);
+    }
+
+
+    /**
+     * 覆写finish方法，覆盖默认方法，加入切换动画
+     */
+    public void finish() {
+        mActivity.finish();
+    }
+
+
     /**
      * 含有Bundle通过Class跳转界面
      **/
@@ -236,17 +260,20 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     /**
      * 初始化View的代码写在这个方法中
      */
-    protected void initView() {}
+    protected void initView() {
+    }
 
     /**
      * 初始化监听器的代码写在这个方法中
      */
-    protected void initListener() {}
+    protected void initListener() {
+    }
 
     /**
      * 初始数据的代码写在这个方法中，用于从服务器获取数据
      */
-    protected void initData() {}
+    protected void initData() {
+    }
 
     /**
      * 是否使用eventBus
@@ -262,19 +289,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     public void onEvent(MessageEvent messageEvent) {
     }
 
-    /**
-     * 通过Class跳转界面
-     **/
-    public void startActivity(Class<?> cls) {
-        startActivity(cls, null);
-    }
-
-    /**
-     * 通过Class跳转界面
-     **/
-    public void startActivityForResult(Class<?> cls, int requestCode) {
-        startActivityForResult(cls, null, requestCode);
-    }
 
     /**
      * 错误信息页面点击事件(无网络/获取数据出错...)

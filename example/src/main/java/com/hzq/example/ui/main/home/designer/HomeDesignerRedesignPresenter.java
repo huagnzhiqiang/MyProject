@@ -78,7 +78,7 @@ public class HomeDesignerRedesignPresenter extends BasePresenter<HomeDesignerRed
                      */
                     @Override
                     public void onSuccess(BaseHttpResult<HomeDesignerEntity> result) {
-                        getView().showHomeDesignerLoadMore(result.getData());
+                        getView().showHomeDesignerLoadMoreData(result.getData());
                     }
 
                     /**
@@ -90,6 +90,83 @@ public class HomeDesignerRedesignPresenter extends BasePresenter<HomeDesignerRed
                     @Override
                     public void onFailure(String errMsg, int errCode, boolean isNetError) {
                         getView().showLoadMoreError(errMsg);
+                    }
+                });
+    }
+
+    /**
+     * 请求首页关注设计师
+     *
+     * @param id 设计师id
+     */
+    public void requestFollowDesignersDataData(int id) {
+
+        getModel().getFollowDesignersData(id).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+                subscribe(new BaseObserver<String>(getView()) {
+                    /**
+                     * 请求成功返回
+                     *
+                     * @param result 服务器返回数据
+                     */
+                    @Override
+                    public void onSuccess(BaseHttpResult<String> result) {
+                        getView().showFollowDesignersData(result.getMessage());
+                    }
+
+                    /**
+                     * 请求失败返回
+                     *
+                     * @param errMsg     失败信息
+                     * @param isNetError 是否是网络异常
+                     */
+                    @Override
+                    public void onFailure(String errMsg, int errCode, boolean isNetError) {
+                        if (isNetError) {
+                            //无网络
+                            getView().showNetworkError(errMsg, errCode);
+                        } else {
+                            //有网络
+                            getView().showError(errMsg, errCode);
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * 请求首页取消关注设计师
+     *
+     * @param id 设计师id
+     */
+    public void requestUnFollowDesignersDataData(int id) {
+
+        getModel().getUnFollowDesignersData(id).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+                subscribe(new BaseObserver<String>(getView()) {
+                    /**
+                     * 请求成功返回
+                     *
+                     * @param result 服务器返回数据
+                     */
+                    @Override
+                    public void onSuccess(BaseHttpResult<String> result) {
+                        getView().showUnFollowDesignersData(result.getMessage());
+                    }
+
+                    /**
+                     * 请求失败返回
+                     *
+                     * @param errMsg     失败信息
+                     * @param isNetError 是否是网络异常
+                     */
+                    @Override
+                    public void onFailure(String errMsg, int errCode, boolean isNetError) {
+                        if (isNetError) {
+                            //无网络
+                            getView().showNetworkError(errMsg, errCode);
+                        } else {
+                            //有网络
+                            getView().showError(errMsg, errCode);
+                        }
                     }
                 });
     }

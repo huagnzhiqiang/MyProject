@@ -52,8 +52,6 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         super.onCreate(savedInstanceState);
 
 
-
-
         if (savedInstanceState != null) {
             Logger.d("onRestore enter...." + mCurrIndex);
             mCurrIndex = savedInstanceState.getInt("currTabIndex");
@@ -75,11 +73,10 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
     }
 
-
-    @Override
-    public boolean isInMultiWindowMode() {
-        return true;
-    }
+//    @Override
+//    public boolean isInMultiWindowMode() {
+//        return true;
+//    }
 
     /**
      * 请求网络
@@ -251,11 +248,6 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.init();
-    }
 
     /**
      * 显示错误

@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.rx_cache2.LifeCache;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -59,4 +60,15 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/api/userdesigner/getpagelist")
     Observable<BaseHttpResult<HomeDesignerEntity>> getHomeDesignerData(@FieldMap Map<String, String> map);
+
+
+    //获取关注设计师
+    @FormUrlEncoded
+    @POST("/api/userfollow/follow")
+    Observable<BaseHttpResult<String>> getFollowDesignersData(@Field("id") int id);
+
+    //获取关注设计师
+    @FormUrlEncoded
+    @POST("/api/userfollow/unfollow")
+    Observable<BaseHttpResult<String>> getUnFollowDesignersData(@Field("id") int id);
 }

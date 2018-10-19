@@ -30,7 +30,7 @@ public interface HomeDesignerRedesignContract {
          *
          * @param data 设计师加载更多数据
          */
-        void showHomeDesignerLoadMore(HomeDesignerEntity data);
+        void showHomeDesignerLoadMoreData(HomeDesignerEntity data);
 
 
         /**
@@ -39,19 +39,35 @@ public interface HomeDesignerRedesignContract {
          * @param msg 加载更多错误信息
          */
         void showLoadMoreError(String msg);
+
+        /**
+         * 首页关注设计师
+         */
+        void showFollowDesignersData(String msg);
+
+        /**
+         * 首页取消关注设计师
+         */
+        void showUnFollowDesignersData(String msg);
+
     }
 
 
     interface Model extends IModel {
 
         /**
-         * 请求首页设计师数据
+         * 请求首页设计师数据和更多数据
          */
         Observable<BaseHttpResult<HomeDesignerEntity>> getHomeDesignerData(Map<String, String> map);
 
         /**
-         * 请求首页设计师更多数据
+         * 请求首页设计师
          */
-        Observable<BaseHttpResult<HomeDesignerEntity>> getHomeDesignerLoadMoreData(Map<String, String> map);
+        Observable<BaseHttpResult<String>> getFollowDesignersData(int id);
+
+        /**
+         * 请求首页取消关注设计师
+         */
+        Observable<BaseHttpResult<String>> getUnFollowDesignersData(int id);
     }
 }

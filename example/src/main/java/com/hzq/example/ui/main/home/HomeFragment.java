@@ -31,7 +31,7 @@ import butterknife.OnClick;
 public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View {
 
 
-    @BindView(R.id.tv_location) TextView mTvLocation;
+    @BindView(R.id.tv_location) TextView mTvLocation;//定位
     @BindView(R.id.icon_address) ImageView mIconAddress;
     @BindView(R.id.ll_location) LinearLayout mLlLocation;
 
@@ -91,7 +91,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     protected void initData() {
-
+        mTvLocation.setText("全国");
 
     }
 

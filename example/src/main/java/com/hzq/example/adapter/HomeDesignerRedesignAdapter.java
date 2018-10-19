@@ -6,7 +6,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hzq.baselibs.glide.GlideUtils;
-import com.hzq.baselibs.utils.StringUtils;
+import com.hzq.baselibs.utils.StringUtil;
 import com.hzq.example.R;
 import com.hzq.example.data.entity.HomeDesignerEntity;
 
@@ -34,17 +34,17 @@ public class HomeDesignerRedesignAdapter extends BaseQuickAdapter<HomeDesignerEn
         //地址
         TextView tvCity = helper.getView(R.id.tv_designer_address);
 
-        if (!StringUtils.isEmpty(item.getCityName())){
+        if (!StringUtil.isEmpty(item.getCityName())) {
             tvCity.setText(item.getCityName());
             tvCity.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             tvCity.setVisibility(View.GONE);
         }
 
 
         TextView goodtag = helper.getView(R.id.tv_designer_goodtag);
 
-        if (!StringUtils.isEmpty(item.getFieldName())) {
+        if (!StringUtil.isEmpty(item.getFieldName())) {
             if (item.getFieldName().contains(",")) {
                 String designer_tag = item.getFieldName().replace(",", "/");
                 goodtag.setText(designer_tag + "");
@@ -58,6 +58,18 @@ public class HomeDesignerRedesignAdapter extends BaseQuickAdapter<HomeDesignerEn
         helper.setText(R.id.tv_product_count, "作品" + item.getProduct_count());
         helper.setText(R.id.tv_case_count, "案例" + item.getCase_count());
         helper.setText(R.id.tv_fans_count, "粉丝" + item.getFans_count());
+
+        //关注的操作
+        helper.addOnClickListener(R.id.im_designer_focus);
+        switch (item.isIsfollow()) {
+            case 0: //未关注
+                GlideUtils.loadImage(mContext, helper.getView(R.id.im_designer_focus), R.drawable.icon_focus_slices, R.drawable.user_moren);
+                break;
+            case 1: //已关注
+                GlideUtils.loadImage(mContext, helper.getView(R.id.im_designer_focus), R.drawable.icon_is_focus_slices, R.drawable.user_moren);
+
+                break;
+        }
     }
 
 

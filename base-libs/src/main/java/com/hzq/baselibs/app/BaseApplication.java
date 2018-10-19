@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.hzq.baselibs.utils.DynamicTimeFormat;
+import com.hzq.baselibs.utils.SpUtil;
 import com.hzq.baselibs.utils.cache.CacheManager;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
@@ -44,6 +45,8 @@ public class BaseApplication extends Application {
         //初始化下来刷新布局
         initSmartRefreshLayout();
 
+        //初始化SharedPreferences
+        SpUtil.instance(this);
     }
 
     /**

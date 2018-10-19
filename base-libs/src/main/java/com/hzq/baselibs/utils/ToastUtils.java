@@ -29,7 +29,7 @@ public final class ToastUtils {
 
     private static final int DEFAULT_COLOR = 0x12000000;
     private static Toast sToast;
-    private static int gravity         = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
+    private static int gravity         = Gravity.CENTER_HORIZONTAL | Gravity.CENTER;
     private static int xOffset         = 0;
     private static int yOffset         = (int) (64 * BaseApplication.getContext().getResources().getDisplayMetrics().density + 0.5);
     private static int backgroundColor = DEFAULT_COLOR;

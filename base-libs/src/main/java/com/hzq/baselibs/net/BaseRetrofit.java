@@ -5,7 +5,10 @@ import android.os.Environment;
 import com.hzq.baselibs.app.AppConfig;
 import com.hzq.baselibs.app.BaseApplication;
 import com.hzq.baselibs.net.converter.GsonConverterBodyFactory;
+import com.hzq.baselibs.net.cookie.CookieJarImpl;
+import com.hzq.baselibs.net.cookie.store.PersistentCookieStore;
 import com.hzq.baselibs.utils.NetworkUtils;
+import com.hzq.baselibs.utils.SpUtil;
 import com.hzq.baselibs.utils.cache.CacheManager;
 import com.orhanobut.logger.Logger;
 
@@ -49,7 +52,9 @@ public class BaseRetrofit {
     public static HashMap<String, Object> getRequestHeader() {
         HashMap<String, Object> parameters = new HashMap<>();
         // 为接口统一添加access_token参数
-        parameters.put("token", CacheManager.getString("token"));
+        CacheManager.getString("token");
+        parameters.put("token", SpUtil.getInstance().getString("token"));
+        Logger.d("getRequestHeader--->:" + SpUtil.getInstance().getString("token"));
         return parameters;
     }
 
@@ -94,9 +99,9 @@ public class BaseRetrofit {
                     Logger.w("getRetrofit--->:" + cacheFile.getAbsolutePath());
                     Logger.w("getRetrofit--->:" + cache);
                     client = new OkHttpClient.Builder()
-                            //                          .cookieJar(new CookieJarImpl(new PersistentCookieStore(App.getContext()))); //cookie 相关
+                            .cookieJar(new CookieJarImpl(new PersistentCookieStore(BaseApplication.getContext()))) //cookie 相关
                             .addInterceptor(httpLoggingInterceptor) //日志,所有的请求响应
-                            //                            .addInterceptor(new HeaderInterceptor(getRequestHeader())) // token过滤
+//                            .addInterceptor(new HeaderInterceptor(getRequestHeader())) // token过滤
                             //                            .addInterceptor(new ParameterInterceptor(getRequestParams()))  //公共参数添加
                             //不加以下两行代码,https请求不到自签名的服务器
                             .sslSocketFactory(createSSLSocketFactory())//创建一个证书对象
