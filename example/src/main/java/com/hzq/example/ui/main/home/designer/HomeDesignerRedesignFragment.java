@@ -53,6 +53,10 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
     //设计师数据集合
     private ArrayList<HomeDesignerEntity.RowsBean> mDataList = new ArrayList<>();
 
+    //adapter返回的数据
+    private int mPosition;//adapter 点击时候的item索引
+    private HomeDesignerEntity.RowsBean mAdapterData; //adapter 点击时候的item数据
+
     /**
      * 返回一个用于显示界面的布局id
      */
@@ -160,7 +164,7 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
     public void showHomeDesignerData(HomeDesignerEntity data) {
         mAdapter.setEnableLoadMore(true); //允许加载更多
         mRefreshLayout.finishRefresh();//关闭刷新
-        setData(true, data);
+        setAdapterData(true, data);
     }
 
     /**
@@ -170,12 +174,17 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
      */
     @Override
     public void showHomeDesignerLoadMoreData(HomeDesignerEntity data) {
-        setData(false, data);
+        setAdapterData(false, data);
     }
 
-    /** ==================设置数据===================== */
 
-    private void setData(boolean isRefresh, HomeDesignerEntity data) {
+    /**
+     * 设置Adapter数据
+     *
+     * @param isRefresh true:第一次刷新  false:加载更多数据
+     * @param data      Adapter填充的数据
+     */
+    private void setAdapterData(boolean isRefresh, HomeDesignerEntity data) {
 
         mLayoutStatusView.showContent();//显示内容
         mCurrentPage++;
@@ -188,7 +197,7 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
 
         final int size = mDataList == null ? 0 : mDataList.size();
 
-        Logger.d("setData--->:" + size);
+        Logger.d("setAdapterData--->:" + size);
         if (isRefresh) {
 
             //第一次加载数据,发现没有就显示空布局
@@ -200,6 +209,10 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
             //有就设置新的数据
             mAdapter.setNewData(mDataList);
 
+
+            //            MoveToPosition(mPosition);
+
+            Logger.d("setAdapterData--->:" + mPosition);
         } else {
 
             //加载更多
@@ -221,6 +234,7 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
             mAdapter.loadMoreEnd(true);
         }
     }
+
 
     /**
      * 加载更多请求
@@ -285,9 +299,11 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
-        HomeDesignerEntity.RowsBean data = (HomeDesignerEntity.RowsBean) adapter.getData().get(position);
+        mPosition = position;
+        mAdapterData = (HomeDesignerEntity.RowsBean) adapter.getData().get(position);
 
-        switch (data.getIsfollow()) {
+
+        switch (mAdapterData.getIsfollow()) {
             //未关注
             case 0:
 
@@ -296,17 +312,17 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
                     LoginEntity result = LoginMsgHelper.getResult();
 
                     int userId = result.getUser_info().getUser_id();
-                    if (userId == data.getId()) {
+                    if (userId == mAdapterData.getId()) {
                         ToastUtils.showShort("自己不能关注自己");
                     } else {
-                        mPresenter.requestFollowDesignersDataData(data.getId());
+                        mPresenter.requestFollowDesignersDataData(mAdapterData.getId());
                     }
                 }
                 break;
 
             //已关注
             case 1:
-                mPresenter.requestUnFollowDesignersDataData(data.getId());
+                mPresenter.requestUnFollowDesignersDataData(mAdapterData.getId());
 
                 break;
         }
@@ -319,7 +335,7 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
      */
     @Override
     public void showFollowDesignersData(String msg) {
-        ToastUtils.showShort(msg);
+        upFollowData(1);
     }
 
     /**
@@ -328,6 +344,37 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
     @Override
     public void showUnFollowDesignersData(String msg) {
         ToastUtils.showShort(msg);
+        upFollowData(0);
+    }
+
+
+    /**
+     * 点击关注或者取消关注接口返回成功时候的操作
+     *
+     * @param isfollow 0表示:取消关注 1表示:关注
+     */
+    private void upFollowData(int isfollow) {
+        HomeDesignerEntity.RowsBean upDateData = new HomeDesignerEntity.RowsBean();
+        upDateData.setId(mAdapterData.getId());
+        upDateData.setHead_img(mAdapterData.getHead_img());
+        upDateData.setNickname(mAdapterData.getNickname());
+        upDateData.setLevel(mAdapterData.getLevel());
+        upDateData.setField(mAdapterData.getField());
+        upDateData.setFieldName(mAdapterData.getFieldName());
+        upDateData.setFollow_user_id(mAdapterData.getFollow_user_id());
+        upDateData.setUser_type(mAdapterData.getUser_type());
+        upDateData.setCreate_datetime(mAdapterData.getCreate_datetime());
+        upDateData.setProvinceName(mAdapterData.getProvinceName());
+        upDateData.setCityName(mAdapterData.getCityName());
+        upDateData.setCityName(mAdapterData.getCityName());
+        upDateData.setFollow(mAdapterData.getFollow());
+        upDateData.setOpenservice(mAdapterData.getOpenservice());
+        int fansCount = mAdapterData.getFans_count();
+        upDateData.setFans_count(--fansCount);
+        upDateData.setProduct_count(mAdapterData.getProduct_count());
+        upDateData.setCase_count(mAdapterData.getCase_count());
+        upDateData.setIsfollow(isfollow);
+        mAdapter.setData(mPosition, upDateData);
     }
 
 }

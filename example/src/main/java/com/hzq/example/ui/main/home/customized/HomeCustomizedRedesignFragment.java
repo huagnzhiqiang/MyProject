@@ -143,7 +143,7 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
     public void showCustomizedData(HomeCustomizeEntity data) {
         mAdapter.setEnableLoadMore(true); //允许加载更多
         mRefreshLayout.finishRefresh();//关闭刷新
-        setData(true, data);
+        setAdapterData(true, data);
     }
 
 
@@ -171,13 +171,17 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
      */
     @Override
     public void showCustomizedLoadMore(HomeCustomizeEntity data) {
-        setData(false, data);
+        setAdapterData(false, data);
     }
 
 
-    /** ==================设置数据===================== */
-
-    private void setData(boolean isRefresh, HomeCustomizeEntity data) {
+    /**
+     * 设置Adapter数据
+     *
+     * @param isRefresh true:第一次刷新  false:加载更多数据
+     * @param data      Adapter填充的数据
+     */
+    private void setAdapterData(boolean isRefresh, HomeCustomizeEntity data) {
 
         mLayoutStatusView.showContent();//显示内容
         mCurrentPage++;
@@ -190,7 +194,7 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
 
         final int size = mDataList == null ? 0 : mDataList.size();
 
-        Logger.d("setData--->:" + size);
+        Logger.d("setAdapterData--->:" + size);
         if (isRefresh) {
 
             //第一次加载数据,发现没有就显示空布局

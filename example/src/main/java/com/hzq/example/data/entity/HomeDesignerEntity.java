@@ -70,6 +70,15 @@ public class HomeDesignerEntity {
         private String ProvinceName;
         private String city_name;
 
+        private int follow;
+        private int openservice;
+        private int isfollow;
+        private int fans_count;
+        private int product_count;
+        private int case_count;
+
+
+
         public String getProvinceName() {
             return ProvinceName;
         }
@@ -86,12 +95,6 @@ public class HomeDesignerEntity {
             city_name = cityName;
         }
 
-        private int follow;
-        private int openservice;
-        private int isfollow;
-        private int fans_count;
-        private int product_count;
-        private int case_count;
 
         public String getFieldName() {
             return fieldName;

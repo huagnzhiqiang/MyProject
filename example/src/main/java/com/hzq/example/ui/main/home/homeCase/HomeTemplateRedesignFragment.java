@@ -159,7 +159,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
 
         mAdapter.setEnableLoadMore(true); //允许加载更多
         mRefreshLayout.finishRefresh();
-        setData(true, data);
+        setAdapterData(true, data);
     }
 
     /**
@@ -169,7 +169,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
      */
     @Override
     public void showCaseDataLoadMore(TemplateReadesignEntity data) {
-        setData(false, data);
+        setAdapterData(false, data);
     }
 
     /**
@@ -184,7 +184,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
         Logger.d("showProductData--->:" + data);
         mAdapter.setEnableLoadMore(true); //允许加载更多
         mRefreshLayout.finishRefresh();//关闭刷新
-        setData(true, data);
+        setAdapterData(true, data);
 
     }
 
@@ -195,7 +195,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
      */
     @Override
     public void showProductLoadMoreData(TemplateReadesignEntity data) {
-        setData(false, data);
+        setAdapterData(false, data);
     }
 
 
@@ -210,9 +210,13 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     }
 
 
-    /** ==================设置数据===================== */
-
-    private void setData(boolean isRefresh, TemplateReadesignEntity data) {
+    /**
+     * 设置Adapter数据
+     *
+     * @param isRefresh true:第一次刷新  false:加载更多数据
+     * @param data      Adapter填充的数据
+     */
+    private void setAdapterData(boolean isRefresh, TemplateReadesignEntity data) {
 
         mLayoutStatusView.showContent();//显示内容
         mCurrentPage++;
