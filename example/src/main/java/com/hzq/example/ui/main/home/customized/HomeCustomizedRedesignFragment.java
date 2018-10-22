@@ -127,9 +127,8 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
         if (NetworkUtils.isNetworkAvailable(BaseApplication.getContext())) {
             onLazyLoad();
         } else {
+            mRefreshLayout.finishRefresh(false);
             ToastUtils.showShort("网络不可用");
-            mRefreshLayout.finishRefresh();
-
         }
     }
 
@@ -183,6 +182,8 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
      */
     private void setAdapterData(boolean isRefresh, HomeCustomizeEntity data) {
 
+
+        Logger.d("setAdapterData--->:" + isRefresh);
         mLayoutStatusView.showContent();//显示内容
         mCurrentPage++;
 
@@ -194,7 +195,6 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
 
         final int size = mDataList == null ? 0 : mDataList.size();
 
-        Logger.d("setAdapterData--->:" + size);
         if (isRefresh) {
 
             //第一次加载数据,发现没有就显示空布局
@@ -213,19 +213,20 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
                 mAdapter.addData(mDataList);
 
             } else {
-                ToastUtils.showShort("没有更多数据了");
+                ToastUtils.showShort(Constant.NO_LOAD_MORE);
+
             }
         }
 
         //第一页如果不够一页就不显示没有更多数据布局
-        if (size < Constant.PAGE_SIZE) {
-            mAdapter.loadMoreEnd(isRefresh);
+        if ( size == Constant.PAGE_SIZE) {
+            mAdapter.loadMoreEnd(true);
         } else {
+            //加载更多的触发
             mAdapter.loadMoreComplete();
         }
-        if (size == 0) {
-            mAdapter.loadMoreEnd(true);
-        }
+
+
     }
 
 

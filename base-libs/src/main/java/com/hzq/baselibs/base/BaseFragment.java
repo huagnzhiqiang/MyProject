@@ -17,6 +17,7 @@ import com.hzq.baselibs.app.BaseApplication;
 import com.hzq.baselibs.mvp.BasePresenter;
 import com.hzq.baselibs.mvp.IView;
 import com.hzq.baselibs.view.MultipleStatusView;
+import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.RefWatcher;
 
 import org.greenrobot.eventbus.EventBus;
@@ -175,6 +176,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
 
     @Override
     public void showLoading() {
+        Logger.d("showLoading--->:"  );
         mActivity.showLoadingDialog();
     }
 
@@ -211,8 +213,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     /**
      * 覆写finish方法，覆盖默认方法，加入切换动画
      */
-    public void finish() {
-        mActivity.finish();
+    public void finishActivity() {
+        mActivity.finishActivity();
     }
 
 

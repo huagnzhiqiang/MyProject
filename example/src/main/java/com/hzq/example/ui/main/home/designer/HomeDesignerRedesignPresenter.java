@@ -102,7 +102,7 @@ public class HomeDesignerRedesignPresenter extends BasePresenter<HomeDesignerRed
     public void requestFollowDesignersDataData(int id) {
 
         getModel().getFollowDesignersData(id).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
-                subscribe(new BaseObserver<String>(getView()) {
+                subscribe(new BaseObserver<String>(getView(),false) {
                     /**
                      * 请求成功返回
                      *
@@ -141,7 +141,7 @@ public class HomeDesignerRedesignPresenter extends BasePresenter<HomeDesignerRed
     public void requestUnFollowDesignersDataData(int id) {
 
         getModel().getUnFollowDesignersData(id).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
-                subscribe(new BaseObserver<String>(getView()) {
+                subscribe(new BaseObserver<String>(getView(),false) {
                     /**
                      * 请求成功返回
                      *

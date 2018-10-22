@@ -87,6 +87,7 @@ public class BaseRetrofit {
 
                         }
                     });
+
                     //可以设置请求过滤的水平,body,basic,headers
                     httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 

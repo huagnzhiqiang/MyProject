@@ -37,8 +37,7 @@ import butterknife.BindView;
  * @time 2018/8/2  15:22
  * @desc 首页案例/模板页面
  */
-public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedesignFragmentPresenter> implements HomeTemplateRedesignFragmentContract.View, BaseQuickAdapter.RequestLoadMoreListener,
-        OnRefreshListener {
+public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedesignFragmentPresenter> implements HomeTemplateRedesignFragmentContract.View, BaseQuickAdapter.RequestLoadMoreListener, OnRefreshListener {
 
     private static final String FRAGMENT_TYPE = "fragment_type";//跳转页面Key
     public static final int HOME_CASE = 1;//案例type
@@ -218,6 +217,9 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
      */
     private void setAdapterData(boolean isRefresh, TemplateReadesignEntity data) {
 
+        Logger.d("setAdapterData--->:" + isRefresh);
+
+
         mLayoutStatusView.showContent();//显示内容
         mCurrentPage++;
 
@@ -228,13 +230,13 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
         }
 
         final int size = mDataList == null ? 0 : mDataList.size();
+        Logger.d("setAdapterData--->:" + size);
 
         if (isRefresh) {
 
             //第一次加载数据,发现没有就显示空布局
             if (size == 0) {
                 mLayoutStatusView.showEmpty();
-
                 return;
             }
 
@@ -246,18 +248,18 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
             //加载更多
             if (size > 0) {
                 mAdapter.addData(mDataList);
+            } else {
+                ToastUtils.showShort(Constant.NO_LOAD_MORE);
             }
         }
-
         //第一页如果不够一页就不显示没有更多数据布局
-        if (size < Constant.PAGE_SIZE) {
-            mAdapter.loadMoreEnd(isRefresh);
+        if ( size == Constant.PAGE_SIZE) {
+            mAdapter.loadMoreEnd(true);
         } else {
+            //加载更多的触发
             mAdapter.loadMoreComplete();
         }
-        if (size == 0) {
-            mAdapter.loadMoreEnd(true);
-        }
+
     }
 
 
@@ -265,8 +267,8 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @Override
     public void showError(String msg, int code) {
         ToastUtils.showShort(msg);
-//        mAdapter.setEnableLoadMore(true); //允许加载更多
-        mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
+        //        mAdapter.setEnableLoadMore(true); //允许加载更多
+            mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
         if (mDataList.size() <= 0) {
             mLayoutStatusView.showError();
         }
@@ -283,7 +285,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     /** ==================加载更多请求网络===================== */
     private void requestLoadMoreNetwork() {
 
-        Logger.d("加载更多请求--->:"  );
+        Logger.d("加载更多请求--->:");
 
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(mCurrentPage));
@@ -306,8 +308,8 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @Override
     public void showNetworkError(String msg, int code) {
         ToastUtils.showShort(msg);
-//        mAdapter.setEnableLoadMore(true); //允许加载更多
-        mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
+        //        mAdapter.setEnableLoadMore(true); //允许加载更多
+            mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
         if (mDataList.size() <= 0) {
             mLayoutStatusView.showNoNetwork();
         }
@@ -320,8 +322,8 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
         if (NetworkUtils.isNetworkAvailable(BaseApplication.getContext())) {
             onLazyLoad();
         } else {
+            mRefreshLayout.finishRefresh(false);
             ToastUtils.showShort("网络不可用");
-            mRefreshLayout.finishRefresh();
 
         }
     }

@@ -44,8 +44,6 @@ public class HomeCustomizedRedesignAdapter extends BaseQuickAdapter<HomeCustomiz
 
         GlideUtils.loadImage(mContext, item.getReference_img(), (ImageView) helper.getView(R.id.iv_home_customized_redesign_cover), R.drawable.load);
 
-        helper.setText(R.id.tv_home_customized_redesign_tag, item.getEnterprise_nickname());
-
         //描述
         helper.setText(R.id.tv_home_customized_redesign_describe, item.getDescription());
 

@@ -9,8 +9,9 @@ public class Constant {
 
     public static String PAGE_COUNT = "12"; //请求数量--> 每次请求12条
 
-    public static int PAGE_SIZE = 6; //少于6条就不显示加载更多
+    public static int PAGE_SIZE = 0; //少于0条就不显示加载更多
 
+    public static String NO_LOAD_MORE = "没有更多数据了"; //加载更多没有数据的提示
 
     /**
      * 定向/竞标订单状态

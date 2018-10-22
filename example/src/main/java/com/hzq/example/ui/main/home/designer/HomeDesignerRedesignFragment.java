@@ -148,8 +148,8 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
         if (NetworkUtils.isNetworkAvailable(BaseApplication.getContext())) {
             onLazyLoad();
         } else {
+            mRefreshLayout.finishRefresh(false);
             ToastUtils.showShort("网络不可用");
-            mRefreshLayout.finishRefresh();
 
         }
     }
@@ -209,30 +209,24 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
             //有就设置新的数据
             mAdapter.setNewData(mDataList);
 
-
-            //            MoveToPosition(mPosition);
-
-            Logger.d("setAdapterData--->:" + mPosition);
         } else {
 
             //加载更多
             if (size > 0) {
                 mAdapter.addData(mDataList);
-
             } else {
-                ToastUtils.showShort("没有更多数据了");
+                ToastUtils.showShort(Constant.NO_LOAD_MORE);
             }
         }
 
         //第一页如果不够一页就不显示没有更多数据布局
-        if (size < Constant.PAGE_SIZE) {
-            mAdapter.loadMoreEnd(isRefresh);
+        if ( size == Constant.PAGE_SIZE) {
+            mAdapter.loadMoreEnd(true);
         } else {
+            //加载更多的触发
             mAdapter.loadMoreComplete();
         }
-        if (size == 0) {
-            mAdapter.loadMoreEnd(true);
-        }
+
     }
 
 
@@ -272,8 +266,8 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
     public void showError(String msg, int code) {
         ToastUtils.showShort(msg);
         //        mAdapter.setEnableLoadMore(true); //允许加载更多
-        mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
         if (mDataList.size() <= 0) {
+            mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
             mLayoutStatusView.showError();
         }
     }
@@ -315,6 +309,7 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
                     if (userId == mAdapterData.getId()) {
                         ToastUtils.showShort("自己不能关注自己");
                     } else {
+                        showLoading("关注中...");
                         mPresenter.requestFollowDesignersDataData(mAdapterData.getId());
                     }
                 }
@@ -322,13 +317,12 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
 
             //已关注
             case 1:
+                showLoading("取消关注中...");
                 mPresenter.requestUnFollowDesignersDataData(mAdapterData.getId());
-
                 break;
         }
 
     }
-
 
     /**
      * 首页关注设计师
