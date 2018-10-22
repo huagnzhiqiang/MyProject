@@ -369,11 +369,24 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
         upDateData.setCityName(mAdapterData.getCityName());
         upDateData.setFollow(mAdapterData.getFollow());
         upDateData.setOpenservice(mAdapterData.getOpenservice());
-        int fansCount = mAdapterData.getFans_count();
-        upDateData.setFans_count(--fansCount);
         upDateData.setProduct_count(mAdapterData.getProduct_count());
         upDateData.setCase_count(mAdapterData.getCase_count());
         upDateData.setIsfollow(isfollow);
+
+        //粉丝数量
+        int fansCount = mAdapterData.getFans_count();
+        switch (isfollow) {
+
+            //取消关注 粉丝数量自减1
+            case 0:
+                upDateData.setFans_count(--fansCount);
+                break;
+
+            //关注 粉丝数量自增1
+            case 1:
+                upDateData.setFans_count(++fansCount);
+                break;
+        }
         mAdapter.setData(mPosition, upDateData);
     }
 
