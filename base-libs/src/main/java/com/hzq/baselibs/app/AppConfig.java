@@ -8,7 +8,7 @@ package com.hzq.baselibs.app;
 public class AppConfig {
 
 //    public static final String BASE_URL="http://gank.io/";
-//    public static final String BASE_URL="https://api.i-top.cn";
-    public static final String BASE_URL="http://192.168.7.100:8028";
+    public static final String BASE_URL="https://api.i-top.cn";
+//    public static final String BASE_URL="http://192.168.7.100:8028";
 //    public static final String BASE_URL="http://125.88.152.77";
 }
