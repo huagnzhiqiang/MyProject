@@ -149,8 +149,9 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         }
 
         //销毁沉浸式
-        if (mImmersionBar != null)
+        if (mImmersionBar != null){
             mImmersionBar.destroy();
+        }
 
 
         if (useEventBus()) {
@@ -158,6 +159,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
                 EventBus.getDefault().unregister(this);//注销eventBus
             }
         }
+
+        //销毁检查内存泄露问题插件
         initLeakCanary();
     }
 
@@ -246,7 +249,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
      * 用来检测所有Fragment的内存泄漏
      */
     private void initLeakCanary() {
-        RefWatcher refWatcher = BaseApplication.getRefWatcher(getBaseActivity());
+        RefWatcher refWatcher = BaseApplication.getRefWatcher(getContext());
         refWatcher.watch(this);
     }
 

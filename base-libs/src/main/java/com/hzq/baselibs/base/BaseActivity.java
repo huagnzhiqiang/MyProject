@@ -19,9 +19,11 @@ import android.widget.TextView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.hzq.baselibs.Bean.MessageEvent;
 import com.hzq.baselibs.R;
+import com.hzq.baselibs.app.BaseApplication;
 import com.hzq.baselibs.receiver.NetWorkChangeBroadcastReceiver;
 import com.hzq.baselibs.view.MultipleStatusView;
 import com.orhanobut.logger.Logger;
+import com.squareup.leakcanary.RefWatcher;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,7 +81,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         initView();
         initListener();
         networkRequest();
-//        registerNetChangeReceiver();
+        //        registerNetChangeReceiver();
     }
 
     /**
@@ -123,7 +125,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
      * 接受EventBus 广播
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(MessageEvent messageEvent) {}
+    public void onEvent(MessageEvent messageEvent) {
+    }
 
 
     /**
@@ -251,8 +254,9 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         }
 
         //在BaseActivity里销毁沉浸式
-        if (mImmersionBar != null)
+        if (mImmersionBar != null) {
             mImmersionBar.destroy();
+        }
 
         if (useEventBus()) {
             if (EventBus.getDefault().isRegistered(this)) {
@@ -266,6 +270,17 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             unregisterReceiver(receiver);
             receiver = null;
         }
+
+        //销毁检查内存泄露问题插件
+        initLeakCanary();
+    }
+
+    /**
+     * 用来检测所有Fragment的内存泄漏
+     */
+    private void initLeakCanary() {
+        RefWatcher refWatcher = BaseApplication.getRefWatcher(this);
+        refWatcher.watch(this);
     }
 
 
@@ -278,23 +293,27 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     /**
      * 获取 Intent 数据
      */
-    protected void getIntent(Intent intent) {}
+    protected void getIntent(Intent intent) {
+    }
 
     /**
      * 初始数据的代码写在这个方法中，用于从服务器获取数据
      */
-    protected void initData() {}
+    protected void initData() {
+    }
 
 
     /**
      * 初始化View的代码写在这个方法中
      */
-    protected void initView() {}
+    protected void initView() {
+    }
 
     /**
      * 初始化监听器的代码写在这个方法中
      */
-    protected void initListener() {}
+    protected void initListener() {
+    }
 
 
     /**
