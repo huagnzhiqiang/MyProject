@@ -102,7 +102,7 @@ public class BaseRetrofit {
                     client = new OkHttpClient.Builder()
                             .cookieJar(new CookieJarImpl(new PersistentCookieStore(BaseApplication.getContext()))) //cookie 相关
                             .addInterceptor(httpLoggingInterceptor) //日志,所有的请求响应
-//                            .addInterceptor(new HeaderInterceptor(getRequestHeader())) // token过滤
+//                            .addInterceptor(new HeaderInterceptor(getRequestHeader())) // 配置网络请求头
                             //                            .addInterceptor(new ParameterInterceptor(getRequestParams()))  //公共参数添加
                             //不加以下两行代码,https请求不到自签名的服务器
                             .sslSocketFactory(createSSLSocketFactory())//创建一个证书对象

@@ -3,8 +3,6 @@
           package="com.hzq.example">
 
 
-
-
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -21,6 +19,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.main.login.LoginActivity"/>
+
+
+        <!--心跳包服务 续Token-->
+        <service android:name=".service.AlarmssService"/>
+
+        <!--心跳包广播 续Token-->
+        <receiver android:name=".service.AlarmssReceiver"/>
 
     </application>
 

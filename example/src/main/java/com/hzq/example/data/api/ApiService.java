@@ -70,5 +70,9 @@ public interface ApiService {
     //获取关注设计师
     @FormUrlEncoded
     @POST("/api/userfollow/unfollow")
-    Observable<BaseHttpResult<String>> getUnFollowDesignersData(@Field("id") int id);
+    Observable<BaseHttpResult<String>> getUnFollowDesignersData(int id);
+
+    @FormUrlEncoded
+    @POST("/api/user/getuserstatus")
+    Observable<BaseHttpResult<LoginEntity>> getTokenData(@Field("token") String token);
 }

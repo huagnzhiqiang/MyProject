@@ -54,13 +54,13 @@ public abstract class BaseObserver<T> implements Observer<BaseHttpResult<T>> {
         if (result.isOk()) {
             onSuccess(result);
             if (result.getData() != null) {
-                Logger.e("请求成功返回数据:" + result.getData().toString());
+                Logger.i("请求成功返回数据:" + result.getData().toString());
 
             }
         } else {
             //TODO API异常处理
             onFailure(result.getMessage(), result.getCode(), false);
-            Logger.d("异常处理--->:");
+            Logger.e("异常处理--->:");
         }
     }
 
