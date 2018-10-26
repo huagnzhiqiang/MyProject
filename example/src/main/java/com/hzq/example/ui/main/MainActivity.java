@@ -16,7 +16,7 @@ import com.hzq.example.data.entity.TestNews;
 import com.hzq.example.ui.main.home.HomeFragment;
 import com.hzq.example.ui.main.mine.MineFragment;
 import com.hzq.example.ui.main.myWork.MyWorkFragment;
-import com.hzq.example.ui.main.video.MarketFragment;
+import com.hzq.example.ui.main.market.MarketFragment;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;

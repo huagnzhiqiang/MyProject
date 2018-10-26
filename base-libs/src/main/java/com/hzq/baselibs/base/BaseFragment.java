@@ -85,8 +85,10 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         }
 
         //初始化沉浸式
-        if (isImmersionBarEnabled())
+        if (isImmersionBarEnabled()){
             initImmersionBar();
+        }
+
 
 
         if (useEventBus()) {

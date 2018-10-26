@@ -329,6 +329,7 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
      */
     @Override
     public void showFollowDesignersData(String msg) {
+        ToastUtils.showShort(msg);
         upFollowData(1);
     }
 
