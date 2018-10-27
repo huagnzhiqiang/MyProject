@@ -7,9 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.SimpleLoadMoreView;
-import com.hzq.baselibs.app.BaseApplication;
 import com.hzq.baselibs.base.BaseFragment;
-import com.hzq.baselibs.utils.NetworkUtils;
 import com.hzq.baselibs.utils.ToastUtils;
 import com.hzq.baselibs.view.MultipleStatusView;
 import com.hzq.example.R;
@@ -21,8 +19,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -41,8 +39,7 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
     private HomeCustomizedRedesignAdapter mAdapter;
     private int mCurrentPage = 1;
 
-    //适配器数据集合
-    private ArrayList<HomeCustomizeEntity.RowsBean> mDataList = new ArrayList<>();
+
 
     /**
      * 返回一个用于显示界面的布局id
@@ -63,6 +60,14 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
         return new HomeCustomizedRedesignPersenter();
     }
 
+    /**
+     * 初始化View的代码写在这个方法中
+     */
+    @Override
+    protected void initView() {
+
+    }
+
 
     /**
      * 初始化监听器的代码写在这个方法中
@@ -72,15 +77,16 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
         mRefreshLayout.setOnRefreshListener(this);
     }
 
-    /**
-     * 初始数据的代码写在这个方法中，用于从服务器获取数据
-     */
+
     @Override
     protected void initData() {
+        super.initData();
         //初始化adapter
         initAdapter();
-
     }
+
+
+
 
 
     /** ==================初始化adapter===================== */
@@ -100,14 +106,24 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
      */
     @Override
     public void onLazyLoad() {
+        Logger.d("初始化懒加载的数据 (请求网络)--->:"  );
 
         //第一次进来就刷新页面
         mRefreshLayout.autoRefresh();
+    }
 
+    /**
+     * 刷新数据请求
+     */
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        requestNetwork();
+    }
+
+    /**==================第一次和刷新请求网络=====================*/
+    private void requestNetwork() {
         mCurrentPage = 1;
-
         mAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
-
         Map<String, String> map = new HashMap<>();
         //        map.put("city_code", mAdCode);//城市
         map.put("demand_type", "1");
@@ -116,20 +132,6 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
         map.put("PageIndex", String.valueOf(mCurrentPage));
         map.put("PageCount", Constant.PAGE_COUNT);
         mPresenter.requestCustomizedData(map);
-    }
-
-
-    /**
-     * 刷新数据请求
-     */
-    @Override
-    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        if (NetworkUtils.isNetworkAvailable(BaseApplication.getContext())) {
-            onLazyLoad();
-        } else {
-            mRefreshLayout.finishRefresh(false);
-            ToastUtils.showShort("网络不可用");
-        }
     }
 
 
@@ -178,22 +180,17 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
      * 设置Adapter数据
      *
      * @param isRefresh true:第一次刷新  false:加载更多数据
-     * @param data      Adapter填充的数据
+     * @param bean      Adapter填充的数据
      */
-    private void setAdapterData(boolean isRefresh, HomeCustomizeEntity data) {
+    private void setAdapterData(boolean isRefresh, HomeCustomizeEntity bean) {
 
 
-        Logger.d("setAdapterData--->:" + isRefresh);
         mLayoutStatusView.showContent();//显示内容
         mCurrentPage++;
 
-        mDataList = new ArrayList<>();
-        final int dataSize = data.getRows().size();
-        for (int i = 0; i < dataSize; i++) {
-            mDataList.add(data.getRows().get(i));
-        }
+        final List<HomeCustomizeEntity.RowsBean> data = bean.getRows();
+        final int size = data == null ? 0 : data.size();
 
-        final int size = mDataList == null ? 0 : mDataList.size();
 
         if (isRefresh) {
 
@@ -204,13 +201,13 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
             }
 
             //有就设置新的数据
-            mAdapter.setNewData(mDataList);
+            mAdapter.setNewData(data);
 
         } else {
 
             //加载更多
             if (size > 0) {
-                mAdapter.addData(mDataList);
+                mAdapter.addData(data);
 
             } else {
                 ToastUtils.showShort(Constant.NO_LOAD_MORE);
@@ -239,8 +236,9 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
     @Override
     public void showError(String msg, int code) {
         ToastUtils.showShort(msg);
+        mAdapter.setEnableLoadMore(true); //允许加载更多
         mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
-        if (mDataList.size() <= 0) {
+        if (mAdapter.getItemCount()<= 0) {
             mLayoutStatusView.showError();
         }
     }
@@ -254,8 +252,9 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
     @Override
     public void showNetworkError(String msg, int code) {
         ToastUtils.showShort(msg);
+        mAdapter.setEnableLoadMore(true); //允许加载更多
         mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
-        if (mDataList.size() <= 0) {
+        if (mAdapter.getItemCount() <= 0) {
             mLayoutStatusView.showNoNetwork();
         }
 

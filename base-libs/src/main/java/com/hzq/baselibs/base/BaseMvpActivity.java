@@ -34,6 +34,11 @@ public abstract class BaseMvpActivity<T extends BasePresenter> extends BaseActiv
         hideLoadingDialog();
     }
 
+    /**
+     * 创建Presenter
+     *
+     * @return 返回当前的Presenter
+     */
 
     protected abstract T createPresenter();
 

@@ -66,8 +66,9 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
         setContentView(getLayoutId());
         Intent intent = getIntent();
-        if (intent != null)
+        if (intent != null){
             getIntent(intent);
+        }
 
         unBinder = ButterKnife.bind(this);
 
@@ -77,8 +78,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
             mLayoutStatusView.setOnRetryClickListener(layoutStatusViewOnclick);
         }
 
-        initData();
         initView();
+        initData();
         initListener();
         networkRequest();
         //        registerNetChangeReceiver();

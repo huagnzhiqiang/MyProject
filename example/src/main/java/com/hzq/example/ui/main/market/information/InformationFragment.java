@@ -7,9 +7,11 @@ import com.hzq.example.R;
 /**
  * @author 小强
  * @time 2018/10/26  18:22
- * @desc
+ * @desc 自营销咨询咨询页面
  */
 public class InformationFragment  extends BaseFragment {
+
+
     /**
      * 返回一个用于显示界面的布局id
      */
@@ -24,7 +26,7 @@ public class InformationFragment  extends BaseFragment {
     }
 
     /**
-     * 请求网络
+     * 初始化懒加载的数据
      */
     @Override
     public void onLazyLoad() {

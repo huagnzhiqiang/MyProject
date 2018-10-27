@@ -3,13 +3,16 @@ package com.hzq.example.ui.main.market.recoment;
 import com.hzq.baselibs.base.BaseFragment;
 import com.hzq.baselibs.mvp.BasePresenter;
 import com.hzq.example.R;
+import com.orhanobut.logger.Logger;
 
 /**
  * @author 小强
  * @time 2018/10/26  18:20
- * @desc
+ * @desc 自营销推荐页面
  */
 public class RecomentFragment  extends BaseFragment {
+
+
     /**
      * 返回一个用于显示界面的布局id
      */
@@ -24,11 +27,12 @@ public class RecomentFragment  extends BaseFragment {
     }
 
     /**
-     * 请求网络
+     * 初始化懒加载的数据 (请求网络)
      */
     @Override
     public void onLazyLoad() {
 
+        Logger.d("初始化懒加载的数据 (请求网络)--->:"  );
     }
 
     /**

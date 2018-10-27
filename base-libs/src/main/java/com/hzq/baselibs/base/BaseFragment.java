@@ -70,7 +70,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         if (parent != null) {
             parent.removeView(mRootView);
         }
-
+        initView();
+        isPrepared = true;
         return mRootView;
     }
 
@@ -85,20 +86,28 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         }
 
         //初始化沉浸式
-        if (isImmersionBarEnabled()){
+        if (isImmersionBarEnabled()) {
             initImmersionBar();
         }
-
-
 
         if (useEventBus()) {
             EventBus.getDefault().register(this);//注册eventBus
         }
+        Bundle arguments = getArguments();
+        if (arguments != null){
+            getBundle(arguments);
+        }
+
+        lazyLoad();
         initData();
-        initView();
         initListener();
     }
 
+    /**
+     * 获取 Bundle 数据
+     */
+    protected void getBundle(Bundle arguments) {
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -151,7 +160,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         }
 
         //销毁沉浸式
-        if (mImmersionBar != null){
+        if (mImmersionBar != null) {
             mImmersionBar.destroy();
         }
 
@@ -181,7 +190,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
 
     @Override
     public void showLoading() {
-        Logger.d("showLoading--->:"  );
+        Logger.d("showLoading--->:");
         mActivity.showLoadingDialog();
     }
 
@@ -262,13 +271,17 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     protected abstract @LayoutRes
     int getLayoutId();
 
+    /**
+     * 创建Presenter
+     *
+     * @return 返回当前的Presenter
+     */
     protected abstract T createPresenter();
 
     /**
      * 初始化View的代码写在这个方法中
      */
-    protected void initView() {
-    }
+    protected void initView(){}
 
     /**
      * 初始化监听器的代码写在这个方法中

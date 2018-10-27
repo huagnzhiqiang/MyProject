@@ -21,7 +21,7 @@ import retrofit2.HttpException;
  * @desc 请求重连
  */
 public class RetryWithDelay implements Function<Observable<? extends Throwable>, Observable<?>> {
-    private int maxRetries = 2;
+    private int maxRetries = 3;
     private long retryDelayMillis = 500;
     private long increaseDelay = 500;
 

@@ -1,70 +1,84 @@
 package com.hzq.baselibs.base;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
-
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 /**
  * @author 小强
- * @time 2018/6/9 17:13
+ * @time 2018/10/27  10:03
  * @desc 懒加载 Fragment 基类
  */
 public abstract class BaseLazyFragment extends RxFragment {
 
     /**
-     * 懒加载过
+     * 是否对用户可见的标志位
      */
-    private boolean isLazyLoaded;
+    private boolean isVisible;
     /**
-     * Fragment的View加载完毕的标记
+     * 判断view是不是已经填充完毕的标记位
      */
-    private boolean isPrepared;
-
+    protected boolean isPrepared;
     /**
-     * 第一步,改变isPrepared标记
-     * 当onViewCreated()方法执行时,表明View已经加载完毕,此时改变isPrepared标记为true,并调用lazyLoad()方法
+     * 是否已经加载过数据
      */
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        isPrepared = true;
-        //只有Fragment onCreateView好了
-        //另外这里调用一次lazyLoad(）
-        lazyLoad();
-    }
+    private boolean isAlreadyLoadData = false;
 
 
-    /**
-     * 第二步
-     * 此方法会在onCreateView(）之前执行
-     * 当viewPager中fragment改变可见状态时也会调用
-     * 当fragment 从可见到不见，或者从不可见切换到可见，都会调用此方法
-     */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        lazyLoad();
-    }
 
-    /**
-     * 调用懒加载
-     * 第三步:在lazyLoad()方法中进行双重标记判断,通过后即可进行数据加载
-     */
-    protected void lazyLoad() {
-        if (getUserVisibleHint() && isPrepared && !isLazyLoaded) {
-            onLazyLoad();
-            isLazyLoaded = true;
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //可见
+            isVisible = true;
+            onVisible();
+        } else {
+            //不可见
+            isVisible = false;
+            onInVisible();
         }
     }
 
-    //第四步:定义抽象方法onLazyLoad(),具体加载数据的工作,交给子类去完成
     /**
-     * 请求网络
+     * setUserVisibleHint为true时调用的方法
      */
-    @UiThread
+    private void onVisible() {
+        lazyLoad();
+    }
+
+    /**
+     * setUserVisibleHint为false时调用的方法
+     */
+    private void onInVisible() {
+        if (isAlreadyLoadData) {
+            InVisibleEvent();
+        }
+    }
+
+    protected void lazyLoad() {
+        //确保View初始化完成
+        if (!isVisible || !isPrepared) {
+            return;
+        }
+        //加载数据
+        if (!isAlreadyLoadData) {//如果没有加载过数据
+            onLazyLoad();
+            isAlreadyLoadData = true;
+        }
+
+    }
+
+
+    /**
+     * 初始化懒加载的数据 (请求网络)
+     */
     public abstract void onLazyLoad();
+
+
+    /**
+     * 加载过数据后，fragment变为不可见之后的需要执行的操作
+     */
+    public void InVisibleEvent() {
+    }
 
 
 }

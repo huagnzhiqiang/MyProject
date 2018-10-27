@@ -63,7 +63,6 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
      **/
     @Override
     protected void getIntent(Intent intent) {
-
     }
 
     /** 初始化View的代码写在这个方法中 */

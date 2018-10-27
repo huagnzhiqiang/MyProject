@@ -25,7 +25,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,9 +53,6 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
 
     private HomeTemplateRedesignAdapter mAdapter;
 
-    //数据
-    private List<TemplateReadesignEntity.RowsBean> mDataList = new ArrayList<>();
-
     /**
      * 返回一个用于显示界面的布局id
      */
@@ -77,19 +73,19 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
      */
     @Override
     protected void initListener() {
+        Logger.d("lazyLoad---> 请求网络 initListener--->:");
+
         mRefreshLayout.setOnRefreshListener(this);
     }
 
-
     /**
-     * 初始数据的代码写在这个方法中，用于从服务器获取数据
+     * 初始化View的代码写在这个方法中
      */
-    @Override
-    protected void initData() {
 
+    @Override
+    protected void initView() {
         //初始化adapter
         initAdapter();
-
     }
 
     /** ==================创建Fragment===================== */
@@ -113,24 +109,25 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     }
 
     /**
-     * 请求网络
+     * 初始化懒加载的数据 (请求网络)
      */
     @Override
     public void onLazyLoad() {
         mRefreshLayout.autoRefresh();
-
-        mCurrentPage = 1;
-
-        Bundle arguments = getArguments();
-        mType = arguments.getInt(HomeTemplateRedesignFragment.FRAGMENT_TYPE);
-        mAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
-        requestNetwork();
-
     }
+
+    //刷新
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        requestNetwork();
+    }
+
 
     /** ==================第一次请求网络===================== */
     private void requestNetwork() {
 
+        mCurrentPage = 1;
+        mAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(mCurrentPage));
         map.put("PageCount", Constant.PAGE_COUNT);
@@ -213,9 +210,9 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
      * 设置Adapter数据
      *
      * @param isRefresh true:第一次刷新  false:加载更多数据
-     * @param data      Adapter填充的数据
+     * @param bean      Adapter填充的数据
      */
-    private void setAdapterData(boolean isRefresh, TemplateReadesignEntity data) {
+    private void setAdapterData(boolean isRefresh, TemplateReadesignEntity bean) {
 
         Logger.d("setAdapterData--->:" + isRefresh);
 
@@ -223,15 +220,8 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
         mLayoutStatusView.showContent();//显示内容
         mCurrentPage++;
 
-        mDataList = new ArrayList<>();
-        final int dataSize = data.getRows().size();
-        for (int i = 0; i < dataSize; i++) {
-            mDataList.add(data.getRows().get(i));
-        }
-
-        final int size = mDataList == null ? 0 : mDataList.size();
-        Logger.d("setAdapterData--->:" + size);
-
+        final List<TemplateReadesignEntity.RowsBean> data = bean.getRows();
+        final int size = data == null ? 0 : data.size();
         if (isRefresh) {
 
             //第一次加载数据,发现没有就显示空布局
@@ -241,19 +231,19 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
             }
 
             //有就设置新的数据
-            mAdapter.setNewData(mDataList);
+            mAdapter.setNewData(data);
 
         } else {
 
             //加载更多
             if (size > 0) {
-                mAdapter.addData(mDataList);
+                mAdapter.addData(data);
             } else {
                 ToastUtils.showShort(Constant.NO_LOAD_MORE);
             }
         }
         //第一页如果不够一页就不显示没有更多数据布局
-        if ( size == Constant.PAGE_SIZE) {
+        if (size == Constant.PAGE_SIZE) {
             mAdapter.loadMoreEnd(true);
         } else {
             //加载更多的触发
@@ -267,9 +257,9 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @Override
     public void showError(String msg, int code) {
         ToastUtils.showShort(msg);
-        //        mAdapter.setEnableLoadMore(true); //允许加载更多
-            mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
-        if (mDataList.size() <= 0) {
+        mAdapter.setEnableLoadMore(true); //允许加载更多
+        mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
+        if (mAdapter.getItemCount() <= 0) {
             mLayoutStatusView.showError();
         }
     }
@@ -308,23 +298,20 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @Override
     public void showNetworkError(String msg, int code) {
         ToastUtils.showShort(msg);
-        //        mAdapter.setEnableLoadMore(true); //允许加载更多
-            mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
-        if (mDataList.size() <= 0) {
+        mAdapter.setEnableLoadMore(true); //允许加载更多
+        mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
+        if (mAdapter.getItemCount() <= 0) {
             mLayoutStatusView.showNoNetwork();
         }
     }
 
-    //刷新
+
+
+    /**
+     * 获取 Bundle 数据
+     */
     @Override
-    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-
-        if (NetworkUtils.isNetworkAvailable(BaseApplication.getContext())) {
-            onLazyLoad();
-        } else {
-            mRefreshLayout.finishRefresh(false);
-            ToastUtils.showShort("网络不可用");
-
-        }
+    protected void getBundle(Bundle arguments) {
+        mType = arguments.getInt(HomeTemplateRedesignFragment.FRAGMENT_TYPE);
     }
 }
