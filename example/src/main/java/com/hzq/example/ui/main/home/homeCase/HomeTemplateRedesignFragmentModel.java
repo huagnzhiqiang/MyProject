@@ -17,7 +17,7 @@ import io.reactivex.Observable;
 public class HomeTemplateRedesignFragmentModel extends BaseModel implements HomeTemplateRedesignFragmentContract.Model{
 
     /**
-     * 请求获取案例分页数据
+     * 请求获取案例分页数据/案例更多数据
      */
     @Override
     public Observable<BaseHttpResult<TemplateReadesignEntity>> getCaseData(Map<String, String> map) {
@@ -25,28 +25,13 @@ public class HomeTemplateRedesignFragmentModel extends BaseModel implements Home
 //        return RetrofitUtils.getHttpService().getDemandcaseData(map,new DynamicKey("getpagelist"), new EvictDynamicKey(true));
     }
 
-    /**
-     * 请求首页案例更多数据
-     */
-    @Override
-    public Observable<BaseHttpResult<TemplateReadesignEntity>> getCaseLoadMoreData(Map<String, String> map) {
-//        return RetrofitUtils.getHttpService().getDemandcaseData(map,new DynamicKey("getpagelist"), new EvictDynamicKey(true));
-        return RetrofitUtils.getHttpService().getDemandcaseData(map);
-    }
 
     /**
-     * 获取首页模板分页
+     * 获取首页模板分页/模板更多数据
      */
     @Override
     public Observable<BaseHttpResult<TemplateReadesignEntity>> getProductData(Map<String, String> map) {
         return RetrofitUtils.getHttpService().getProductData(map);
     }
 
-    /**
-     * 请求首页模板更多数据
-     */
-    @Override
-    public Observable<BaseHttpResult<TemplateReadesignEntity>> getProductLoadMoreData(Map<String, String> map) {
-        return RetrofitUtils.getHttpService().getProductData(map);
-    }
 }

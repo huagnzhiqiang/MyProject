@@ -24,11 +24,5 @@ public class HomeCustomizedRedesignModel extends BaseModel implements HomeCustom
         return RetrofitUtils.getHttpService().getCustomizedData(map);
     }
 
-    /**
-     * 请求首页定制更多数据
-     */
-    @Override
-    public Observable<BaseHttpResult<HomeCustomizeEntity>> getCustomizedLoadMoreData(Map<String, String> map) {
-        return RetrofitUtils.getHttpService().getCustomizedData(map);
-    }
+
 }

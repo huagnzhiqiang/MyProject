@@ -65,7 +65,7 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
     public void requestCaseLoadMoreData(Map<String, String> map) {
 
 
-        getModel().getCaseLoadMoreData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+        getModel().getCaseData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
                 subscribe(new BaseObserver<TemplateReadesignEntity>(getView(), false) {
                     /**
                      * 请求成功返回

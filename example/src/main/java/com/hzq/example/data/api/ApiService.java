@@ -61,7 +61,6 @@ public interface ApiService {
     @POST("/api/userdesigner/getpagelist")
     Observable<BaseHttpResult<HomeDesignerEntity>> getHomeDesignerData(@FieldMap Map<String, String> map);
 
-
     //获取关注设计师
     @FormUrlEncoded
     @POST("/api/userfollow/follow")
