@@ -39,6 +39,33 @@ public class GlideUtils {
             loadImage(context, iv, emptyImg, emptyImg);
         }
     }
+    /**
+     * 加载图片 不管图片多大都显示在中间
+     *
+     * @param context  context
+     * @param iv       imageView
+     * @param url      图片地址
+     * @param emptyImg 默认展位图
+     */
+    public static void loadFitCenterImage(Context context, String url, ImageView iv, int emptyImg) {
+
+        RequestOptions options = new RequestOptions().placeholder(emptyImg)  //加载成功之前占位图
+                .error(emptyImg)    //加载错误之后的错误图
+                .fitCenter() //指定图片的缩放类型为fitCenter （等比例缩放图片，宽或者是高等于ImageView的宽或者是高。）
+                //                .centerCrop() //指定图片的缩放类型为centerCrop （等比例缩放图片，直到图片的狂高都大于等于ImageView的宽度，然后截取中间的显示。）
+                .skipMemoryCache(true)  //跳过内存缓存
+                //                .diskCacheStrategy(DiskCacheStrategy.ALL)   //缓存所有版本的图像
+                //                .diskCacheStrategy(DiskCacheStrategy.NONE)  //跳过磁盘缓存
+                //                .diskCacheStrategy(DiskCacheStrategy.DATA)  //只缓存原来分辨率的图片
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE) ; //只缓存最终的图片
+
+        GlideApp.with(context).
+                load(url).
+                apply(options).
+                into(iv);
+
+    }
+
 
     /**
      * 加载圆角图片
@@ -139,8 +166,8 @@ public class GlideUtils {
                 //                .diskCacheStrategy(DiskCacheStrategy.ALL)   //缓存所有版本的图像
                 //                .diskCacheStrategy(DiskCacheStrategy.NONE)  //跳过磁盘缓存
                 //                .diskCacheStrategy(DiskCacheStrategy.DATA)  //只缓存原来分辨率的图片
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)  //只缓存最终的图片
-                ;
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE) ; //只缓存最终的图片
+
         GlideApp.with(context).
                 load(resId).
                 apply(options).

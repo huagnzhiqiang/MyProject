@@ -104,6 +104,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     private void initTab() {
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnSelectIds[i]));
+
         }
         //为Tab赋值数据
         tabLayout.setTabData(mTabEntities);

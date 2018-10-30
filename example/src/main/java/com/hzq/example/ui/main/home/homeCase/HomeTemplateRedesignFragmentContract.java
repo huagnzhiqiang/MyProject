@@ -61,7 +61,7 @@ public interface HomeTemplateRedesignFragmentContract {
         /**
          * 请求首页案例数据
          */
-        Observable<BaseHttpResult<TemplateReadesignEntity>> getCaseData(Map<String, String> map);
+        Observable<BaseHttpResult<TemplateReadesignEntity>> requestDemandcaseData(Map<String, String> map);
 
 
         /**
@@ -69,7 +69,7 @@ public interface HomeTemplateRedesignFragmentContract {
          * @param map
          * @return
          */
-        Observable<BaseHttpResult<TemplateReadesignEntity>> getProductData(Map<String, String> map);
+        Observable<BaseHttpResult<TemplateReadesignEntity>> requestProductData(Map<String, String> map);
 
 
     }

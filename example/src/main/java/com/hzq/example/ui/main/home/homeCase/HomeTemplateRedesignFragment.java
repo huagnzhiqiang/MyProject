@@ -10,10 +10,8 @@ import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.SimpleLoadMoreView;
-import com.hzq.baselibs.app.BaseApplication;
 import com.hzq.baselibs.base.BaseFragment;
 import com.hzq.baselibs.utils.DisplayUtils;
-import com.hzq.baselibs.utils.NetworkUtils;
 import com.hzq.baselibs.utils.ToastUtils;
 import com.hzq.example.R;
 import com.hzq.example.adapter.HomeTemplateRedesignAdapter;
@@ -78,15 +76,6 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
         mRefreshLayout.setOnRefreshListener(this);
     }
 
-    /**
-     * 初始化View的代码写在这个方法中
-     */
-
-    @Override
-    protected void initView() {
-        //初始化adapter
-        initAdapter();
-    }
 
     /** ==================创建Fragment===================== */
     public static Fragment newInstance(int type) {
@@ -113,6 +102,9 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
      */
     @Override
     public void onLazyLoad() {
+        //初始化adapter
+        initAdapter();
+
         mRefreshLayout.autoRefresh();
     }
 
@@ -248,6 +240,8 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
         } else {
             //加载更多的触发
             mAdapter.loadMoreComplete();
+            Logger.d("setAdapterDatasetAdapterData--->:"  );
+
         }
 
     }

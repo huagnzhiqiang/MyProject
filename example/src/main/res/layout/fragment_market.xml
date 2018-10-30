@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tl="http://schemas.android.com/apk/res-auto"
+
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/white"
               android:orientation="vertical">
 
-    <android.support.design.widget.TabLayout
+
+    <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="39dp"
-        android:layout_below="@+id/toolbar"
         android:background="@color/white"
-        android:tag="tab_indicator_accent_color,bg_primary_color"
-        app:tabIndicatorColor="@color/white"
-        app:tabSelectedTextColor="#f9a5ee"
-        app:tabTextColor="@color/color_434a5c"/>
+        tl:tl_textBold="SELECT"
+        tl:tl_tab_space_equal="true"
+        tl:tl_textSelectColor="@color/color_ff76ae"
+        tl:tl_textUnselectColor="@color/color_434a5c"/>
+
+
+    <!--<android.support.design.widget.TabLayout-->
+    <!--android:id="@+id/tabs"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="39dp"-->
+    <!--android:background="@color/white"-->
+    <!--android:tag="tab_indicator_accent_color,bg_primary_color"-->
+    <!--app:tabIndicatorColor="@color/white"-->
+    <!--app:tabSelectedTextColor="#f9a5ee"-->
+    <!--app:tabTextColor="@color/color_434a5c"/>-->
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/empty"
-        android:layout_below="@+id/tabs"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 </LinearLayout>

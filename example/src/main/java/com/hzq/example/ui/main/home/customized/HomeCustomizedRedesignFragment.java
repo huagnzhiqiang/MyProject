@@ -40,7 +40,6 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
     private int mCurrentPage = 1;
 
 
-
     /**
      * 返回一个用于显示界面的布局id
      */
@@ -60,14 +59,6 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
         return new HomeCustomizedRedesignPersenter();
     }
 
-    /**
-     * 初始化View的代码写在这个方法中
-     */
-    @Override
-    protected void initView() {
-
-    }
-
 
     /**
      * 初始化监听器的代码写在这个方法中
@@ -78,24 +69,12 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
     }
 
 
-    @Override
-    protected void initData() {
-        super.initData();
-        //初始化adapter
-        initAdapter();
-    }
-
-
-
-
-
     /** ==================初始化adapter===================== */
     private void initAdapter() {
         mAdapter = new HomeCustomizedRedesignAdapter();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
         mAdapter.setLoadMoreView(new SimpleLoadMoreView());
-        //        mAdapter.setLoadMoreView(new CustomLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(this);
     }
@@ -106,7 +85,9 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
      */
     @Override
     public void onLazyLoad() {
-        Logger.d("初始化懒加载的数据 (请求网络)--->:"  );
+
+        //初始化adapter
+        initAdapter();
 
         //第一次进来就刷新页面
         mRefreshLayout.autoRefresh();
@@ -120,7 +101,7 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
         requestNetwork();
     }
 
-    /**==================第一次和刷新请求网络=====================*/
+    /** ==================第一次和刷新请求网络===================== */
     private void requestNetwork() {
         mCurrentPage = 1;
         mAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
@@ -216,7 +197,7 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
         }
 
         //第一页如果不够一页就不显示没有更多数据布局
-        if ( size == Constant.PAGE_SIZE) {
+        if (size == Constant.PAGE_SIZE) {
             mAdapter.loadMoreEnd(true);
         } else {
             //加载更多的触发
@@ -238,7 +219,7 @@ public class HomeCustomizedRedesignFragment extends BaseFragment<HomeCustomizedR
         ToastUtils.showShort(msg);
         mAdapter.setEnableLoadMore(true); //允许加载更多
         mRefreshLayout.finishRefresh(false);//关闭刷新-->刷新失败
-        if (mAdapter.getItemCount()<= 0) {
+        if (mAdapter.getItemCount() <= 0) {
             mLayoutStatusView.showError();
         }
     }

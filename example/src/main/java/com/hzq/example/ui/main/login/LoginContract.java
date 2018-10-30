@@ -32,6 +32,6 @@ public interface LoginContract {
          * @param map 账号 密码
          * @return
          */
-       Observable<BaseHttpResult<LoginEntity>> getLoginData(Map<String, String> map);
+       Observable<BaseHttpResult<LoginEntity>> requestLoginData(Map<String, String> map);
     }
 }

@@ -45,7 +45,7 @@ public interface HomeCustomizedRedesignContract {
         /**
          * 请求首页定制数据
          */
-        Observable<BaseHttpResult<HomeCustomizeEntity>> getCustomizedData(Map<String, String> map);
+        Observable<BaseHttpResult<HomeCustomizeEntity>> requestCustomizedData(Map<String, String> map);
 
 
     }

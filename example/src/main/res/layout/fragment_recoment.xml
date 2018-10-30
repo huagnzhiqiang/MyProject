@@ -15,6 +15,7 @@
         app:tipTextColor="@color/color_ff666666"
         app:tipTextSize="9sp"/>
 
+
     <com.hzq.baselibs.view.MultipleStatusView
         android:id="@+id/multipleStatusView"
         android:layout_width="match_parent"
@@ -37,7 +38,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
                     android:paddingTop="10dp"

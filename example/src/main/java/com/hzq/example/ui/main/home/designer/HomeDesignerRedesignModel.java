@@ -20,8 +20,8 @@ public class HomeDesignerRedesignModel  extends BaseModel implements HomeDesigne
      * 请求首页设计师数据
      */
     @Override
-    public Observable<BaseHttpResult<HomeDesignerEntity>> getHomeDesignerData(Map<String, String> map) {
-        return RetrofitUtils.getHttpService().getHomeDesignerData(map);
+    public Observable<BaseHttpResult<HomeDesignerEntity>> requestHomeDesignerData(Map<String, String> map) {
+        return RetrofitUtils.getHttpService().requestHomeDesignerData(map);
     }
 
 
@@ -29,16 +29,16 @@ public class HomeDesignerRedesignModel  extends BaseModel implements HomeDesigne
      * 请求首页关注设计师
      */
     @Override
-    public Observable<BaseHttpResult<String>> getFollowDesignersData(int id) {
-        return RetrofitUtils.getHttpService().getFollowDesignersData(id);
+    public Observable<BaseHttpResult<String>> requestFollowDesignersData(int id) {
+        return RetrofitUtils.getHttpService().requestFollowDesignersData(id);
     }
 
     /**
      * 请求首页取消关注设计师
      */
     @Override
-    public Observable<BaseHttpResult<String>> getUnFollowDesignersData(int id) {
-        return  RetrofitUtils.getHttpService().getUnFollowDesignersData(id);
+    public Observable<BaseHttpResult<String>> requestUnFollowDesignersData(int id) {
+        return  RetrofitUtils.getHttpService().requestUnFollowDesignersData(id);
     }
 
 }

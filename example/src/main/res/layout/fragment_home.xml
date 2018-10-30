@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tl="http://schemas.android.com/apk/res-auto"
               xmlns:tool="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -16,8 +16,9 @@
         <LinearLayout
             android:id="@+id/ll_location"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:gravity="center_vertical"
@@ -38,7 +39,6 @@
                 android:id="@+id/icon_address"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:layout_centerVertical="true"
                 android:layout_marginLeft="3dp"
                 android:src="@drawable/city_location_under_"/>
         </LinearLayout>
@@ -47,7 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/ll_case"
@@ -153,6 +154,42 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <!--<com.flyco.tablayout.SlidingTabLayout-->
+            <!--android:id="@+id/tabs"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_toLeftOf="@+id/fl_search"-->
+            <!--android:layout_toRightOf="@+id/ll_location"-->
+            <!--tl:tl_indicator_color="@color/color_ff76ae"-->
+            <!--tl:tl_indicator_corner_radius="2dp"-->
+            <!--tl:tl_indicator_height="3dp"-->
+            <!--tl:tl_indicator_margin_bottom="15dp"-->
+            <!--tl:tl_tab_space_equal="true"-->
+            <!--tl:tl_textBold="SELECT"-->
+            <!--tl:tl_textSelectColor="@color/color_ff76ae"-->
+            <!--tl:tl_textUnselectColor="@color/color_434a5c"/>-->
+
+        <com.flyco.tablayout.CommonTabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/fl_search"
+            android:layout_toRightOf="@+id/ll_location"
+            android:background="@color/white"
+            tl:tl_indicator_color="@color/color_ff76ae"
+            tl:tl_indicator_corner_radius="2dp"
+            tl:tl_indicator_height="3dp"
+            tl:tl_indicator_margin_bottom="15dp"
+            tl:tl_indicator_width="16dp"
+            tl:tl_indicator_width_equal_title="true"
+            tl:tl_textBold="SELECT"
+            tl:tl_textSelectColor="@color/color_ff76ae"
+            tl:tl_textUnselectColor="@color/color_434a5c"
+            tl:tl_textsize="12sp"/>
 
 
         <FrameLayout

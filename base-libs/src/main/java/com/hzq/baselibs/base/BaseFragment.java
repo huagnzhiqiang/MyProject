@@ -76,6 +76,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     }
 
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -109,6 +110,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     protected void getBundle(Bundle arguments) {
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -122,6 +124,12 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         super.onActivityCreated(savedInstanceState);
     }
 
+    /**
+     * 获取根view
+     */
+    protected View getRootView(){
+        return mRootView;
+    }
 
     /**
      * 初始化沉浸式状态栏和沉浸式

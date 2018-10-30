@@ -1,17 +1,18 @@
 package com.hzq.example.ui.main.market;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
+import com.flyco.tablayout.SlidingTabLayout;
 import com.hzq.baselibs.base.BaseFragment;
 import com.hzq.example.R;
-import com.hzq.example.adapter.PagerAdapter;
-import com.hzq.example.ui.main.market.h5five.H5fiveFragment;
-import com.hzq.example.ui.main.market.information.InformationFragment;
-import com.hzq.example.ui.main.market.local.LocalFragment;
+import com.hzq.example.adapter.MyPagerAdapter;
+import com.hzq.example.constants.Constant;
 import com.hzq.example.ui.main.market.recoment.RecomentFragment;
-import com.hzq.example.ui.main.market.video.VideoFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -22,8 +23,11 @@ import butterknife.BindView;
  */
 public class MarketFragment extends BaseFragment<MarketPresenter> {
 
-    @BindView(R.id.tabs) TabLayout mTabs;
+    @BindView(R.id.tabs) SlidingTabLayout mTabLayout;
     @BindView(R.id.viewpager) ViewPager mViewpager;
+
+    private String[] mTitles = {"推荐", "H5", "资讯", "视频", "本地"};
+
 
     private String mTitle;
 
@@ -50,27 +54,24 @@ public class MarketFragment extends BaseFragment<MarketPresenter> {
     protected void initView() {
 
         if (mViewpager != null) {
-            PagerAdapter adapter = new PagerAdapter(getChildFragmentManager());
-            adapter.addFragment(new RecomentFragment(), "推荐");
-            adapter.addFragment(new H5fiveFragment(), "H5");
-            adapter.addFragment(new InformationFragment(), "资讯");
-            adapter.addFragment(new VideoFragment(), "视频");
-            adapter.addFragment(new LocalFragment(), "本地");
+
+            List<Fragment> fragments = new ArrayList<>();
+
+            fragments.add(RecomentFragment.newInstance(Constant.articleType.ARTICLE_DEFAULT));
+            fragments.add(RecomentFragment.newInstance(Constant.articleType.ARTICLE_H5));
+            fragments.add(RecomentFragment.newInstance(Constant.articleType.ARTICLE_INFORMATION));
+            fragments.add(RecomentFragment.newInstance(Constant.articleType.ARTICLE_VIDEO));
+            fragments.add(RecomentFragment.newInstance(RecomentFragment.LOCAL));
+
+
+            MyPagerAdapter adapter = new MyPagerAdapter(getChildFragmentManager(), fragments, mTitles);
             mViewpager.setAdapter(adapter);
-            mTabs.setupWithViewPager(mViewpager);
+            mViewpager.setOffscreenPageLimit(fragments.size());
+            mTabLayout.setViewPager(mViewpager);
+
+
         }
     }
-
-    @Override
-    protected void initListener() {
-
-    }
-
-    @Override
-    protected void initData() {
-
-    }
-
 
     /**
      * 请求网络

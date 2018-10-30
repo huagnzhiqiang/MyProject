@@ -5,7 +5,6 @@ import com.hzq.example.data.entity.MineEntity;
 import com.hzq.example.data.repository.RetrofitUtils;
 import com.hzq.baselibs.mvp.BaseModel;
 import com.hzq.baselibs.net.BaseHttpResult;
-import com.orhanobut.logger.Logger;
 
 import java.util.Map;
 
@@ -26,7 +25,7 @@ public class MineModel extends BaseModel implements MineContract.Model {
 
     @Override
     public Observable<BaseHttpResult<LoginEntity>> getLoginData(Map<String,String> map) {
-        return RetrofitUtils.getHttpService().getLoginData(map);
+        return RetrofitUtils.getHttpService().requestLoginData(map);
     }
 
 }

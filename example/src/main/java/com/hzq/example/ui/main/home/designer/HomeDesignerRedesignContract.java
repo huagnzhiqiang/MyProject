@@ -58,16 +58,16 @@ public interface HomeDesignerRedesignContract {
         /**
          * 请求首页设计师数据和更多数据
          */
-        Observable<BaseHttpResult<HomeDesignerEntity>> getHomeDesignerData(Map<String, String> map);
+        Observable<BaseHttpResult<HomeDesignerEntity>> requestHomeDesignerData(Map<String, String> map);
 
         /**
          * 请求首页设计师
          */
-        Observable<BaseHttpResult<String>> getFollowDesignersData(int id);
+        Observable<BaseHttpResult<String>> requestFollowDesignersData(int id);
 
         /**
          * 请求首页取消关注设计师
          */
-        Observable<BaseHttpResult<String>> getUnFollowDesignersData(int id);
+        Observable<BaseHttpResult<String>> requestUnFollowDesignersData(int id);
     }
 }

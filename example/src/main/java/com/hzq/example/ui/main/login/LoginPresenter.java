@@ -30,7 +30,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      */
     public void requestLogin(Map<String, String> map) {
 
-        getModel().getLoginData(map).
+        getModel().requestLoginData(map).
                 compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
                 subscribe(new BaseObserver<LoginEntity>(getView()) {
                     /**

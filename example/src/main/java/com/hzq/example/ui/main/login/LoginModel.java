@@ -20,7 +20,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
      * @param map 账号 密码
      */
     @Override
-    public io.reactivex.Observable<BaseHttpResult<LoginEntity>> getLoginData(Map<String, String> map) {
-        return RetrofitUtils.getHttpService().getLoginData(map);
+    public io.reactivex.Observable<BaseHttpResult<LoginEntity>> requestLoginData(Map<String, String> map) {
+        return RetrofitUtils.getHttpService().requestLoginData(map);
     }
 }

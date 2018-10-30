@@ -31,7 +31,7 @@ public class HomeTemplateRedesignAdapter extends BaseQuickAdapter<TemplateReades
         helper.getView(R.id.tv_customized_count).setVisibility(View.VISIBLE);
         helper.setText(R.id.tv_customized_count, HzqUtils.ReadSize(item.getBrowse_count()) + " 浏览");
         ImageView ivProduct = helper.getView(R.id.iv_product_img);//图片
-        GlideUtils.loadImage(mContext, item.getCover_img(), ivProduct, R.drawable.load);
+        GlideUtils.loadFitCenterImage(mContext, item.getCover_img(), ivProduct, R.drawable.load);
 
     }
 }

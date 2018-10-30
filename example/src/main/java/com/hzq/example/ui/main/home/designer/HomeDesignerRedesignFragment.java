@@ -66,15 +66,6 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
     }
 
     /**
-     * 初始化View的代码写在这个方法中
-     */
-    @Override
-    protected void initView() {
-        //初始化adapter
-        initAdapter();
-    }
-
-    /**
      * 初始化监听器的代码写在这个方法中
      */
     @Override
@@ -106,6 +97,9 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
     @Override
     public void onLazyLoad() {
 
+        //初始化adapter
+        initAdapter();
+
         //第一次进来就刷新页面
         mRefreshLayout.autoRefresh();
 
@@ -123,37 +117,30 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
     private void requestNetwork() {
         mCurrentPage = 1;
         mAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
-        Map<String, String> map = new HashMap<>();
-        //        map.put("city_code", mAdCode);//城市
-        map.put("demand_type", "1");
-        map.put("PageIndex", String.valueOf(mCurrentPage));
-        map.put("PageCount", Constant.PAGE_COUNT);
-        map.put("orderByValue", "create_datetime");//排序字段
-        map.put("orderBy", "desc");//排序方式(asc正序,desc倒序)
-        mPresenter.requestHomeDesignerData(map);
+        mPresenter.requestHomeDesignerData(requestMap());
     }
 
 
     /**
      * 首页设计师数据
      *
-     * @param data 设计师数据
+     * @param dataBean 设计师数据
      */
     @Override
-    public void showHomeDesignerData(HomeDesignerEntity data) {
+    public void showHomeDesignerData(HomeDesignerEntity dataBean) {
         mAdapter.setEnableLoadMore(true); //允许加载更多
         mRefreshLayout.finishRefresh();//关闭刷新
-        setAdapterData(true, data);
+        setAdapterData(true, dataBean);
     }
 
     /**
      * 首页设计师数据
      *
-     * @param data 设计师加载更多数据
+     * @param dataBean 设计师加载更多数据
      */
     @Override
-    public void showHomeDesignerLoadMoreData(HomeDesignerEntity data) {
-        setAdapterData(false, data);
+    public void showHomeDesignerLoadMoreData(HomeDesignerEntity dataBean) {
+        setAdapterData(false, dataBean);
     }
 
 
@@ -195,6 +182,8 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
             mAdapter.loadMoreEnd(true);
         } else {
             //加载更多的触发
+            Logger.d("setAdapterDatasetAdapterData--->:"  );
+
             mAdapter.loadMoreComplete();
         }
 
@@ -206,6 +195,12 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
      */
     @Override
     public void onLoadMoreRequested() {
+        mPresenter.requestHomeDesignerLoadMoreData(requestMap());
+    }
+
+    /** ==================请求参数===================== */
+    @NonNull
+    private Map<String, String> requestMap() {
         Map<String, String> map = new HashMap<>();
         //        map.put("city_code", mAdCode);//城市
         map.put("demand_type", "1");
@@ -213,7 +208,7 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
         map.put("PageCount", Constant.PAGE_COUNT);
         map.put("orderByValue", "create_datetime");//排序字段
         map.put("orderBy", "desc");//排序方式(asc正序,desc倒序)
-        mPresenter.requestHomeDesignerLoadMoreData(map);
+        return map;
     }
 
     /**
@@ -223,6 +218,7 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
      */
     @Override
     public void showLoadMoreError(String msg) {
+        ToastUtils.showShort(msg);
         mAdapter.loadMoreFail();
     }
 

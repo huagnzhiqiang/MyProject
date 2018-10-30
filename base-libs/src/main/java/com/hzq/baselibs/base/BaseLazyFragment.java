@@ -1,5 +1,6 @@
 package com.hzq.baselibs.base;
 
+import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 /**
@@ -20,7 +21,7 @@ public abstract class BaseLazyFragment extends RxFragment {
     /**
      * 是否已经加载过数据
      */
-    private boolean isAlreadyLoadData = false;
+    private boolean isAlreadyLoadData ;
 
 
     @Override
@@ -57,16 +58,26 @@ public abstract class BaseLazyFragment extends RxFragment {
     protected void lazyLoad() {
         //确保View初始化完成
         if (!isVisible || !isPrepared) {
+            Logger.d("lazyLoad--->:" + "确保View初始化完成");
             return;
         }
+
         //加载数据
         if (!isAlreadyLoadData) {//如果没有加载过数据
+            Logger.d("lazyLoad--->:" + "如果没有加载过数据");
             onLazyLoad();
             isAlreadyLoadData = true;
+            isVisible = false;
         }
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isAlreadyLoadData = true;
+        isVisible = false;
+    }
 
     /**
      * 初始化懒加载的数据 (请求网络)

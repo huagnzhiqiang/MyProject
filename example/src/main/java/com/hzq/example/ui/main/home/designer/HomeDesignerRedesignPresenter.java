@@ -31,7 +31,7 @@ public class HomeDesignerRedesignPresenter extends BasePresenter<HomeDesignerRed
      */
     public void requestHomeDesignerData(Map<String, String> map) {
 
-        getModel().getHomeDesignerData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+        getModel().requestHomeDesignerData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
                 subscribe(new BaseObserver<HomeDesignerEntity>(getView(), false) {
                     /**
                      * 请求成功返回
@@ -69,7 +69,7 @@ public class HomeDesignerRedesignPresenter extends BasePresenter<HomeDesignerRed
      */
     public void requestHomeDesignerLoadMoreData(Map<String, String> map) {
 
-        getModel().getHomeDesignerData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+        getModel().requestHomeDesignerData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
                 subscribe(new BaseObserver<HomeDesignerEntity>(getView(), false) {
                     /**
                      * 请求成功返回
@@ -101,7 +101,7 @@ public class HomeDesignerRedesignPresenter extends BasePresenter<HomeDesignerRed
      */
     public void requestFollowDesignersDataData(int id) {
 
-        getModel().getFollowDesignersData(id).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+        getModel().requestFollowDesignersData(id).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
                 subscribe(new BaseObserver<String>(getView(),false) {
                     /**
                      * 请求成功返回
@@ -140,7 +140,7 @@ public class HomeDesignerRedesignPresenter extends BasePresenter<HomeDesignerRed
      */
     public void requestUnFollowDesignersDataData(int id) {
 
-        getModel().getUnFollowDesignersData(id).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+        getModel().requestUnFollowDesignersData(id).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
                 subscribe(new BaseObserver<String>(getView(),false) {
                     /**
                      * 请求成功返回

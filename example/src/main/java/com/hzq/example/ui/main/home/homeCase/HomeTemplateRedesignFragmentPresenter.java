@@ -28,7 +28,7 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
      */
     public void requestCaseData(Map<String, String> map) {
 
-        getModel().getCaseData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+        getModel().requestDemandcaseData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
                 subscribe(new BaseObserver<TemplateReadesignEntity>(getView(), false) {
                     /**
                      * 请求成功返回
@@ -65,7 +65,7 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
     public void requestCaseLoadMoreData(Map<String, String> map) {
 
 
-        getModel().getCaseData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+        getModel().requestDemandcaseData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
                 subscribe(new BaseObserver<TemplateReadesignEntity>(getView(), false) {
                     /**
                      * 请求成功返回
@@ -94,7 +94,7 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
      * 请求首页模板数据
      */
     public void requestProductData(Map<String, String> map) {
-        getModel().getProductData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+        getModel().requestProductData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
                 subscribe(new BaseObserver<TemplateReadesignEntity>(getView(), false) {
                     /**
                      * 请求成功返回
@@ -129,7 +129,7 @@ public class HomeTemplateRedesignFragmentPresenter extends BasePresenter<HomeTem
      * 请求首页模板更多数据
      */
     public void requestProductLoadMoreData(Map<String, String> map) {
-        getModel().getProductData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+        getModel().requestProductData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
                 subscribe(new BaseObserver<TemplateReadesignEntity>(getView(), false) {
                     /**
                      * 请求成功返回

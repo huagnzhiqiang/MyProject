@@ -61,7 +61,7 @@ public class AlarmssService extends Service {
 
     private void requestToken(String token) {
 
-        RetrofitUtils.getHttpService().getTokenData(token).subscribe(new BaseObserver<LoginEntity>() {
+        RetrofitUtils.getHttpService().requestTokenData(token).subscribe(new BaseObserver<LoginEntity>() {
             /**
              * 请求成功返回
              *

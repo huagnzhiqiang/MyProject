@@ -20,9 +20,9 @@ public class HomeTemplateRedesignFragmentModel extends BaseModel implements Home
      * 请求获取案例分页数据/案例更多数据
      */
     @Override
-    public Observable<BaseHttpResult<TemplateReadesignEntity>> getCaseData(Map<String, String> map) {
-        return RetrofitUtils.getHttpService().getDemandcaseData(map);
-//        return RetrofitUtils.getHttpService().getDemandcaseData(map,new DynamicKey("getpagelist"), new EvictDynamicKey(true));
+    public Observable<BaseHttpResult<TemplateReadesignEntity>> requestDemandcaseData(Map<String, String> map) {
+        return RetrofitUtils.getHttpService().requestDemandcaseData(map);
+//        return RetrofitUtils.getHttpService().requestDemandcaseData(map,new DynamicKey("getpagelist"), new EvictDynamicKey(true));
     }
 
 
@@ -30,8 +30,8 @@ public class HomeTemplateRedesignFragmentModel extends BaseModel implements Home
      * 获取首页模板分页/模板更多数据
      */
     @Override
-    public Observable<BaseHttpResult<TemplateReadesignEntity>> getProductData(Map<String, String> map) {
-        return RetrofitUtils.getHttpService().getProductData(map);
+    public Observable<BaseHttpResult<TemplateReadesignEntity>> requestProductData(Map<String, String> map) {
+        return RetrofitUtils.getHttpService().requestProductData(map);
     }
 
 }

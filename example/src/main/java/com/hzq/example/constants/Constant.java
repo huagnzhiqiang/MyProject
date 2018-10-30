@@ -11,7 +11,7 @@ public class Constant {
 
     public static int PAGE_SIZE = 0; //少于0条就不显示加载更多
 
-    public static String NO_LOAD_MORE = "没有更多数据了"; //加载更多没有数据的提示
+    public static String NO_LOAD_MORE = "数据已加载完毕"; //加载更多没有数据的提示
 
     /**
      * 定向/竞标订单状态
@@ -53,6 +53,26 @@ public class Constant {
         public final static int COMPLETE_REFUND = 16;//退款完成
 
         public final static int REFUNDS = 17;//退款中
+
+    }
+
+
+    /**
+     * 热点文章类型articleType
+     * 0:资讯  1:H5  2:视频  推荐|本地 其他
+     */
+
+    public static class articleType {
+
+        public final static int ARTICLE_DEFAULT = -1;//默认推荐
+
+        public final static int ARTICLE_INFORMATION = 0;//资讯
+
+        public final static int ARTICLE_H5 = 1;//H5
+
+        public final static int ARTICLE_VIDEO = 2;//视频
+
+        public final static int ARTICLE_OTHER = 3;
 
     }
 

@@ -5,6 +5,7 @@ import com.hzq.example.data.entity.HomeCustomizeEntity;
 import com.hzq.example.data.entity.HomeDesignerEntity;
 import com.hzq.example.data.entity.LoginEntity;
 import com.hzq.example.data.entity.MineEntity;
+import com.hzq.example.data.entity.RecomentEntity;
 import com.hzq.example.data.entity.TemplateReadesignEntity;
 import com.hzq.example.data.entity.TestNews;
 
@@ -38,40 +39,44 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/api/user/login")
     @LifeCache(duration = 20, timeUnit = TimeUnit.MINUTES)
-    Observable<BaseHttpResult<LoginEntity>> getLoginData(@FieldMap Map<String, String> map);
+    Observable<BaseHttpResult<LoginEntity>> requestLoginData(@FieldMap Map<String, String> map);
 
     //获取案例分页
     @FormUrlEncoded
     @LifeCache(duration = 20, timeUnit = TimeUnit.MINUTES)
     @POST("/api/demandcase/getpagelist")
-    Observable<BaseHttpResult<TemplateReadesignEntity>> getDemandcaseData(@FieldMap Map<String, String> map);
+    Observable<BaseHttpResult<TemplateReadesignEntity>> requestDemandcaseData(@FieldMap Map<String, String> map);
 
     //获取作品分页
     @FormUrlEncoded
     @POST("/api/product/getpagelist")
-    Observable<BaseHttpResult<TemplateReadesignEntity>> getProductData(@FieldMap Map<String, String> map);
+    Observable<BaseHttpResult<TemplateReadesignEntity>> requestProductData(@FieldMap Map<String, String> map);
 
     //获取定制分页
     @FormUrlEncoded
     @POST("/api/demand/getpagelist")
-    Observable<BaseHttpResult<HomeCustomizeEntity>> getCustomizedData(@FieldMap Map<String, String> map);
+    Observable<BaseHttpResult<HomeCustomizeEntity>> requestCustomizedData(@FieldMap Map<String, String> map);
 
     //获取设计师分页
     @FormUrlEncoded
     @POST("/api/userdesigner/getpagelist")
-    Observable<BaseHttpResult<HomeDesignerEntity>> getHomeDesignerData(@FieldMap Map<String, String> map);
+    Observable<BaseHttpResult<HomeDesignerEntity>> requestHomeDesignerData(@FieldMap Map<String, String> map);
 
     //获取关注设计师
     @FormUrlEncoded
     @POST("/api/userfollow/follow")
-    Observable<BaseHttpResult<String>> getFollowDesignersData(@Field("id") int id);
+    Observable<BaseHttpResult<String>> requestFollowDesignersData(@Field("id") int id);
 
     //获取关注设计师
     @FormUrlEncoded
     @POST("/api/userfollow/unfollow")
-    Observable<BaseHttpResult<String>> getUnFollowDesignersData(@Field("id") int id);
+    Observable<BaseHttpResult<String>> requestUnFollowDesignersData(@Field("id") int id);
 
     @FormUrlEncoded
     @POST("/api/user/getuserstatus")
-    Observable<BaseHttpResult<LoginEntity>> getTokenData(@Field("token") String token);
+    Observable<BaseHttpResult<LoginEntity>> requestTokenData(@Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("/api/article/getpagelist")
+    Observable<BaseHttpResult<RecomentEntity>> requestRecomentData(@FieldMap Map<String, String> map);
 }

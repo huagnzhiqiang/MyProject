@@ -30,7 +30,7 @@ public class HomeCustomizedRedesignPersenter extends BasePresenter<HomeCustomize
 
     public void requestCustomizedData(Map<String, String> map){
 
-       getModel().getCustomizedData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+       getModel().requestCustomizedData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
                subscribe(new BaseObserver<HomeCustomizeEntity>(getView(), false) {
                    /**
                     * 请求成功返回
@@ -69,7 +69,7 @@ public class HomeCustomizedRedesignPersenter extends BasePresenter<HomeCustomize
 
     public void requestCustomizedloadMoerData(Map<String, String> map){
 
-        getModel().getCustomizedData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
+        getModel().requestCustomizedData(map).compose(RxSchedulers.applySchedulers(getLifecycleProvider())).
                 subscribe(new BaseObserver<HomeCustomizeEntity>(getView(), false) {
                     /**
                      * 请求成功返回
