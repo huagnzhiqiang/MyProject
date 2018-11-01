@@ -1,12 +1,11 @@
 package com.hzq.baselibs.net;
 
-import android.os.Environment;
-
 import com.hzq.baselibs.app.AppConfig;
 import com.hzq.baselibs.app.BaseApplication;
 import com.hzq.baselibs.net.converter.GsonConverterBodyFactory;
 import com.hzq.baselibs.net.cookie.CookieJarImpl;
 import com.hzq.baselibs.net.cookie.store.PersistentCookieStore;
+import com.hzq.baselibs.net.logcat.LoggerInterceptor;
 import com.hzq.baselibs.utils.NetworkUtils;
 import com.hzq.baselibs.utils.SpUtil;
 import com.hzq.baselibs.utils.cache.CacheManager;
@@ -77,32 +76,27 @@ public class BaseRetrofit {
             synchronized (BaseRetrofit.class) {
                 if (retrofit == null) {
 
-
                     //添加一个log拦截器,打印所有的log
                     HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                         @Override
                         public void log(String message) {
-                            Logger.e("log--->:" + message);
-                            Logger.json(message);
-
+                            Logger.e("请求网络--->:" + message);
                         }
                     });
 
                     //可以设置请求过滤的水平,body,basic,headers
-                    httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                    httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
 
 
                     //设置 请求的缓存的大小跟位置
-                    //                    File cacheFile = new File(BaseApplication.getContext().getCacheDir(), "hzq_cache");
-                    File cacheFile = Environment.getExternalStorageDirectory();
+                    File cacheFile = new File(BaseApplication.getContext().getCacheDir(), "hzq_cache");
+                    //                    File cacheFile = Environment.getExternalStorageDirectory();
                     Cache cache = new Cache(cacheFile, 1024 * 1024 * 50); //50Mb 缓存的大小
 
-                    Logger.w("getRetrofit--->:" + cacheFile.getAbsolutePath());
-                    Logger.w("getRetrofit--->:" + cache);
-                    client = new OkHttpClient.Builder()
-                            .cookieJar(new CookieJarImpl(new PersistentCookieStore(BaseApplication.getContext()))) //cookie 相关
-                            .addInterceptor(httpLoggingInterceptor) //日志,所有的请求响应
-//                            .addInterceptor(new HeaderInterceptor(getRequestHeader())) // 配置网络请求头
+                    client = new OkHttpClient.Builder().cookieJar(new CookieJarImpl(new PersistentCookieStore(BaseApplication.getContext()))) //cookie 相关
+//                            .addInterceptor(httpLoggingInterceptor) //日志,所有的请求响应
+                            .addNetworkInterceptor(new LoggerInterceptor()) //日志,所有的请求响应
+                            //                            .addInterceptor(new HeaderInterceptor(getRequestHeader())) // 配置网络请求头
                             //                            .addInterceptor(new ParameterInterceptor(getRequestParams()))  //公共参数添加
                             //不加以下两行代码,https请求不到自签名的服务器
                             .sslSocketFactory(createSSLSocketFactory())//创建一个证书对象
