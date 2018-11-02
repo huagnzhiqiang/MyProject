@@ -76,7 +76,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     }
 
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -95,7 +94,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
             EventBus.getDefault().register(this);//注册eventBus
         }
         Bundle arguments = getArguments();
-        if (arguments != null){
+        if (arguments != null) {
             getBundle(arguments);
         }
 
@@ -127,7 +126,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     /**
      * 获取根view
      */
-    protected View getRootView(){
+    protected View getRootView() {
         return mRootView;
     }
 
@@ -136,9 +135,10 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
      */
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
-        //        mImmersionBar.fitsSystemWindows(true);
-        mImmersionBar.statusBarColor(R.color.color_61bef4).init();
-        mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
+        mImmersionBar.fitsSystemWindows(true);
+        mImmersionBar.statusBarColor(R.color.color_61bef4);
+        mImmersionBar.navigationBarWithKitkatEnable(false);
+        mImmersionBar.init();
     }
 
     /**
@@ -289,7 +289,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     /**
      * 初始化View的代码写在这个方法中
      */
-    protected void initView(){}
+    protected void initView() {
+    }
 
     /**
      * 初始化监听器的代码写在这个方法中

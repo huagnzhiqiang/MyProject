@@ -14,9 +14,9 @@ import com.hzq.example.R;
 import com.hzq.example.data.entity.TabEntity;
 import com.hzq.example.data.entity.TestNews;
 import com.hzq.example.ui.main.home.HomeFragment;
+import com.hzq.example.ui.main.market.MarketFragment;
 import com.hzq.example.ui.main.mine.MineFragment;
 import com.hzq.example.ui.main.myWork.MyWorkFragment;
-import com.hzq.example.ui.main.market.MarketFragment;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -51,7 +51,6 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         if (savedInstanceState != null) {
             Logger.d("onRestore enter...." + mCurrIndex);
             mCurrIndex = savedInstanceState.getInt("currTabIndex");
@@ -73,10 +72,16 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
     }
 
-//    @Override
-//    public boolean isInMultiWindowMode() {
-//        return true;
-//    }
+
+    /**
+     * 初始化沉浸式状态栏和沉浸式
+     */
+    @Override
+    protected void initImmersionBar() {
+        super.initImmersionBar();
+        mImmersionBar.fitsSystemWindows(false);
+        mImmersionBar.init();
+    }
 
     /**
      * 请求网络

@@ -1,17 +1,15 @@
 package com.hzq.example.ui.main.myWork;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.hzq.baselibs.base.BaseFragment;
 import com.hzq.baselibs.mvp.BasePresenter;
 import com.hzq.example.R;
+import com.hzq.example.data.Login.LoginMsgHelper;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author 小强
@@ -20,6 +18,7 @@ import butterknife.ButterKnife;
  */
 public class MyWorkFragment extends BaseFragment {
     @BindView(R.id.tv) EditText mTv;
+    @BindView(R.id.ll) LinearLayout ll;
 
     /**
      * 返回一个用于显示界面的布局id
@@ -39,7 +38,8 @@ public class MyWorkFragment extends BaseFragment {
      */
     @Override
     protected void initView() {
-        mTv.setSelection(100);
+
+        LoginMsgHelper.isLogin(getActivity());
     }
 
     /**
@@ -55,7 +55,6 @@ public class MyWorkFragment extends BaseFragment {
      */
     @Override
     protected void initData() {
-
     }
 
     /**
@@ -94,11 +93,5 @@ public class MyWorkFragment extends BaseFragment {
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
-    }
+
 }

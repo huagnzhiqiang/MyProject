@@ -55,8 +55,9 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //初始化沉浸式
-        if (isImmersionBarEnabled())
+        if (isImmersionBarEnabled()){
             initImmersionBar();
+        }
 
         //初始化EventBus
         if (useEventBus()) {

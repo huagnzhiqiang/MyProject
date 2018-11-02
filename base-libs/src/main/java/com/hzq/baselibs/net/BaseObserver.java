@@ -5,6 +5,7 @@ import android.accounts.NetworkErrorException;
 
 import com.hzq.baselibs.mvp.IView;
 import com.hzq.baselibs.net.exception.ServerException;
+import com.hzq.baselibs.utils.SpUtil;
 import com.orhanobut.logger.Logger;
 
 import java.net.ConnectException;
@@ -61,6 +62,12 @@ public abstract class BaseObserver<T> implements Observer<BaseHttpResult<T>> {
             //TODO API异常处理
             onFailure(result.getMessage(), result.getCode(), false);
             Logger.e("异常处理--->:");
+
+            //404与后台约定好的协议 Token不存在或已失效
+            if (result.getCode() == 404) {
+                SpUtil.getInstance().remove("login_message");
+                SpUtil.getInstance().remove("token");
+            }
         }
     }
 

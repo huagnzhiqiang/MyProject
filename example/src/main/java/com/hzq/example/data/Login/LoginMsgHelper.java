@@ -56,4 +56,13 @@ public class LoginMsgHelper {
     }
 
 
+    /**
+     * 登录退出处理
+     */
+    public static void exitLogin() {
+
+        SpUtil.getInstance().clearData();
+
+    }
+
 }
