@@ -9,7 +9,6 @@ import com.hzq.baselibs.utils.StringUtil;
 import com.hzq.example.constants.SpKeyConstant;
 import com.hzq.example.data.entity.LoginEntity;
 import com.hzq.example.ui.main.login.LoginActivity;
-import com.orhanobut.logger.Logger;
 
 /**
  * @author 小强
@@ -25,7 +24,6 @@ public class LoginMsgHelper {
      */
     public static boolean isLogin(Activity activity) {
         String loginMsgResult = SpUtil.getInstance().getString(SpKeyConstant.LOGIN_MSG);
-        Logger.w("登录信息--->:" + loginMsgResult.toString());
         if (!StringUtil.isEmpty(loginMsgResult)) {
             return true;
         } else {
@@ -41,12 +39,10 @@ public class LoginMsgHelper {
     public static LoginEntity getResult() {
 
         String result = SpUtil.getInstance().getString(SpKeyConstant.LOGIN_MSG);
-        Logger.w("登录信息--->:" + result.toString());
 
         if (result != null)
             if (!StringUtil.isEmpty(result)) {
                 LoginEntity loginEntity = GsonUtil.fromJson(result, LoginEntity.class);
-                Logger.w("登录信息--->:" + loginEntity.toString());
                 if (!StringUtil.isEmpty(loginEntity.getToken())) {
                     SpUtil.getInstance().putString(SpKeyConstant.TOKEN, loginEntity.getToken());
                 }

@@ -5,6 +5,7 @@ import com.hzq.example.data.entity.HomeCustomizeEntity;
 import com.hzq.example.data.entity.HomeDesignerEntity;
 import com.hzq.example.data.entity.LoginEntity;
 import com.hzq.example.data.entity.MineEntity;
+import com.hzq.example.data.entity.MyProductEntity;
 import com.hzq.example.data.entity.RecomentEntity;
 import com.hzq.example.data.entity.TemplateReadesignEntity;
 import com.hzq.example.data.entity.TestNews;
@@ -72,11 +73,18 @@ public interface ApiService {
     @POST("/api/userfollow/unfollow")
     Observable<BaseHttpResult<String>> requestUnFollowDesignersData(@Field("id") int id);
 
+    //获取Toke信息
     @FormUrlEncoded
     @POST("/api/user/getuserstatus")
     Observable<BaseHttpResult<LoginEntity>> requestTokenData(@Field("token") String token);
 
+    //获取自营销数据
     @FormUrlEncoded
     @POST("/api/article/getpagelist")
     Observable<BaseHttpResult<RecomentEntity>> requestRecomentData(@FieldMap Map<String, String> map);
+
+    //获取我的作品数据
+    @FormUrlEncoded
+    @POST("/api/product/getuserproduct")
+    Observable<BaseHttpResult<MyProductEntity>> requestMyWorktData(@FieldMap Map<String, String> map);
 }

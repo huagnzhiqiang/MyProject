@@ -1,5 +1,7 @@
 package com.hzq.baselibs.base;
 
+import android.os.Bundle;
+
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
@@ -11,43 +13,89 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
 public abstract class BaseLazyFragment extends RxFragment {
 
     /**
-     * 是否对用户可见的标志位
+     * Fragment的View加载完毕的标记
      */
-    private boolean isVisible;
+    protected boolean isViewInitiated;
     /**
-     * 判断view是不是已经填充完毕的标记位
+     * Fragment对用户可见的标记
      */
-    protected boolean isPrepared;
+    protected boolean isVisibleToUser;
     /**
-     * 是否已经加载过数据
+     * 是否懒加载 (加载过数据)
      */
-    private boolean isAlreadyLoadData ;
-
+    protected boolean isAlreadyLoadData;
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            //可见
-            isVisible = true;
-            onVisible();
-        } else {
-            //不可见
-            isVisible = false;
-            onInVisible();
-        }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     /**
-     * setUserVisibleHint为true时调用的方法
+     * 第一步,改变isViewInitiated标记
+     * 当onViewCreated()方法执行时,表明View已经加载完毕,此时改变isViewInitiated标记为true,并调用lazyLoad()方法
      */
-    private void onVisible() {
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        isViewInitiated = true;
+        //只有Fragment onCreateView好了，
+
+        Logger.d("lazyLoad--->:" + "onActivityCreated");
         lazyLoad();
     }
 
     /**
-     * setUserVisibleHint为false时调用的方法
+     * 第二步
+     * 此方法会在onCreateView(）之前执行
+     * 当viewPager中fragment改变可见状态时也会调用
+     * 当fragment 从可见到不见，或者从不可见切换到可见，都会调用此方法
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser) {
+            //可见
+            this.isVisibleToUser = true;
+            lazyLoad();
+            Logger.d("lazyLoad--->:" + "可见");
+        } else {
+            //不可见
+            this.isVisibleToUser = false;
+            Logger.d("lazyLoad--->:" + "不可见");
+            onInVisible();
+
+        }
+    }
+
+    /**
+     * 第三步:在lazyLoad()方法中进行双重标记判断,通过后即可进行数据加载
+     * 第一种方法
+     * 调用懒加载，getUserVisibleHint()会返回是否可见状态
+     * 这是fragment实现懒加载的关键,只有fragment 可见才会调用onLazyLoad() 加载数据
+     */
+    private void lazyLoad() {
+        if (getUserVisibleHint() && isViewInitiated && !isAlreadyLoadData) {
+
+            Logger.d("lazyLoad--->:" + "第三步加载");
+            onLazyLoad();
+            isAlreadyLoadData = true;
+        } else {
+            Logger.d("lazyLoad--->:" + "第三步已经加载过");
+
+        }
+
+    }
+
+
+    /**
+     * 第四步:定义抽象方法fetchData(),具体加载数据的工作,交给子类去完成
+     */
+    public abstract void onLazyLoad();
+
+
+    /**
+     * 不可见时候 判断是否加载过数据
      */
     private void onInVisible() {
         if (isAlreadyLoadData) {
@@ -55,40 +103,13 @@ public abstract class BaseLazyFragment extends RxFragment {
         }
     }
 
-    protected void lazyLoad() {
-        //确保View初始化完成
-        if (!isVisible || !isPrepared) {
-            Logger.d("lazyLoad--->:" + "确保View初始化完成");
-            return;
-        }
-
-        //加载数据
-        if (!isAlreadyLoadData) {//如果没有加载过数据
-            Logger.d("lazyLoad--->:" + "如果没有加载过数据");
-            onLazyLoad();
-            isAlreadyLoadData = true;
-            isVisible = false;
-        }
-
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        isAlreadyLoadData = true;
-        isVisible = false;
-    }
-
-    /**
-     * 初始化懒加载的数据 (请求网络)
-     */
-    public abstract void onLazyLoad();
-
 
     /**
      * 加载过数据后，fragment变为不可见之后的需要执行的操作
      */
     public void InVisibleEvent() {
+        Logger.d("lazyLoad--->:" + "加载过数据");
+
     }
 
 

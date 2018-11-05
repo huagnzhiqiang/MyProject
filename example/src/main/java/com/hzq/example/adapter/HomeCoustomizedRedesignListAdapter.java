@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * @author 小强
  * @time 2018/10/17  17:26
- * @desc
+ * @desc 设计师投票的适配器
  */
 public class HomeCoustomizedRedesignListAdapter extends BaseQuickAdapter<HomeCustomizeEntity.RowsBean.DemandDesignerListBean, BaseViewHolder> {
 

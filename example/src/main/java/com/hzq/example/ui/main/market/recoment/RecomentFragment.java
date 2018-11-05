@@ -89,11 +89,18 @@ public class RecomentFragment extends BaseFragment<RecomentPresenter> implements
     @Override
     public void onLazyLoad() {
         initAdapter();
-        Logger.d("初始化懒加载的数据 (请求网络)--->:");
+        Logger.d(" onResume  onLazyLoad初始化懒加载的数据 (请求网络)--->:");
         mRefreshLayout.autoRefresh();
 
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Logger.d("onResume 初始化懒加载的数据 (请求网络)--->:");
+
+    }
 
     /**
      * 刷新

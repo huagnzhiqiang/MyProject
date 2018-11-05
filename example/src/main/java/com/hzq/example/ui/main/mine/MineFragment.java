@@ -1,17 +1,22 @@
 package com.hzq.example.ui.main.mine;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.hzq.baselibs.base.BaseFragment;
 import com.hzq.baselibs.utils.ToastUtils;
+import com.hzq.baselibs.view.MultipleStatusView;
 import com.hzq.example.R;
 import com.hzq.example.data.entity.LoginEntity;
 import com.hzq.example.data.entity.MineEntity;
+import com.hzq.example.ui.main.login.LoginActivity;
 import com.orhanobut.logger.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 
@@ -23,6 +28,10 @@ import butterknife.OnClick;
 public class MineFragment extends BaseFragment<MinePresenter> implements MineContract.View {
 
 
+    @BindView(R.id.get_btn) Button mGetBtn;
+    @BindView(R.id.login_btn) Button mLoginBtn;
+    @BindView(R.id.et) EditText mEt;
+    @BindView(R.id.multipleStatusView) MultipleStatusView mMultipleStatusView;
     private String mTitle;
 
     public static MineFragment getInstance(String title) {
@@ -44,9 +53,6 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
     }
 
 
-
-
-
     @Override
     public void showData(MineEntity testNews) {
         mLayoutStatusView.showContent();
@@ -58,7 +64,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
     public void showLoginData(LoginEntity data) {
         if (data != null) {
             mLayoutStatusView.showContent();
-//            ToastUtils.showShort(data.toString());
+            //            ToastUtils.showShort(data.toString());
             Logger.d("showLoginData--->:" + data);
         }
     }
@@ -72,6 +78,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
         map.put("password", "abc12345678");
         Logger.d("onClick--->:" + map.toString());
         showLoading("我爱你");
+        startActivity(LoginActivity.class);
+        finishActivity();
         mPresenter.requestLoginData(map);
     }
 
@@ -121,5 +129,13 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
         ToastUtils.showShort(msg);
         mLayoutStatusView.showNoNetwork();
 
+    }
+
+    /**
+     * 初始数据的代码写在这个方法中，用于从服务器获取数据
+     */
+    @Override
+    protected void initData() {
+        super.initData();
     }
 }

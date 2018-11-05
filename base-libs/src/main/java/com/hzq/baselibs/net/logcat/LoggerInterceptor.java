@@ -53,15 +53,16 @@ public class LoggerInterceptor implements Interceptor {
         if (oidBody instanceof FormBody) {
             FormBody formBody = (FormBody) oidBody;
             for (int i = 0; i < formBody.size(); i++) {
-                String name = URLDecoder.decode(formBody.encodedName(i), "UTF-8");
-                String value = URLDecoder.decode(formBody.encodedValue(i), "UTF-8");
+                String name = URLDecoder.decode(formBody.encodedName(i), "utf-8");
+                String value = URLDecoder.decode(formBody.encodedValue(i), "utf-8");
                 if (!TextUtils.isEmpty(value)) {
                     formBuilder.add(name, value);
                     msg += name + "  =  " + value + "\n";
                 }
             }
         }
-        System.out.print("请求-->\n" + msg);
+        Logger.i(msg);
+
     }
 
     /**
@@ -79,8 +80,7 @@ public class LoggerInterceptor implements Interceptor {
         }
         String json = buffer.clone().readString(UTF8);
 
-        System.out.print("请求-->\n" + json);
-
+        Logger.i(json);
 
     }
 

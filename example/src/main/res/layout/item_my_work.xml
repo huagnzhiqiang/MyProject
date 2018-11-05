@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tool="http://schemas.android.com/tools"
+              android:id="@+id/ll_product_item"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="178dp">
+
+        <ImageView
+            android:id="@+id/iv_product_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/load"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:id="@+id/tv_customized_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:alpha="0.7"
+            android:background="@drawable/shape_cyan"
+            android:paddingBottom="1dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="1dp"
+            android:textColor="@color/white"
+            android:textSize="9sp"
+            android:visibility="gone"
+            tool:text="100人定制"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_product_title"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/color_434a5c"
+            android:textSize="12sp"
+            tool:text="会议邀请函"/>
+
+        <TextView
+            android:id="@+id/tv_product_price"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_eb6ea5"
+            android:textSize="12sp"
+            tool:text="¥200"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>

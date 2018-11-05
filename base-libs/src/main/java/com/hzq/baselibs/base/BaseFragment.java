@@ -71,7 +71,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
             parent.removeView(mRootView);
         }
         initView();
-        isPrepared = true;
         return mRootView;
     }
 
@@ -98,7 +97,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
             getBundle(arguments);
         }
 
-        lazyLoad();
         initData();
         initListener();
     }
@@ -118,10 +116,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         }
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
 
     /**
      * 获取根view

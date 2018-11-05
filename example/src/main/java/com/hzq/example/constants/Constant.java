@@ -76,4 +76,18 @@ public class Constant {
 
     }
 
+    /**
+     * 用户类型UserType
+     * 0:一般用户 1:设计师 2:企业 3:自营销
+     */
+    public static class UserType {
+
+        public final static int USER_TYPE_0 = 0;//一般用户
+
+        public final static int USER_TYPE_1 = 1;//设计师1
+
+        public final static int USER_TYPE_2 = 2;//企业2
+
+        public final static int USER_TYPE_3 = 3;//自营销3
+    }
 }

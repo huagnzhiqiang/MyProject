@@ -16,7 +16,7 @@ import com.hzq.example.data.entity.TestNews;
 import com.hzq.example.ui.main.home.HomeFragment;
 import com.hzq.example.ui.main.market.MarketFragment;
 import com.hzq.example.ui.main.mine.MineFragment;
-import com.hzq.example.ui.main.myWork.MyWorkFragment;
+import com.hzq.example.ui.main.myWork.WorkFragment;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
     private HomeFragment mHomeFragment;
     private MarketFragment mMarketFragment;
-    private MyWorkFragment mMyWorkFragment;
+    private WorkFragment mWorkFragment;
     private MineFragment mMineFragment;
 
     // 顶部滑动的标签栏
@@ -150,7 +150,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
                 if (mHomeFragment == null) {
                     mHomeFragment = HomeFragment.getInstance(mTitles[0]);
-                    transaction.add(R.id.fl_container, mHomeFragment, "home");
+                    transaction.add(R.id.fl_container, mHomeFragment, "HomeFragment");
                 } else {
                     transaction.show(mHomeFragment);
                 }
@@ -160,7 +160,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
                 if (mMarketFragment == null) {
                     mMarketFragment = MarketFragment.getInstance(mTitles[1]);
-                    transaction.add(R.id.fl_container, mMarketFragment, "video");
+                    transaction.add(R.id.fl_container, mMarketFragment, "MarketFragment");
                 } else {
                     transaction.show(mMarketFragment);
                 }
@@ -168,11 +168,11 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
             case 2:
 
-                if (mMyWorkFragment == null) {
-                    mMyWorkFragment = MyWorkFragment.getInstance(mTitles[2]);
-                    transaction.add(R.id.fl_container, mMyWorkFragment, "myWork");
+                if (mWorkFragment == null) {
+                    mWorkFragment = WorkFragment.getInstance(mTitles[2]);
+                    transaction.add(R.id.fl_container, mWorkFragment, "WorkFragment");
                 } else {
-                    transaction.show(mMyWorkFragment);
+                    transaction.show(mWorkFragment);
                 }
                 break;
 
@@ -180,11 +180,12 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
             case 3:
                 if (mMineFragment == null) {
                     mMineFragment = MineFragment.getInstance(mTitles[3]);
-                    transaction.add(R.id.fl_container, mMineFragment, "mine");
+                    transaction.add(R.id.fl_container, mMineFragment, "MineFragment");
                 } else {
                     transaction.show(mMineFragment);
                 }
                 break;
+
             default:
                 if (mHomeFragment == null) {
                     mHomeFragment = HomeFragment.getInstance(mTitles[0]);
@@ -212,8 +213,8 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         if (null != mMarketFragment) {
             transaction.hide(mMarketFragment);
         }
-        if (null != mMyWorkFragment) {
-            transaction.hide(mMyWorkFragment);
+        if (null != mWorkFragment) {
+            transaction.hide(mWorkFragment);
         }
         if (null != mMineFragment) {
             transaction.hide(mMineFragment);
