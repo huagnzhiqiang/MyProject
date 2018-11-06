@@ -113,7 +113,7 @@ public class HomeCustomizedRedesignAdapter extends BaseQuickAdapter<HomeCustomiz
             tvRedesign.setVisibility(View.GONE);
 
             Logger.d("表示已有人投标--->:" + item.getDemand_designer_list());
-            HomeCoustomizedRedesignListAdapter adapter = new HomeCoustomizedRedesignListAdapter(item.getDemand_designer_list());
+            HomeCoustomizedRedesignListAdapter adapter = new HomeCoustomizedRedesignListAdapter(mContext,item.getDemand_designer_list());
             adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
             recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayout.HORIZONTAL,false));
             recyclerView.setAdapter(adapter);

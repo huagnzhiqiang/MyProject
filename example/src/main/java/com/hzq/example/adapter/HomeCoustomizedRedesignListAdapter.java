@@ -1,5 +1,6 @@
 package com.hzq.example.adapter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -8,7 +9,6 @@ import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.hzq.baselibs.app.BaseApplication;
 import com.hzq.baselibs.glide.GlideUtils;
 import com.hzq.baselibs.utils.DisplayUtils;
 import com.hzq.baselibs.utils.ToastUtils;
@@ -27,10 +27,10 @@ public class HomeCoustomizedRedesignListAdapter extends BaseQuickAdapter<HomeCus
 
     private  int mWidth;
 
-    public HomeCoustomizedRedesignListAdapter(@Nullable List<HomeCustomizeEntity.RowsBean.DemandDesignerListBean> data) {
+    public HomeCoustomizedRedesignListAdapter(Context context,@Nullable List<HomeCustomizeEntity.RowsBean.DemandDesignerListBean> data) {
         super(R.layout.home_customized_redesign_designer_item, data);
 
-        int screenWidth = DisplayUtils.getScreenWidth(BaseApplication.getContext());
+        int screenWidth = DisplayUtils.getScreenWidth(context);
         mWidth = (screenWidth - 16) / 10;
 
     }

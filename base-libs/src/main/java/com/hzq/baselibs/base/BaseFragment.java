@@ -369,7 +369,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
      * 用来检测所有Fragment的内存泄漏
      */
     private void initLeakCanary() {
-        RefWatcher refWatcher = BaseApplication.getRefWatcher(getContext());
+        RefWatcher refWatcher = BaseApplication.getRefWatcher(getActivity());
         refWatcher.watch(this);
     }
 

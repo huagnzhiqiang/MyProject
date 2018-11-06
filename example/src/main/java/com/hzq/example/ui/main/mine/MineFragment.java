@@ -177,7 +177,16 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
         }
 
         MineMenuAdapter adapter = new MineMenuAdapter(mineList);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
+
+        //由于使用弹性布局 ScrollView和RecycleView互动冲突 所以禁止RecycleView滑动
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),4){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(adapter);
     }
 

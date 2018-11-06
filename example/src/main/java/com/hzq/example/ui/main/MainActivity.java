@@ -9,8 +9,8 @@ import android.widget.Toast;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.hzq.baselibs.app.AppManager;
 import com.hzq.baselibs.base.BaseMvpActivity;
-import com.hzq.baselibs.utils.AppManager;
 import com.hzq.example.R;
 import com.hzq.example.data.entity.TabEntity;
 import com.hzq.example.data.entity.TestNews;
@@ -129,10 +129,6 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         });
 
 
-        //设备红点
-        //        tabLayout.showDot(0);
-        //        tabLayout.showMsg(1, 100);
-        //        tabLayout.showDot(2);
 
     }
 
@@ -250,7 +246,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
                 Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-                AppManager.get().exit();
+                AppManager.getInstance().AppExit();
             }
             return true;
         }

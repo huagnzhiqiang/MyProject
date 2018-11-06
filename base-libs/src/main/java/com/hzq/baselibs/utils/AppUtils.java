@@ -330,8 +330,11 @@ public final class AppUtils {
      * @param url      URL
      */
     public static void openHtml(Activity activity, String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        activity.startActivity(intent);
+        if(url!=null) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            activity.startActivity(intent);
+        }
+
     }
 
     /**

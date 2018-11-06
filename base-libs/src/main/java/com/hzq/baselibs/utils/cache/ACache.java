@@ -57,7 +57,7 @@ public class ACache {
 
 
     // 用法例子
-    // ACache mCache = ACache.get(this); // 初始化，一般放在基类里
+    // ACache mCache = ACache.getInstance(this); // 初始化，一般放在基类里
     // mCache.put("test_key1","test value");
     // mCache.put("test_key2", "test value", 10);// 保存10秒，如果超过10秒去获取这个key，将为null
     // mCache.put("test_key3", "test value", 2 ACache.TIME_DAY);// 保存两天，如果超过两天去获取这个key，将为null

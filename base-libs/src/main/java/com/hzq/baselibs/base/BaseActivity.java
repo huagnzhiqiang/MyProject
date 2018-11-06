@@ -21,9 +21,9 @@ import android.widget.TextView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.hzq.baselibs.Bean.MessageEvent;
 import com.hzq.baselibs.R;
+import com.hzq.baselibs.app.AppManager;
 import com.hzq.baselibs.app.BaseApplication;
 import com.hzq.baselibs.receiver.NetWorkChangeBroadcastReceiver;
-import com.hzq.baselibs.utils.AppManager;
 import com.hzq.baselibs.view.MultipleStatusView;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.RefWatcher;
@@ -60,9 +60,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //管理Activity
-        AppManager.get().addActivity(this);
 
         //初始化沉浸式
         if (isImmersionBarEnabled()) {
