@@ -43,7 +43,7 @@ public class HomeTemplateRedesignFragment extends BaseFragment<HomeTemplateRedes
     @BindView(R.id.home_iv_viewSwitches) ImageView mHomeIvViewSwitches;
     @BindView(R.id.home_iv_viewScreening) LinearLayout mHomeIvViewScreening;
     @BindView(R.id.ll_head) LinearLayout mLlHead;
-    @BindView(R.id.rl_home_CustomRequirements) RecyclerView mRecyclerView;
+    @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
     @BindView(R.id.refreshLayout) SmartRefreshLayout mRefreshLayout;
 
     private int mType;//页面跳转类型判断

@@ -1,23 +1,21 @@
 package com.hzq.example.ui.main.mine;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.hzq.baselibs.base.BaseFragment;
 import com.hzq.baselibs.utils.ToastUtils;
-import com.hzq.baselibs.view.MultipleStatusView;
 import com.hzq.example.R;
 import com.hzq.example.data.entity.LoginEntity;
 import com.hzq.example.data.entity.MineEntity;
-import com.hzq.example.ui.main.login.LoginActivity;
 import com.orhanobut.logger.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.OnClick;
+import butterknife.ButterKnife;
 
 
 /**
@@ -28,10 +26,6 @@ import butterknife.OnClick;
 public class MineFragment extends BaseFragment<MinePresenter> implements MineContract.View {
 
 
-    @BindView(R.id.get_btn) Button mGetBtn;
-    @BindView(R.id.login_btn) Button mLoginBtn;
-    @BindView(R.id.et) EditText mEt;
-    @BindView(R.id.multipleStatusView) MultipleStatusView mMultipleStatusView;
     private String mTitle;
 
     public static MineFragment getInstance(String title) {
@@ -55,43 +49,19 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
 
     @Override
     public void showData(MineEntity testNews) {
-        mLayoutStatusView.showContent();
         Logger.d("showData--->:" + testNews.toString());
-
     }
 
     @Override
     public void showLoginData(LoginEntity data) {
-        if (data != null) {
-            mLayoutStatusView.showContent();
-            //            ToastUtils.showShort(data.toString());
-            Logger.d("showLoginData--->:" + data);
-        }
+
     }
 
-
-    @OnClick(R.id.login_btn)
-    public void onClick() {
-
-        Map<String, String> map = new HashMap<>();
-        map.put("username", "18822223335");
-        map.put("password", "abc12345678");
-        Logger.d("onClick--->:" + map.toString());
-        showLoading("我爱你");
-        startActivity(LoginActivity.class);
-        finishActivity();
-        mPresenter.requestLoginData(map);
-    }
-
-    @OnClick(R.id.get_btn)
-    public void onClick1() {
-
-        Map<String, String> map = new HashMap<>();
-        map.put("username", "18822223335");
-        map.put("password", "abc12345678");
-        Logger.d("onClick--->:" + map.toString());
-        showLoading("哈哈");
-        mPresenter.requestLoginData(map);
+    /**
+     * 初始化View的代码写在这个方法中
+     */
+    @Override
+    protected void initView(View viwe) {
     }
 
     /**
@@ -115,7 +85,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
     @Override
     public void showError(String msg, int code) {
         ToastUtils.showShort(msg);
-        mLayoutStatusView.showError();
+
     }
 
     /**
@@ -126,16 +96,15 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
      */
     @Override
     public void showNetworkError(String msg, int code) {
-        ToastUtils.showShort(msg);
-        mLayoutStatusView.showNoNetwork();
 
     }
 
-    /**
-     * 初始数据的代码写在这个方法中，用于从服务器获取数据
-     */
+
     @Override
-    protected void initData() {
-        super.initData();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 }

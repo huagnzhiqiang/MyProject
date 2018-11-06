@@ -3,12 +3,16 @@ package com.hzq.baselibs.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.hzq.baselibs.Bean.MessageEvent;
@@ -50,29 +54,39 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     /**
      * 缓存Fragment view
      */
-    private View mRootView;
+    private View mRootView;//根布局
+    private ViewGroup mTitleView;//title布局
+    private TextView mToolbarTitle;//中间的title
+
+    private TextView mToolbarRightTitle;//右边的title
+    private ImageView mToolbarRigthImg;//右边的图片
+
+    private ViewGroup mFlContentRoot;//子布局
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         if (mRootView == null) {
-            mRootView = inflater.inflate(getLayoutId(), null);
-            unBinder = ButterKnife.bind(this, mRootView);
 
+            mRootView = inflater.inflate(R.layout.layout_base_root, null);
 
-            //无网络/请求出现了问题布局
-            mLayoutStatusView = ButterKnife.findById(mRootView, R.id.multipleStatusView);
-            if (mLayoutStatusView != null) {
-                mLayoutStatusView.setOnRetryClickListener(layoutStatusViewOnclick);
-            }
+            //初始化公用的布局
+            initBaseView();
+
         }
+
+        unBinder = ButterKnife.bind(this, mRootView);
+
+
         ViewGroup parent = (ViewGroup) mRootView.getParent();
         if (parent != null) {
             parent.removeView(mRootView);
         }
-        initView();
         return mRootView;
     }
+
+
 
 
     @Override
@@ -97,9 +111,31 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
             getBundle(arguments);
         }
 
+        initView(mRootView);
         initData();
         initListener();
     }
+
+    //初始化公用的布局
+    private void initBaseView() {
+        //头部
+        mTitleView = (ViewGroup) mRootView.findViewById(R.id.title_view);
+        mToolbarTitle = (TextView) mTitleView.findViewById(R.id.toolbar_title);
+        mToolbarRightTitle = (TextView) mTitleView.findViewById(R.id.toolbar_right_tv);
+        mToolbarRigthImg = (ImageView) mTitleView.findViewById(R.id.toolbar_right_img);
+
+        mFlContentRoot = (ViewGroup) mRootView.findViewById(R.id.fl_content_root);
+
+        mFlContentRoot.removeAllViews();
+        mActivity.getLayoutInflater().inflate(getLayoutId(), mFlContentRoot, true);
+
+        //无网络/请求出现了问题布局
+        mLayoutStatusView = ButterKnife.findById(mRootView, R.id.multipleStatusView);
+        if (mLayoutStatusView != null) {
+            mLayoutStatusView.setOnRetryClickListener(layoutStatusViewOnclick);
+        }
+    }
+
 
     /**
      * 获取 Bundle 数据
@@ -116,13 +152,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         }
     }
 
-
-    /**
-     * 获取根view
-     */
-    protected View getRootView() {
-        return mRootView;
-    }
 
     /**
      * 初始化沉浸式状态栏和沉浸式
@@ -145,11 +174,89 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     }
 
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    /**==================初始化Toolbar开始=====================*/
+
+    /**
+     * 判断是否显示标题
+     *
+     * @param isShow true:显示  false:不显示
+     */
+    public void showTitleView(boolean isShow) {
+        mTitleView.setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
+
+
+    /**
+     * 设置标题
+     *
+     * @param text 标题
+     */
+    public void setToolbarTitle(CharSequence text) {
+        mToolbarTitle.setText(text);
+    }
+
+    /**
+     * 设置标题
+     *
+     * @param text  标题
+     * @param color 颜色值
+     */
+    public void setToolbarTitle(CharSequence text, @ColorInt int color) {
+        mToolbarTitle.setText(text);
+
+        if (color != 0) {
+            mToolbarTitle.setTextColor(color);
+        } else {
+            mToolbarTitle.setTextColor(0x453d4d);
+        }
+    }
+
+
+    /**
+     * 设置右边的标题
+     *
+     * @param title 标题
+     * @param color 颜色值
+     */
+    protected void setToolRightTitle(String title, @ColorInt int color) {
+        mToolbarRigthImg.setVisibility(View.GONE);
+        if (mToolbarRightTitle != null) {
+            mToolbarRightTitle.setText(title);
+        }
+        if (color != 0) {
+            mToolbarRightTitle.setTextColor(color);
+        } else {
+            mToolbarRightTitle.setTextColor(0xeb6ea5);
+        }
 
     }
+
+    /**
+     * 设置右边的标题
+     *
+     * @param title 标题
+     */
+    protected void setToolRightTitle(String title) {
+        mToolbarRigthImg.setVisibility(View.GONE);
+        if (mToolbarRightTitle != null) {
+            mToolbarRightTitle.setText(title);
+            mToolbarRightTitle.setTextColor(0xeb6ea5);
+        }
+
+    }
+
+    /**
+     * 设置右边的图片
+     *
+     * @param resId 图片文件
+     */
+    protected void setToolRightImg(@DrawableRes int resId) {
+        mToolbarRightTitle.setVisibility(View.GONE);
+        mToolbarRigthImg.setImageResource(resId);
+    }
+
+    /** ==================初始化Toolbar结束===================== */
+
 
     @Override
     public void onDestroy() {
@@ -283,7 +390,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     /**
      * 初始化View的代码写在这个方法中
      */
-    protected void initView() {
+    protected void initView(View view) {
     }
 
     /**

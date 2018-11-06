@@ -3,6 +3,7 @@ package com.hzq.example.ui.main.myWork.fragment;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.loadmore.SimpleLoadMoreView;
@@ -59,7 +60,7 @@ public class MyWorkFragment extends BaseFragment<MyPresenter> implements MyWorkC
      * 初始化View的代码写在这个方法中
      */
     @Override
-    protected void initView() {
+    protected void initView(View view) {
         Logger.d("onResume--->:initView");
 
     }
@@ -138,6 +139,7 @@ public class MyWorkFragment extends BaseFragment<MyPresenter> implements MyWorkC
     private Map<String, String> getRequestMap() {
         Map<String, String> map = new HashMap<>();
         map.put("PageCount", Constant.PAGE_COUNT);
+//        map.put("PageCount", "0");
         map.put("PageIndex", String.valueOf(mCurrentPage));
         return map;
     }

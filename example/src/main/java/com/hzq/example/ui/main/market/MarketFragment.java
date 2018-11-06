@@ -3,6 +3,7 @@ package com.hzq.example.ui.main.market;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.hzq.baselibs.base.BaseFragment;
@@ -50,8 +51,11 @@ public class MarketFragment extends BaseFragment<MarketPresenter> {
         return new MarketPresenter();
     }
 
+    /**
+     * 初始化View的代码写在这个方法中
+     */
     @Override
-    protected void initView() {
+    protected void initView(View viwe) {
 
         if (mViewpager != null) {
 

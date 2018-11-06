@@ -1,6 +1,7 @@
 package com.hzq.example.ui.main.myWork;
 
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import com.hzq.baselibs.base.BaseFragment;
 import com.hzq.baselibs.mvp.BasePresenter;
@@ -35,7 +36,7 @@ public class WorkFragment extends BaseFragment {
      * 初始化View的代码写在这个方法中
      */
     @Override
-    protected void initView() {
+    protected void initView(View view) {
 
     }
 

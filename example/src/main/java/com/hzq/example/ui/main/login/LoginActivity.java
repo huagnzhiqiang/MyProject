@@ -32,8 +32,6 @@ import butterknife.OnClick;
 public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements LoginContract.View {
 
 
-    @BindView(R.id.toolbar_title) TextView mToolbarTitle;
-
     //账号
     @BindView(R.id.iv_login_phone) ImageView mIvLoginPhone;
     @BindView(R.id.login_phone_ed) TextInputEditText mLoginPhoneEd;
@@ -80,7 +78,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     /** 初始数据的代码写在这个方法中，用于从服务器获取数据 */
     @Override
     protected void initData() {
-        mToolbarTitle.setText("登录");
+        setToolbarTitle("登录");
 
         //回显登录账号密码
 
@@ -136,7 +134,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     }
 
 
-    @OnClick({R.id.tvbtn_login, R.id.return_back})
+    @OnClick({R.id.tvbtn_login, R.id.toolbar_left_img})
     public void onClick(View view) {
 
         switch (view.getId()) {
@@ -146,7 +144,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
                 break;
 
             //返回
-            case R.id.return_back:
+            case R.id.toolbar_left_img:
                 startActivity(MainActivity.class);
                 finishActivity();
                 break;

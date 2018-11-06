@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import com.hzq.baselibs.Bean.MessageEvent;
 import com.hzq.baselibs.R;
 import com.hzq.baselibs.app.BaseApplication;
 import com.hzq.baselibs.receiver.NetWorkChangeBroadcastReceiver;
+import com.hzq.baselibs.utils.AppManager;
 import com.hzq.baselibs.view.MultipleStatusView;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.RefWatcher;
@@ -50,12 +53,19 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     private NetWorkChangeBroadcastReceiver receiver;//无网络广播
 
 
+    private TextView mToolbarTitle;//中间的title
+    private TextView mToolbarRightTitle;//右边的title
+    private ImageView mToolbarRigthImg;//右边的图片
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //管理Activity
+        AppManager.get().addActivity(this);
+
         //初始化沉浸式
-        if (isImmersionBarEnabled()){
+        if (isImmersionBarEnabled()) {
             initImmersionBar();
         }
 
@@ -67,17 +77,14 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
         setContentView(getLayoutId());
         Intent intent = getIntent();
-        if (intent != null){
+        if (intent != null) {
             getIntent(intent);
         }
 
         unBinder = ButterKnife.bind(this);
 
-        //无网络/请求出现了问题布局
-        mLayoutStatusView = ButterKnife.findById(this, R.id.multipleStatusView);
-        if (mLayoutStatusView != null) {
-            mLayoutStatusView.setOnRetryClickListener(layoutStatusViewOnclick);
-        }
+        //初始化公用view
+        initBaseView();
 
         initView();
         initData();
@@ -85,6 +92,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         networkRequest();
         //        registerNetChangeReceiver();
     }
+
+
 
     /**
      * 无网络广播
@@ -247,6 +256,104 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         }
     }
 
+    //初始化公用view
+    private void initBaseView() {
+        mToolbarTitle = (TextView) ButterKnife.findById(this, R.id.toolbar_title);
+        mToolbarRightTitle = (TextView) ButterKnife.findById(this,R.id.toolbar_right_tv);
+        mToolbarRigthImg = (ImageView) ButterKnife.findById(this,R.id.toolbar_right_img);
+
+
+        //无网络/请求出现了问题布局
+        mLayoutStatusView = ButterKnife.findById(this, R.id.multipleStatusView);
+        if (mLayoutStatusView != null) {
+            mLayoutStatusView.setOnRetryClickListener(layoutStatusViewOnclick);
+        }
+    }
+
+
+    /**==================初始化Toolbar开始=====================*/
+
+    /**
+     * 设置标题
+     *
+     * @param text 标题
+     */
+    public void setToolbarTitle(CharSequence text) {
+        mToolbarTitle.setText(text);
+    }
+
+    /**
+     * 设置标题
+     *
+     * @param text  标题
+     * @param color 颜色值
+     */
+    public void setToolbarTitle(CharSequence text, @ColorInt int color) {
+        mToolbarTitle.setText(text);
+
+        if (color != 0) {
+            mToolbarTitle.setTextColor(color);
+        } else {
+            mToolbarTitle.setTextColor(0x453d4d);
+        }
+    }
+
+
+    /**
+     * 设置右边的标题
+     *
+     * @param title 标题
+     * @param color 颜色值
+     */
+    protected void setToolRightTitle(String title, @ColorInt int color) {
+        mToolbarRigthImg.setVisibility(View.GONE);
+        if (mToolbarRightTitle != null) {
+            mToolbarRightTitle.setText(title);
+        }
+        if (color != 0) {
+            mToolbarRightTitle.setTextColor(color);
+        } else {
+            mToolbarRightTitle.setTextColor(0xeb6ea5);
+        }
+
+    }
+
+    /**
+     * 设置右边的标题
+     *
+     * @param title 标题
+     */
+    protected void setToolRightTitle(String title) {
+        mToolbarRigthImg.setVisibility(View.GONE);
+        if (mToolbarRightTitle != null) {
+            mToolbarRightTitle.setText(title);
+            mToolbarRightTitle.setTextColor(0xeb6ea5);
+        }
+
+    }
+
+    /**
+     * 设置右边的图片
+     *
+     * @param resId 图片文件
+     */
+    protected void setToolRightImg(@DrawableRes int resId) {
+        mToolbarRightTitle.setVisibility(View.GONE);
+        mToolbarRigthImg.setImageResource(resId);
+    }
+
+    /** ==================初始化Toolbar结束===================== */
+
+
+
+
+
+    /**
+     * 全局关闭页面监听
+     */
+    public void onBack(View view) {
+        finishActivity();
+    }
 
     @Override
     protected void onDestroy() {

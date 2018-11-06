@@ -48,17 +48,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * @author Michael Yang（www.yangfuhai.com） update at 2013.08.07
+ * @author 小强
+ * @date 2018/6/12 13:15
+ * @desc 缓存
  */
+
 public class ACache {
 
 
     // 用法例子
-// ACache mCache = ACache.get(this); // 初始化，一般放在基类里
-// mCache.put("test_key1","test value");
-// mCache.put("test_key2", "test value", 10);// 保存10秒，如果超过10秒去获取这个key，将为null
-// mCache.put("test_key3", "test value", 2 ACache.TIME_DAY);// 保存两天，如果超过两天去获取这个key，将为null
-// String value = mCache.getAsString("test_key1");// 获取数据
+    // ACache mCache = ACache.get(this); // 初始化，一般放在基类里
+    // mCache.put("test_key1","test value");
+    // mCache.put("test_key2", "test value", 10);// 保存10秒，如果超过10秒去获取这个key，将为null
+    // mCache.put("test_key3", "test value", 2 ACache.TIME_DAY);// 保存两天，如果超过两天去获取这个key，将为null
+    // String value = mCache.getAsString("test_key1");// 获取数据
 
     public static final int TIME_HOUR = 60 * 60;
     public static final int TIME_DAY = TIME_HOUR * 24;
@@ -100,8 +103,7 @@ public class ACache {
 
     private ACache(File cacheDir, long max_size, int max_count) {
         if (!cacheDir.exists() && !cacheDir.mkdirs()) {
-            throw new RuntimeException("can't make dirs in "
-                    + cacheDir.getAbsolutePath());
+            throw new RuntimeException("can't make dirs in " + cacheDir.getAbsolutePath());
         }
         mCache = new ACacheManager(cacheDir, max_size, max_count);
     }
@@ -151,7 +153,6 @@ public class ACache {
     /**
      * 读取 String数据
      *
-     * @param key
      * @return String 数据
      */
     public String getAsString(String key) {
@@ -217,7 +218,6 @@ public class ACache {
     /**
      * 读取JSONObject数据
      *
-     * @param key
      * @return JSONObject数据
      */
     public JSONObject getAsJSONObject(String key) {
@@ -259,7 +259,6 @@ public class ACache {
     /**
      * 读取JSONArray数据
      *
-     * @param key
      * @return JSONArray数据
      */
     public JSONArray getAsJSONArray(String key) {
@@ -318,7 +317,6 @@ public class ACache {
     /**
      * 获取 byte 数据
      *
-     * @param key
      * @return byte 数据
      */
     public byte[] getAsBinary(String key) {
@@ -400,7 +398,6 @@ public class ACache {
     /**
      * 读取 Serializable数据
      *
-     * @param key
      * @return Serializable 数据
      */
     public Object getAsObject(String key) {
@@ -463,7 +460,6 @@ public class ACache {
     /**
      * 读取 bitmap 数据
      *
-     * @param key
      * @return bitmap 数据
      */
     public Bitmap getAsBitmap(String key) {
@@ -501,7 +497,6 @@ public class ACache {
     /**
      * 读取 Drawable 数据
      *
-     * @param key
      * @return Drawable 数据
      */
     public Drawable getAsDrawable(String key) {
@@ -514,7 +509,6 @@ public class ACache {
     /**
      * 获取缓存文件
      *
-     * @param key
      * @return value 缓存的文件
      */
     public File file(String key) {
@@ -527,7 +521,6 @@ public class ACache {
     /**
      * 移除某个key
      *
-     * @param key
      * @return 是否移除成功
      */
     public boolean remove(String key) {
@@ -551,8 +544,7 @@ public class ACache {
         private final AtomicInteger cacheCount;
         private final long sizeLimit;
         private final int countLimit;
-        private final Map<File, Long> lastUsageDates = Collections
-                .synchronizedMap(new HashMap<File, Long>());
+        private final Map<File, Long> lastUsageDates = Collections.synchronizedMap(new HashMap<File, Long>());
         protected File cacheDir;
 
         private ACacheManager(File cacheDir, long sizeLimit, int countLimit) {
@@ -578,8 +570,7 @@ public class ACache {
                         for (File cachedFile : cachedFiles) {
                             size += calculateSize(cachedFile);
                             count += 1;
-                            lastUsageDates.put(cachedFile,
-                                    cachedFile.lastModified());
+                            lastUsageDates.put(cachedFile, cachedFile.lastModified());
                         }
                         cacheSize.set(size);
                         cacheCount.set(count);
@@ -642,8 +633,6 @@ public class ACache {
 
         /**
          * 移除旧的文件
-         *
-         * @return
          */
         private long removeNext() {
             if (lastUsageDates.isEmpty()) {
@@ -690,7 +679,6 @@ public class ACache {
         /**
          * 判断缓存的String数据是否到期
          *
-         * @param str
          * @return true：到期了 false：还没有到期
          */
         private static boolean isDue(String str) {
@@ -700,7 +688,6 @@ public class ACache {
         /**
          * 判断缓存的byte数据是否到期
          *
-         * @param data
          * @return true：到期了 false：还没有到期
          */
         private static boolean isDue(byte[] data) {
@@ -708,8 +695,7 @@ public class ACache {
             if (strs != null && strs.length == 2) {
                 String saveTimeStr = strs[0];
                 while (saveTimeStr.startsWith("0")) {
-                    saveTimeStr = saveTimeStr
-                            .substring(1, saveTimeStr.length());
+                    saveTimeStr = saveTimeStr.substring(1, saveTimeStr.length());
                 }
                 long saveTime = Long.valueOf(saveTimeStr);
                 long deleteAfter = Long.valueOf(strs[1]);
@@ -734,30 +720,26 @@ public class ACache {
 
         private static String clearDateInfo(String strInfo) {
             if (strInfo != null && hasDateInfo(strInfo.getBytes())) {
-                strInfo = strInfo.substring(strInfo.indexOf(mSeparator) + 1,
-                        strInfo.length());
+                strInfo = strInfo.substring(strInfo.indexOf(mSeparator) + 1, strInfo.length());
             }
             return strInfo;
         }
 
         private static byte[] clearDateInfo(byte[] data) {
             if (hasDateInfo(data)) {
-                return copyOfRange(data, indexOf(data, mSeparator) + 1,
-                        data.length);
+                return copyOfRange(data, indexOf(data, mSeparator) + 1, data.length);
             }
             return data;
         }
 
         private static boolean hasDateInfo(byte[] data) {
-            return data != null && data.length > 15 && data[13] == '-'
-                    && indexOf(data, mSeparator) > 14;
+            return data != null && data.length > 15 && data[13] == '-' && indexOf(data, mSeparator) > 14;
         }
 
         private static String[] getDateInfoFromDate(byte[] data) {
             if (hasDateInfo(data)) {
                 String saveDate = new String(copyOfRange(data, 0, 13));
-                String deleteAfter = new String(copyOfRange(data, 14,
-                        indexOf(data, mSeparator)));
+                String deleteAfter = new String(copyOfRange(data, 14, indexOf(data, mSeparator)));
                 return new String[]{saveDate, deleteAfter};
             }
             return null;
@@ -777,8 +759,7 @@ public class ACache {
             if (newLength < 0)
                 throw new IllegalArgumentException(from + " > " + to);
             byte[] copy = new byte[newLength];
-            System.arraycopy(original, from, copy, 0,
-                    Math.min(original.length - from, newLength));
+            System.arraycopy(original, from, copy, 0, Math.min(original.length - from, newLength));
             return copy;
         }
 
@@ -825,8 +806,7 @@ public class ACache {
             int w = drawable.getIntrinsicWidth();
             int h = drawable.getIntrinsicHeight();
             // 取 drawable 的颜色格式
-            Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
-                    : Bitmap.Config.RGB_565;
+            Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
             // 建立对应 bitmap
             Bitmap bitmap = Bitmap.createBitmap(w, h, config);
             // 建立对应 bitmap 的画布

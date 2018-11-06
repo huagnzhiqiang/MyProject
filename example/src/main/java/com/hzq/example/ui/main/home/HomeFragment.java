@@ -82,8 +82,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         return new HomePresenter();
     }
 
+    /**
+     * 初始化View的代码写在这个方法中
+     */
     @Override
-    protected void initView() {
+    protected void initView(View viwe) {
 
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(mTitles[i]));

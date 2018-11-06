@@ -40,7 +40,7 @@ public class HomeDesignerRedesignFragment extends BaseFragment<HomeDesignerRedes
     @BindView(R.id.home_iv_viewSwitches) ImageView mIvViewSwitches;
     @BindView(R.id.home_iv_viewScreening) LinearLayout mIvViewScreening;
     @BindView(R.id.ll_head) LinearLayout mLlHead;
-    @BindView(R.id.rl_home_CustomRequirements) RecyclerView mRecyclerView;
+    @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
     @BindView(R.id.refreshLayout) SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.multipleStatusView) MultipleStatusView mMultipleStatusView;
 
