@@ -151,7 +151,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
             case 0:
 
                 if (mHomeFragment == null) {
-                    mHomeFragment = HomeFragment.getInstance(mTitles[0]);
+                    mHomeFragment = HomeFragment.newInstance(mTitles[0]);
                     transaction.add(R.id.fl_container, mHomeFragment, "HomeFragment");
                 } else {
                     transaction.show(mHomeFragment);
@@ -161,7 +161,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
             case 1:
 
                 if (mMarketFragment == null) {
-                    mMarketFragment = MarketFragment.getInstance(mTitles[1]);
+                    mMarketFragment = MarketFragment.newInstance(mTitles[1]);
                     transaction.add(R.id.fl_container, mMarketFragment, "MarketFragment");
                 } else {
                     transaction.show(mMarketFragment);
@@ -171,7 +171,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
             case 2:
 
                 if (mWorkFragment == null) {
-                    mWorkFragment = WorkFragment.getInstance(mTitles[2]);
+                    mWorkFragment = WorkFragment.newInstance(mTitles[2]);
                     transaction.add(R.id.fl_container, mWorkFragment, "WorkFragment");
                 } else {
                     transaction.show(mWorkFragment);
@@ -181,7 +181,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
             //我的
             case 3:
                 if (mMineFragment == null) {
-                    mMineFragment = MineFragment.getInstance(mTitles[3]);
+                    mMineFragment = MineFragment.newInstance();
                     transaction.add(R.id.fl_container, mMineFragment, "MineFragment");
                 } else {
                     transaction.show(mMineFragment);
@@ -190,7 +190,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
             default:
                 if (mHomeFragment == null) {
-                    mHomeFragment = HomeFragment.getInstance(mTitles[0]);
+                    mHomeFragment = HomeFragment.newInstance(mTitles[0]);
                     transaction.add(R.id.fl_container, mHomeFragment, "home");
                 } else {
                     transaction.show(mHomeFragment);

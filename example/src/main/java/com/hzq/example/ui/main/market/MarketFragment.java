@@ -32,7 +32,7 @@ public class MarketFragment extends BaseFragment<MarketPresenter> {
 
     private String mTitle;
 
-    public static MarketFragment getInstance(String title) {
+    public static MarketFragment newInstance(String title) {
         MarketFragment fragment = new MarketFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);

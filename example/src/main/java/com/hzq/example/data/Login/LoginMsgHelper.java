@@ -35,7 +35,10 @@ public class LoginMsgHelper {
 
     }
 
-    //登录之后返回的结果
+    /**
+     * 登录之后返回的结果
+     * @return  返回登录后的数据    null:没有登录
+     */
     public static LoginEntity getResult() {
 
         String result = SpUtil.getInstance().getString(SpKeyConstant.LOGIN_MSG);

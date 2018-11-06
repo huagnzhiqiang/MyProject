@@ -84,7 +84,7 @@ public class WorkFragment extends BaseFragment {
     }
 
 
-    public static WorkFragment getInstance(String title) {
+    public static WorkFragment newInstance(String title) {
 
         return new WorkFragment();
     }

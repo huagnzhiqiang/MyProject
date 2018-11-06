@@ -36,7 +36,7 @@ public class GlideUtils {
                     diskCacheStrategy(DiskCacheStrategy.ALL)//图片缓存模式
                     .into(iv);
         } else {
-            loadImage(context, iv, emptyImg, emptyImg);
+            loadImage(context, emptyImg,iv,  emptyImg);
         }
     }
     /**
@@ -75,7 +75,7 @@ public class GlideUtils {
      * @param url      图片地址
      * @param emptyImg 默认展位图
      */
-    public static void loadRoundImage(Context context, ImageView iv, String url, int emptyImg) {
+    public static void loadRoundImage(Context context,String url, ImageView iv,  int emptyImg) {
         if (!TextUtils.isEmpty(url)) {
             GlideApp.with(context).
                     load(url).
@@ -127,7 +127,7 @@ public class GlideUtils {
      * @param resId    图片地址
      * @param emptyImg 默认展位图
      */
-    public static void loadImage(Context context, ImageView iv, int resId, int emptyImg) {
+    public static void loadImage(Context context, int resId,ImageView iv, int emptyImg) {
         GlideApp.with(context).load(resId).placeholder(emptyImg).into(iv);
     }
 

@@ -63,10 +63,10 @@ public class HomeDesignerRedesignAdapter extends BaseQuickAdapter<HomeDesignerEn
         helper.addOnClickListener(R.id.im_designer_focus);
         switch (item.isIsfollow()) {
             case 0: //未关注
-                GlideUtils.loadImage(mContext, helper.getView(R.id.im_designer_focus), R.drawable.icon_focus_slices, R.drawable.user_moren);
+                GlideUtils.loadImage(mContext,  R.drawable.icon_focus_slices,helper.getView(R.id.im_designer_focus), R.drawable.user_moren);
                 break;
             case 1: //已关注
-                GlideUtils.loadImage(mContext, helper.getView(R.id.im_designer_focus), R.drawable.icon_is_focus_slices, R.drawable.user_moren);
+                GlideUtils.loadImage(mContext,  R.drawable.icon_is_focus_slices,helper.getView(R.id.im_designer_focus), R.drawable.user_moren);
 
                 break;
         }

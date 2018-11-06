@@ -64,7 +64,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     private String mTitle;
 
-    public static HomeFragment getInstance(String title) {
+    public static HomeFragment newInstance(String title) {
         HomeFragment fragment = new HomeFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
