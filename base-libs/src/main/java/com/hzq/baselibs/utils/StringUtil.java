@@ -459,4 +459,18 @@ public class StringUtil {
         return false;
     }
 
+
+    // 判断一个字符串是否含有数字
+    public static boolean HasDigit(String content) {
+        if (StringUtil.isEmpty(content)){
+            return false;
+        }
+        boolean flag = false;
+        Pattern p = Pattern.compile(".*\\d+.*");
+        Matcher m = p.matcher(content);
+        if (m.matches()) {
+            flag = true;
+        }
+        return flag;
+    }
 }

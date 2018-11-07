@@ -90,4 +90,19 @@ public class Constant {
 
         public final static int USER_TYPE_3 = 3;//自营销3
     }
+
+    /**
+     * 会员等级
+     * 0:普通用户 1:粉钻版 2:蓝钻版 3:黑钻版
+     */
+    public static class VipType {
+
+        public final static int VIP_0 = 0;//普通用户
+
+        public final static int VIP_1 = 1;//粉钻版
+
+        public final static int VIP_2 = 2;//蓝钻版
+
+        public final static int VIP_3 = 3;//黑钻版
+    }
 }

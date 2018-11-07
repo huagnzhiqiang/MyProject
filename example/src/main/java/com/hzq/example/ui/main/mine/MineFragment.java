@@ -18,6 +18,7 @@ import com.hzq.example.data.entity.LoginEntity;
 import com.hzq.example.data.entity.MenuEntity;
 import com.hzq.example.data.entity.MineEntity;
 import com.hzq.example.ui.main.login.LoginActivity;
+import com.hzq.example.ui.main.mine.activity.EnterpriseInfoEditActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -179,7 +180,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
         MineMenuAdapter adapter = new MineMenuAdapter(mineList);
 
         //由于使用弹性布局 ScrollView和RecycleView互动冲突 所以禁止RecycleView滑动
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),4){
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 4) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -249,15 +250,42 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
             //点击头像和名称
             case R.id.iv_user_head:
             case R.id.username:
-                LoginEntity result = LoginMsgHelper.getResult();
-                if (result == null) {
-                    startActivity(LoginActivity.class);
-                    finishActivity();
-                } else {
-                    ToastUtils.showShort("已经登录");
-                }
-
+                EditUserInfo();
                 break;
+        }
+    }
+
+
+    //编辑信息
+    private void EditUserInfo() {
+        LoginEntity result = LoginMsgHelper.getResult();
+        if (result == null) {
+            startActivity(LoginActivity.class);
+            finishActivity();
+        } else {
+            int userType = result.getUser_type();
+
+            switch (userType) {
+
+                //普通用户
+                case Constant.UserType.USER_TYPE_0:
+
+                    break;
+
+                //设计师
+                case Constant.UserType.USER_TYPE_1:
+                    break;
+
+                //企业
+                case Constant.UserType.USER_TYPE_2:
+                    startActivity(EnterpriseInfoEditActivity.class);
+                    break;
+
+                //自营销人
+                case Constant.UserType.USER_TYPE_3:
+                    break;
+
+            }
         }
     }
 

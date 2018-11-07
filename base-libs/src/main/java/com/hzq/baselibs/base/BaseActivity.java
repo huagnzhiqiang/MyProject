@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.hzq.baselibs.Bean.MessageEvent;
 import com.hzq.baselibs.R;
-import com.hzq.baselibs.app.AppManager;
 import com.hzq.baselibs.app.BaseApplication;
 import com.hzq.baselibs.receiver.NetWorkChangeBroadcastReceiver;
 import com.hzq.baselibs.view.MultipleStatusView;
@@ -89,7 +88,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         networkRequest();
         //        registerNetChangeReceiver();
     }
-
 
 
     /**
@@ -256,8 +254,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     //初始化公用view
     private void initBaseView() {
         mToolbarTitle = (TextView) ButterKnife.findById(this, R.id.toolbar_title);
-        mToolbarRightTitle = (TextView) ButterKnife.findById(this,R.id.toolbar_right_tv);
-        mToolbarRigthImg = (ImageView) ButterKnife.findById(this,R.id.toolbar_right_img);
+        mToolbarRightTitle = (TextView) ButterKnife.findById(this, R.id.tv_toolbar_right);
+        mToolbarRigthImg = (ImageView) ButterKnife.findById(this, R.id.toolbar_right_img);
 
 
         //无网络/请求出现了问题布局
@@ -276,7 +274,10 @@ public abstract class BaseActivity extends RxAppCompatActivity {
      * @param text 标题
      */
     public void setToolbarTitle(CharSequence text) {
-        mToolbarTitle.setText(text);
+        if(mToolbarTitle!=null) {
+            mToolbarTitle.setText(text);
+
+        }
     }
 
     /**
@@ -286,12 +287,13 @@ public abstract class BaseActivity extends RxAppCompatActivity {
      * @param color 颜色值
      */
     public void setToolbarTitle(CharSequence text, @ColorInt int color) {
-        mToolbarTitle.setText(text);
 
+        if(mToolbarTitle!=null) {
+            mToolbarTitle.setText(text);
+
+        }
         if (color != 0) {
             mToolbarTitle.setTextColor(color);
-        } else {
-            mToolbarTitle.setTextColor(0x453d4d);
         }
     }
 
@@ -303,14 +305,17 @@ public abstract class BaseActivity extends RxAppCompatActivity {
      * @param color 颜色值
      */
     protected void setToolRightTitle(String title, @ColorInt int color) {
-        mToolbarRigthImg.setVisibility(View.GONE);
+
         if (mToolbarRightTitle != null) {
+            mToolbarRigthImg.setVisibility(View.GONE);
+            mToolbarRightTitle.setVisibility(View.VISIBLE);
             mToolbarRightTitle.setText(title);
         }
         if (color != 0) {
             mToolbarRightTitle.setTextColor(color);
         } else {
-            mToolbarRightTitle.setTextColor(0xeb6ea5);
+            mToolbarRightTitle.setTextColor(getResources().getColor(R.color.color_eb6ea5));
+
         }
 
     }
@@ -321,10 +326,13 @@ public abstract class BaseActivity extends RxAppCompatActivity {
      * @param title 标题
      */
     protected void setToolRightTitle(String title) {
-        mToolbarRigthImg.setVisibility(View.GONE);
+
+        Logger.d("setToolRightTitle--->:" + title);
         if (mToolbarRightTitle != null) {
+            mToolbarRigthImg.setVisibility(View.GONE);
+            mToolbarRightTitle.setVisibility(View.VISIBLE);
             mToolbarRightTitle.setText(title);
-            mToolbarRightTitle.setTextColor(0xeb6ea5);
+            mToolbarRightTitle.setTextColor(getResources().getColor(R.color.color_eb6ea5));
         }
 
     }
@@ -335,14 +343,16 @@ public abstract class BaseActivity extends RxAppCompatActivity {
      * @param resId 图片文件
      */
     protected void setToolRightImg(@DrawableRes int resId) {
-        mToolbarRightTitle.setVisibility(View.GONE);
-        mToolbarRigthImg.setImageResource(resId);
+
+
+        if (mToolbarRigthImg != null) {
+            mToolbarRightTitle.setVisibility(View.GONE);
+            mToolbarRigthImg.setVisibility(View.VISIBLE);
+            mToolbarRigthImg.setImageResource(resId);
+        }
     }
 
     /** ==================初始化Toolbar结束===================== */
-
-
-
 
 
     /**

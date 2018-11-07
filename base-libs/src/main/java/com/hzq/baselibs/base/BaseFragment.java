@@ -121,7 +121,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
         //头部
         mTitleView = (ViewGroup) mRootView.findViewById(R.id.title_view);
         mToolbarTitle = (TextView) mTitleView.findViewById(R.id.toolbar_title);
-        mToolbarRightTitle = (TextView) mTitleView.findViewById(R.id.toolbar_right_tv);
+        mToolbarRightTitle = (TextView) mTitleView.findViewById(R.id.tv_toolbar_right);
         mToolbarRigthImg = (ImageView) mTitleView.findViewById(R.id.toolbar_right_img);
 
         mFlContentRoot = (ViewGroup) mRootView.findViewById(R.id.fl_content_root);
@@ -177,22 +177,15 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
     /**==================初始化Toolbar开始=====================*/
 
     /**
-     * 判断是否显示标题
-     *
-     * @param isShow true:显示  false:不显示
-     */
-    public void showTitleView(boolean isShow) {
-        mTitleView.setVisibility(isShow ? View.VISIBLE : View.GONE);
-    }
-
-
-    /**
      * 设置标题
      *
      * @param text 标题
      */
     public void setToolbarTitle(CharSequence text) {
-        mToolbarTitle.setText(text);
+        if(mToolbarTitle!=null) {
+            mToolbarTitle.setText(text);
+
+        }
     }
 
     /**
@@ -202,12 +195,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
      * @param color 颜色值
      */
     public void setToolbarTitle(CharSequence text, @ColorInt int color) {
-        mToolbarTitle.setText(text);
 
+        if(mToolbarTitle!=null) {
+            mToolbarTitle.setText(text);
+
+        }
         if (color != 0) {
             mToolbarTitle.setTextColor(color);
-        } else {
-            mToolbarTitle.setTextColor(0x453d4d);
         }
     }
 
@@ -219,14 +213,17 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
      * @param color 颜色值
      */
     protected void setToolRightTitle(String title, @ColorInt int color) {
-        mToolbarRigthImg.setVisibility(View.GONE);
+
         if (mToolbarRightTitle != null) {
+            mToolbarRigthImg.setVisibility(View.GONE);
+            mToolbarRightTitle.setVisibility(View.VISIBLE);
             mToolbarRightTitle.setText(title);
         }
         if (color != 0) {
             mToolbarRightTitle.setTextColor(color);
         } else {
-            mToolbarRightTitle.setTextColor(0xeb6ea5);
+            mToolbarRightTitle.setTextColor(getResources().getColor(R.color.color_eb6ea5));
+
         }
 
     }
@@ -237,10 +234,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
      * @param title 标题
      */
     protected void setToolRightTitle(String title) {
-        mToolbarRigthImg.setVisibility(View.GONE);
+
+        Logger.d("setToolRightTitle--->:" + title);
         if (mToolbarRightTitle != null) {
+            mToolbarRigthImg.setVisibility(View.GONE);
+            mToolbarRightTitle.setVisibility(View.VISIBLE);
             mToolbarRightTitle.setText(title);
-            mToolbarRightTitle.setTextColor(0xeb6ea5);
+            mToolbarRightTitle.setTextColor(getResources().getColor(R.color.color_eb6ea5));
         }
 
     }
@@ -251,8 +251,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends BaseLazyFrag
      * @param resId 图片文件
      */
     protected void setToolRightImg(@DrawableRes int resId) {
-        mToolbarRightTitle.setVisibility(View.GONE);
-        mToolbarRigthImg.setImageResource(resId);
+
+
+        if (mToolbarRigthImg != null) {
+            mToolbarRightTitle.setVisibility(View.GONE);
+            mToolbarRigthImg.setVisibility(View.VISIBLE);
+            mToolbarRigthImg.setImageResource(resId);
+        }
     }
 
     /** ==================初始化Toolbar结束===================== */
