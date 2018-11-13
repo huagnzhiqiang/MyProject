@@ -87,4 +87,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/api/product/getuserproduct")
     Observable<BaseHttpResult<MyProductEntity>> requestMyWorktData(@FieldMap Map<String, String> map);
+
+    //上传图片
+    @FormUrlEncoded
+    @POST("/api/common/uploadbase64")
+    Observable<BaseHttpResult<String>> requistUpImager(@FieldMap Map<String, String> map);
 }

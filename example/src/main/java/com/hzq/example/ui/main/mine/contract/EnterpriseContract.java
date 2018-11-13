@@ -2,6 +2,11 @@ package com.hzq.example.ui.main.mine.contract;
 
 import com.hzq.baselibs.mvp.IModel;
 import com.hzq.baselibs.mvp.IView;
+import com.hzq.baselibs.net.BaseHttpResult;
+
+import java.util.Map;
+
+import io.reactivex.Observable;
 
 /**
  * @author 小强
@@ -12,18 +17,21 @@ public interface EnterpriseContract {
 
 
     interface View extends IView {
-
         /**
-         *
+         * 上传图片返回数据
+         * <p>
+         * result 返回结果
          */
-        void showEnterpriseData();
+        void showUpImagerData(BaseHttpResult<String> result);
     }
 
     interface Model extends IModel {
 
         /**
+         * 上传图片
          *
+         * @param map 请求参数
          */
-        void showEnterpriseData();
+        Observable<BaseHttpResult<String>> requistUpImager(Map<String, String> map);
     }
 }

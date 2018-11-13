@@ -26,7 +26,6 @@ import com.hzq.baselibs.receiver.NetWorkChangeBroadcastReceiver;
 import com.hzq.baselibs.view.MultipleStatusView;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.RefWatcher;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -40,7 +39,7 @@ import butterknife.Unbinder;
  * @time 2018/6/9 17:12
  * @desc 基类 BaseMvpActivity
  */
-public abstract class BaseActivity extends RxAppCompatActivity {
+public abstract class BaseActivity extends BaseSwipeBackActivity {
     private Unbinder unBinder;
 
     //    private ProgressDialog mLoadingDialog = null;
@@ -327,7 +326,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
      */
     protected void setToolRightTitle(String title) {
 
-        Logger.d("setToolRightTitle--->:" + title);
         if (mToolbarRightTitle != null) {
             mToolbarRigthImg.setVisibility(View.GONE);
             mToolbarRightTitle.setVisibility(View.VISIBLE);

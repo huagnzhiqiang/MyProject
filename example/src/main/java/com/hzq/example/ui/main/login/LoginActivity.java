@@ -66,6 +66,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     /** 初始化View的代码写在这个方法中 */
     @Override
     protected void initView() {
+        setSwipeBackEnable(false);//禁止滑动退出
         //        mImmersionBar.statusBarColor(R.color.color_61bef4).fullScreen(true).init();
     }
 

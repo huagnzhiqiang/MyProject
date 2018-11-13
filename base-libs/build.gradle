@@ -86,5 +86,6 @@ dependencies {
     api "com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x"
     api 'com.github.VictorAlbertos.Jolyglot:gson:0.0.4'
 
-
+    //滑动退出
+    api 'me.imid.swipebacklayout.lib:library:1.1.0'
 }

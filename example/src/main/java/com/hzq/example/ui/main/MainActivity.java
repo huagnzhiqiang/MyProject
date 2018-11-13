@@ -51,7 +51,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setSwipeBackEnable(false);//禁止滑动退出
         if (savedInstanceState != null) {
             Logger.d("onRestore enter...." + mCurrIndex);
             mCurrIndex = savedInstanceState.getInt("currTabIndex");

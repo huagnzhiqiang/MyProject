@@ -1,7 +1,14 @@
 package com.hzq.baselibs.utils;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -242,6 +249,80 @@ public class HzqUtils {
             size = fileSize.divide(new BigDecimal(10000), 1, RoundingMode.HALF_UP) + "w";
         }
         return size;
+    }
+
+
+    /**
+     * 通过uri获取bitmap
+     */
+    public static Bitmap getBitmapFromUri(Context mContext, Uri uri) {
+        try {
+            // 读取uri所在的图片
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), uri);
+            return bitmap;
+        } catch (Exception e) {
+            //            Log.e(TAG, e.getMessage());
+            //            Log.e(TAG, "目录为：" + uri);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /**
+     * @param @param  bitmap
+     * @param @return 设定文件
+     * @return String    返回类型
+
+     */
+
+    /**
+     * 将bitmap转换成base64
+     * @param bitmap
+     * @return base64
+     */
+    @SuppressLint("NewApi")
+    public static String bitmapToBase64(Bitmap bitmap) {
+
+        // 要返回的字符串
+        String reslut = null;
+
+        ByteArrayOutputStream baos = null;
+
+        try {
+
+            if (bitmap != null) {
+
+                baos = new ByteArrayOutputStream();
+                /**
+                 * 压缩只对保存有效果bitmap还是原来的大小
+                 */
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 30, baos);
+
+                baos.flush();
+                baos.close();
+                // 转换为字节数组
+                byte[] byteArray = baos.toByteArray();
+
+                // 转换为字符串
+                reslut = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (baos != null) {
+                    baos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return reslut;
     }
 
 }
