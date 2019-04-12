@@ -1,15 +1,26 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'//shareSDK分享配置
+
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'itop'
+            keyPassword 'itop2018'
+            storeFile file('../appInfo/sjitop.jks')
+            storePassword 'itop2018'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
-        applicationId 'com.hzq.hifinance'
+        applicationId 'com.shangjie1.itop'
         minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        signingConfig signingConfigs.config
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -20,8 +31,18 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true   // 移除无用的resource文件,必须和minifyEnabled 一起使用
+            zipAlignEnabled true   // Zipalign优化
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false   // 移除无用的resource文件,必须和minifyEnabled 一起使用
+            zipAlignEnabled false   // Zipalign优化
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     compileOptions {
@@ -32,15 +53,52 @@ android {
     }
 }
 
+//shareSDK分享配置
+MobSDK {
+    appKey "28cd1b64f6147"
+    appSecret "f46ed78887cc759fbf40eb55b973fda6"
+
+    ShareSDK {
+
+        //平台配置信息
+        devInfo {
+            SinaWeibo {
+                appKey "2588297339"
+                appSecret "ea420e40537e3230a8c04195effaf3ea"
+                callbackUri "http://www.sharesdk.cn"
+                shareByAppClient false
+            }
+
+            Wechat {
+                appId "wx3f8bce8de11318fc"
+                appSecret "16dd67042a79e9a026426b529d0132aa"
+                userName "gh_afb25ac019c9"
+                path "pages/index/index.html?id=1"
+                withShareTicket true
+                miniprogramType 2
+                bypassApproval false
+            }
+            QQ {
+                appId "1106763212"
+                appKey "noR5L7SSG1qB9Ely"
+                shareByAppClient true
+                bypassApproval false
+            }
+
+
+
+        }
+    }
+
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27+'
-
     implementation 'com.android.support.constraint:constraint-layout:1.1.1'
     testImplementation 'junit:junit:4.12'
     implementation project(':base-libs')
-
     //图片选择
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
 }

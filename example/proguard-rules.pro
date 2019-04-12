@@ -244,8 +244,8 @@
   public *;
 }
 
-#Glide for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+##Glide for DexGuard only
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 #---------------------------Glide 结束-----------------------------------------------
 
 
@@ -260,7 +260,7 @@
 
 #---------------------------Retrofit混淆配置 开始-----------------------------------------------
 -dontwarn retrofit2.**
--keep class retrofit2.* { ; }
+-keep class retrofit2.* {*;}
 -keepattributes Signature
 -keepattributes Exceptions
 #---------------------------Retrofit混淆配置 结束-----------------------------------------------
@@ -318,15 +318,30 @@ rx.internal.util.atomic.LinkedQueueNode consumerNode;
 
 #---------------------------butterknife配置 开始-----------------------------------------------
 
--keep class butterknife.* { ; }
+
+-keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
--keep class *$$ViewBinder { ; }
+-keep class **$$ViewBinder { *; }
+
 -keepclasseswithmembernames class * {
-@butterknife.* ;
+    @butterknife.* <fields>;
 }
+
 -keepclasseswithmembernames class * {
-@butterknife.* ;
+    @butterknife.* <methods>;
 }
+
 #---------------------------butterknife配置 结束-----------------------------------------------
 
+
+-keep class cn.sharesdk.**{*;}
+-keep class com.sina.**{*;}
+-keep class **.R$* {*;}
+-keep class **.R{*;}
+-keep class com.mob.**{*;}
+-keep class m.framework.**{*;}
+-dontwarn cn.sharesdk.**
+-dontwarn com.sina.**
+-dontwarn com.mob.**
+-dontwarn **.R$*
 
